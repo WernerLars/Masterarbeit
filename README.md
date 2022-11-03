@@ -1,6 +1,6 @@
-# MA Code
+# MA Lars Werner Code
 
-
+In this project the code is uploaded. Spätestens wenn hier etwas hochgeladen wird, beginnt die Thesis offiziell!!!
 
 ## Getting started
 
