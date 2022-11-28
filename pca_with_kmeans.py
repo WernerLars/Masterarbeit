@@ -1,6 +1,7 @@
 from LoadingDataset import LoadDataset
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+from Visualisation import visualisingClusters
 
 path = "_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
 
@@ -23,3 +24,10 @@ for i in range(0, number_of_clusters):
     print("Cluster ", i, " Occurences: ", (y_labels == i).sum(), "; KMEANS: ", (kmeans.labels_ == i).sum())
 
 
+x = []
+y = []
+for spike in pca_transformed:
+    x.append(spike[0])
+    y.append(spike[1])
+
+visualisingClusters(x, y, kmeans.labels_)

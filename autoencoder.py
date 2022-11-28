@@ -7,13 +7,13 @@ class Autoencoder(nn.Module):
         super().__init__()
         self.encoder = nn.Sequential(
             nn.Linear(input_size, round(input_size/2)),
-            nn.ReLU(),
+            nn.Dropout(),
             nn.Linear(round(input_size/2), 2),
-            nn.ReLU(),
+            nn.Dropout(),
         )
         self.decoder = nn.Sequential(
             nn.Linear(2, round(input_size/2)),
-            nn.ReLU(),
+            nn.Dropout(),
             nn.Linear(round(input_size/2), input_size),
         )
 

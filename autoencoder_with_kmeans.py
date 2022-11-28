@@ -1,9 +1,7 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
 from LoadingDataset import LoadDataset
 from autoencoder import Autoencoder
 from SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
+from Visualisation import *
 from torch.utils.data import DataLoader
 import torch
 from torch import nn
@@ -27,11 +25,13 @@ loss_fn = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
 encoded_features_list = []
-
+encoded_features_X = []
+encoded_features_Y = []
 
 def train(dataloader, model, loss_fn, optimizer, epoch):
     size = len(dataloader.dataset)
     model.train()
+    visualise = True
     for batch, (X, y) in enumerate(dataloader):
 
         # Compute prediction error
@@ -39,12 +39,22 @@ def train(dataloader, model, loss_fn, optimizer, epoch):
         with torch.no_grad():
             if epoch == 4:
                 encoded_features_list.append(encoded_features.numpy()[0])
+                encoded_features_X.append(encoded_features.numpy()[0][0])
+                encoded_features_Y.append(encoded_features.numpy()[0][1])
         loss = loss_fn(reconstructed_spike, X)
 
         # Backpropagation
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+
+        if visualise and epoch == 4:
+            with torch.no_grad():
+                visualisingReconstructedSpike(X.numpy().flatten(),
+                                              reconstructed_spike.numpy().flatten(),
+                                              len(X.numpy().flatten()),
+                                              str(y.numpy()[0]))
+                visualise = False
 
         if batch % 100 == 0:
             loss, current = loss.item(), batch * len(X)
@@ -60,7 +70,7 @@ print("Done!")
 print("Number of Samples after Autoencoder training: ", len(encoded_features_list))
 print("First Spike after Autoencoder: ", encoded_features_list[0])
 
-number_of_clusters = max(y_labels)+1
+number_of_clusters = max(y_labels) + 1
 
 print("Number of Clusters: ", number_of_clusters)
 
@@ -70,3 +80,5 @@ kmeans.fit(encoded_features_list)
 print(kmeans.labels_)
 for i in range(0, number_of_clusters):
     print("Cluster ", i, " Occurences: ", (y_labels == i).sum(), "; KMEANS: ", (kmeans.labels_ == i).sum())
+
+visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_)
