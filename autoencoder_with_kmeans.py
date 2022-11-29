@@ -7,7 +7,9 @@ import torch
 from torch import nn
 from sklearn.cluster import KMeans
 
+#path = "_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat"
 path = "_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
+#path = "_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
 
 dataset = LoadDataset()
 dataloader, y_labels = dataset.loadData(path)
@@ -28,7 +30,7 @@ encoded_features_list = []
 encoded_features_X = []
 encoded_features_Y = []
 
-def train(dataloader, model, loss_fn, optimizer, epoch):
+def train(dataloader, model, loss_fn, optimizer, epoch, epochs):
     size = len(dataloader.dataset)
     model.train()
     visualise = True
@@ -37,7 +39,7 @@ def train(dataloader, model, loss_fn, optimizer, epoch):
         # Compute prediction error
         reconstructed_spike, encoded_features = model(X)
         with torch.no_grad():
-            if epoch == 4:
+            if epoch == epochs-1:
                 encoded_features_list.append(encoded_features.numpy()[0])
                 encoded_features_X.append(encoded_features.numpy()[0][0])
                 encoded_features_Y.append(encoded_features.numpy()[0][1])
@@ -48,7 +50,7 @@ def train(dataloader, model, loss_fn, optimizer, epoch):
         loss.backward()
         optimizer.step()
 
-        if visualise and epoch == 4:
+        if visualise and epoch == epochs-1:
             with torch.no_grad():
                 visualisingReconstructedSpike(X.numpy().flatten(),
                                               reconstructed_spike.numpy().flatten(),
@@ -64,7 +66,7 @@ def train(dataloader, model, loss_fn, optimizer, epoch):
 epochs = 5
 for t in range(epochs):
     print(f"Epoch {t + 1}\n-------------------------------")
-    train(train_dataloader, model, loss_fn, optimizer, t)
+    train(train_dataloader, model, loss_fn, optimizer, t, epochs)
 print("Done!")
 
 print("Number of Samples after Autoencoder training: ", len(encoded_features_list))
@@ -81,4 +83,4 @@ print(kmeans.labels_)
 for i in range(0, number_of_clusters):
     print("Cluster ", i, " Occurences: ", (y_labels == i).sum(), "; KMEANS: ", (kmeans.labels_ == i).sum())
 
-visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_)
+visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
