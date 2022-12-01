@@ -9,12 +9,13 @@ class Autoencoder(nn.Module):
             nn.Linear(input_size, round(input_size/2)),
             nn.Dropout(),
             nn.Linear(round(input_size/2), 2),
-            nn.Dropout(),
+            nn.Sigmoid(),
         )
         self.decoder = nn.Sequential(
             nn.Linear(2, round(input_size/2)),
             nn.Dropout(),
             nn.Linear(round(input_size/2), input_size),
+            nn.Sigmoid(),
         )
 
     def forward(self, x):

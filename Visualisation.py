@@ -12,8 +12,9 @@ def visualisingClusters(x, y, cluster, centroids):
             if i == cluster[j]:
                 x_i.append(x[j])
                 y_i.append(y[j])
-        plt.scatter(x_i, y_i)
+        plt.scatter(x_i, y_i, label=i)
     plt.scatter(centroids[:, 0], centroids[:, 1], s=80, color='k', marker='+')
+    plt.legend(loc="upper left")
     plt.show()
     return
 
