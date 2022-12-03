@@ -8,20 +8,20 @@ from torch import nn
 from sklearn.cluster import KMeans
 
 # path = "_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat"
-path = "_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
-# path = "_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
+#path = "_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
+path = "_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
 
 dataset = LoadDataset()
-dataloader, y_labels = dataset.loadData(path)
-input_size = len(dataloader.aligned_spikes[0])
+data, y_labels = dataset.loadData(path)
+input_size = len(data.aligned_spikes[0])
 print(f"Input Size: {input_size}")
 
-train_idx = round(len(dataloader.aligned_spikes) * 0.8)
+train_idx = round(len(data.aligned_spikes) * 0.8)
 print(f"Train Index: {train_idx}")
 
-x_train = dataloader.aligned_spikes[0:train_idx]
+x_train = data.aligned_spikes[0:train_idx]
 y_train = y_labels[0:train_idx]
-x_test = dataloader.aligned_spikes[train_idx:]
+x_test = data.aligned_spikes[train_idx:]
 y_test = y_labels[train_idx:]
 
 print(f"x_train: {len(x_train)}")
@@ -36,17 +36,16 @@ test_d = SpikeClassToPytorchDataset(x_test, y_test)
 test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
 print(test_dl)
 
-model = Autoencoder(input_size)
-print(model)
+autoencoder = Autoencoder(input_size)
+print(autoencoder)
 
-loss_fn = nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+loss_function = nn.MSELoss()
+adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
 
 
 def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     model.train()
-    visualise = True
     for batch, (X, y) in enumerate(dataloader):
 
         # Compute prediction error
@@ -67,7 +66,13 @@ def test(dataloader, model, loss_fn):
     encoded_features_list = []
     encoded_features_X = []
     encoded_features_Y = []
-    visualise = True
+
+    number_of_clusters = max(y_test) + 1
+    print(f"Number of Clusters: {number_of_clusters}")
+
+    visualise = []
+    for k in range(0, number_of_clusters):
+        visualise.append(True)
 
     for batch, (X, y) in enumerate(dataloader):
         reconstructed_spike, encoded_features = model(X)
@@ -77,28 +82,24 @@ def test(dataloader, model, loss_fn):
             encoded_features_X.append(encoded_features.numpy()[0][0])
             encoded_features_Y.append(encoded_features.numpy()[0][1])
 
-            if visualise:
+            if visualise[y.numpy()[0]]:
                 visualisingReconstructedSpike(X.numpy().flatten(),
                                               reconstructed_spike.numpy().flatten(),
                                               len(X.numpy().flatten()),
                                               str(y.numpy()[0]))
-                visualise = False
+                visualise[y.numpy()[0]] = False
 
         loss = loss_fn(reconstructed_spike, X)
 
     print(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
     print(f"First Spike after testing: {encoded_features_list[0]}")
 
-    number_of_clusters = max(y_labels) + 1
-
-    print(f"Number of Clusters: {number_of_clusters}")
-
     kmeans = KMeans(n_clusters=number_of_clusters)
     kmeans.fit(encoded_features_list)
 
     print(kmeans.labels_)
-    for i in range(0, number_of_clusters):
-        print(f"Cluster {i} Occurrences: {(y_test == i).sum()}; KMEANS: {(kmeans.labels_ == i).sum()}")
+    for n in range(0, number_of_clusters):
+        print(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(kmeans.labels_ == n).sum()}")
 
     visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
 
@@ -106,7 +107,7 @@ def test(dataloader, model, loss_fn):
 epochs = 8
 for t in range(epochs):
     print(f"Epoch {t + 1}\n-------------------------------")
-    train(train_dl, model, loss_fn, optimizer)
+    train(train_dl, autoencoder, loss_function, adam)
 
-test(test_dl, model, loss_fn)
+test(test_dl, autoencoder, loss_function)
 print("Done!")
