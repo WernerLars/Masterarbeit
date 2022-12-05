@@ -1,7 +1,7 @@
-from LoadingDataset import LoadDataset
-from autoencoder import Autoencoder
-from SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
-from Visualisation import *
+from _01_LoadDataset.LoadingDataset import LoadDataset
+from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
+from _02_Classes_Autoencoder_QLearning.Autoencoder import Autoencoder
+from _04_Visualisation.Visualisation import *
 from torch.utils.data import DataLoader
 import torch
 from torch import nn
@@ -9,7 +9,7 @@ from sklearn.cluster import KMeans
 
 # path = "_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat"
 #path = "_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
-path = "_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
+path = "../_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
 
 dataset = LoadDataset()
 data, y_labels = dataset.loadData(path)

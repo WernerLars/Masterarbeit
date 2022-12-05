@@ -1,5 +1,5 @@
-from _00_Extern_Functions.load_mat_files import load_mat_file
-from _00_Extern_Functions.spike_class import spike_dataclass
+from _01_LoadDataset.ExternCode.load_mat_files import load_mat_file
+from _01_LoadDataset.ExternCode.spike_class import spike_dataclass
 
 
 class LoadDataset:

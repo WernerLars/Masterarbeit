@@ -1,6 +1,7 @@
 from torch.utils.data import Dataset
 import torch
 
+
 class SpikeClassToPytorchDataset(Dataset):
     def __init__(self, aligned_spikes, cluster):
         self.data = aligned_spikes

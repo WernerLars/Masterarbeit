@@ -1,10 +1,10 @@
-from LoadingDataset import LoadDataset
+from _01_LoadDataset.LoadingDataset import LoadDataset
+from _04_Visualisation.Visualisation import visualisingClusters
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
-from Visualisation import visualisingClusters
 
 #path = "_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat"
-path = "_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
+path = "../_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
 #path = "_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
 
 
