@@ -3,9 +3,9 @@ from _04_Visualisation.Visualisation import visualisingClusters
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 
-#path = "_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat"
+#path = "../_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat"
 path = "../_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
-#path = "_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
+#path = "../_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
 
 
 dataset = LoadDataset()
@@ -32,5 +32,7 @@ y = []
 for spike in pca_transformed:
     x.append(spike[0])
     y.append(spike[1])
+
+print(kmeans.cluster_centers_)
 
 visualisingClusters(x, y, kmeans.labels_, kmeans.cluster_centers_)
