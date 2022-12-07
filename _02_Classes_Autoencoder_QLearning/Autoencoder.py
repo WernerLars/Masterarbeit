@@ -9,13 +9,15 @@ class Autoencoder(nn.Module):
             nn.Linear(input_size, round(input_size/4)),
             #nn.ReLU(),
             nn.Linear(round(input_size/4), 2),
-            nn.Sigmoid(),
+            #nn.ReLU(),
+            #nn.Sigmoid(),
         )
         self.decoder = nn.Sequential(
             nn.Linear(2, round(input_size/4)),
             #nn.ReLU(),
             nn.Linear(round(input_size/4), input_size),
-            nn.Sigmoid(),
+            #nn.ReLU(),
+            #nn.Sigmoid(),
         )
 
     def forward(self, x):

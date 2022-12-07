@@ -61,7 +61,7 @@ class Q_Learning(object):
     def normaliseFeatures(self, spike):
         features_normalised = np.zeros(len(spike))
         for i in range(0, len(spike)):
-            features_normalised[i] = (spike[i] - min(spike)) / (max(spike) - min(spike))
+            features_normalised[i] = (spike[i]) / (max(spike) - min(spike))
         return features_normalised
 
     def computeEpisodeNumber(self, clusters_number):
@@ -83,3 +83,30 @@ class Q_Learning(object):
             for i in range(0, features_number):
                 feature_sum += (features_normalised[i] - mean(features_selected))**2
             return -feature_sum
+
+ql = Q_Learning()
+print(ql.q_table)
+print(ql.model)
+
+ql.set_q_value("new_cluster", 0, 5)
+print(ql.q_table)
+
+ql.new_cluster()
+print(ql.q_table)
+print(ql.model)
+ql.new_cluster()
+print(ql.q_table)
+print(ql.model)
+ql.new_cluster()
+print(ql.q_table)
+print(ql.model)
+
+s=[1,2,3,64,128]
+s_no = ql.normaliseFeatures(s)
+
+print(s)
+print(s_no)
+
+
+
+
