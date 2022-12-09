@@ -7,40 +7,46 @@ import torch
 from torch import nn
 from sklearn.cluster import KMeans
 
-#path = "../_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat"
-#path = "../_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
-path = "../_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
 
-dataset = LoadDataset()
-data, y_labels = dataset.loadData(path)
-input_size = len(data.aligned_spikes[0])
-print(f"Input Size: {input_size}")
+def Variant_02_Autoencoder_KMeans(path):
+    dataset = LoadDataset()
+    data, y_labels = dataset.loadData(path)
+    input_size = len(data.aligned_spikes[0])
+    print(f"Input Size: {input_size}")
 
-train_idx = round(len(data.aligned_spikes) * 0.8)
-print(f"Train Index: {train_idx}")
+    train_idx = round(len(data.aligned_spikes) * 0.8)
+    print(f"Train Index: {train_idx}")
 
-x_train = data.aligned_spikes[0:train_idx]
-y_train = y_labels[0:train_idx]
-x_test = data.aligned_spikes[train_idx:]
-y_test = y_labels[train_idx:]
+    x_train = data.aligned_spikes[0:train_idx]
+    y_train = y_labels[0:train_idx]
+    x_test = data.aligned_spikes[train_idx:]
+    y_test = y_labels[train_idx:]
 
-print(f"x_train: {len(x_train)}")
-print(f"y_train: {len(y_train)}")
-print(f"x_test: {len(x_test)}")
-print(f"y_test: {len(y_test)}")
+    print(f"x_train: {len(x_train)}")
+    print(f"y_train: {len(y_train)}")
+    print(f"x_test: {len(x_test)}")
+    print(f"y_test: {len(y_test)}")
 
-train_d = SpikeClassToPytorchDataset(x_train, y_train)
-train_dl = DataLoader(train_d, batch_size=1, shuffle=True)
-print(train_dl)
-test_d = SpikeClassToPytorchDataset(x_test, y_test)
-test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
-print(test_dl)
+    train_d = SpikeClassToPytorchDataset(x_train, y_train)
+    train_dl = DataLoader(train_d, batch_size=1, shuffle=True)
+    print(train_dl)
+    test_d = SpikeClassToPytorchDataset(x_test, y_test)
+    test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
+    print(test_dl)
 
-autoencoder = Autoencoder(input_size)
-print(autoencoder)
+    autoencoder = Autoencoder(input_size)
+    print(autoencoder)
 
-loss_function = nn.MSELoss()
-adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
+    loss_function = nn.MSELoss()
+    adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
+
+    epochs = 8
+    for t in range(epochs):
+        print(f"Epoch {t + 1}\n-------------------------------")
+        train(train_dl, autoencoder, loss_function, adam)
+
+    test(test_dl, y_test, autoencoder, loss_function)
+    print("Done!")
 
 
 def train(dataloader, model, loss_fn, optimizer):
@@ -62,7 +68,7 @@ def train(dataloader, model, loss_fn, optimizer):
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
 
-def test(dataloader, model, loss_fn):
+def test(dataloader, y_test, model, loss_fn):
     encoded_features_list = []
     encoded_features_X = []
     encoded_features_Y = []
@@ -102,12 +108,3 @@ def test(dataloader, model, loss_fn):
         print(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(kmeans.labels_ == n).sum()}")
 
     visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
-
-
-epochs = 8
-for t in range(epochs):
-    print(f"Epoch {t + 1}\n-------------------------------")
-    train(train_dl, autoencoder, loss_function, adam)
-
-test(test_dl, autoencoder, loss_function)
-print("Done!")

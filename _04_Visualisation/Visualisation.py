@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def visualisingClusters(x, y, cluster, centroids):
+def visualisingClusters(x, y, cluster, centroids=None):
     plt.figure(figsize=(8, 8))
     unique_cluster = np.unique(cluster)
     for i in unique_cluster:
@@ -13,7 +13,10 @@ def visualisingClusters(x, y, cluster, centroids):
                 x_i.append(x[j])
                 y_i.append(y[j])
         plt.scatter(x_i, y_i, label=i)
-    plt.scatter(centroids[:, 0], centroids[:, 1], s=80, color='k', marker='+')
+    if centroids is None:
+        pass
+    else:
+        plt.scatter(centroids[:, 0], centroids[:, 1], s=80, color='k', marker='+')
     plt.legend(loc="upper left")
     plt.show()
     return
