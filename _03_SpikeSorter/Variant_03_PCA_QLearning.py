@@ -3,7 +3,7 @@ import numpy as np
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from sklearn.decomposition import PCA
 from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
-from _04_Visualisation.Visualisation import visualisingClusters
+from _04_Visualisation.Visualisation import visualisingClusters, printConfusionMatrix
 
 
 def Variant_03_PCA_QLearning(path):
@@ -32,3 +32,4 @@ def Variant_03_PCA_QLearning(path):
     print(ql.clusters)
     print(ql.randomFeatures)
     visualisingClusters(x, y, ql.clusters)
+    printConfusionMatrix(y_labels[2:402], ql.clusters, np.unique(y_labels[2:402]))

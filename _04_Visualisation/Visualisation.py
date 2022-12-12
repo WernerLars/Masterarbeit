@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 def visualisingClusters(x, y, cluster, centroids=None):
@@ -32,3 +33,10 @@ def visualisingReconstructedSpike(original, reconstructed, n_features, cluster):
     plt.title(title)
     plt.show()
     return
+
+
+def printConfusionMatrix(ground_truth, predictions, labels):
+    cm = confusion_matrix(ground_truth, predictions, labels=labels)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+    disp.plot()
+    plt.show()

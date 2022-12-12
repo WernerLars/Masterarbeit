@@ -73,6 +73,7 @@ def test(dataloader, y_test, model, loss_fn):
     encoded_features_list = []
     encoded_features_X = []
     encoded_features_Y = []
+    y_l = []
 
     number_of_clusters = max(y_test) + 1
     print(f"Number of Clusters: {number_of_clusters}")
@@ -88,6 +89,7 @@ def test(dataloader, y_test, model, loss_fn):
             encoded_features_list.append(encoded_features.numpy()[0])
             encoded_features_X.append(encoded_features.numpy()[0][0])
             encoded_features_Y.append(encoded_features.numpy()[0][1])
+            y_l.append(y.numpy()[0])
 
             if visualise[y.numpy()[0]]:
                 visualisingReconstructedSpike(X.numpy().flatten(),
@@ -104,8 +106,12 @@ def test(dataloader, y_test, model, loss_fn):
     kmeans = KMeans(n_clusters=number_of_clusters)
     kmeans.fit(encoded_features_list)
 
+    print(y_test)
     print(kmeans.labels_)
     for n in range(0, number_of_clusters):
         print(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(kmeans.labels_ == n).sum()}")
 
     visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
+
+    printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test))
+

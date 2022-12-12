@@ -46,6 +46,10 @@ class Q_Learning(object):
             for action in range(0, len(self.q_table[state])):
                 self.model[state][action] = [0, ""]
 
+    def reset_spikes_clusters(self):
+        self.spikes = []
+        self.clusters = []
+
     def new_cluster(self):
         state_length = len(self.q_table.keys())
         new_key = f"c{str(state_length)}"
