@@ -1,6 +1,6 @@
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
-from _02_Classes_Autoencoder_QLearning.Autoencoder import Autoencoder
+from _02_Classes_Autoencoder_QLearning.Autoencoder import *
 from _04_Visualisation.Visualisation import *
 from torch.utils.data import DataLoader
 import torch
@@ -34,7 +34,8 @@ def Variant_02_Autoencoder_KMeans(path):
     test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
     print(test_dl)
 
-    autoencoder = Autoencoder(input_size)
+    #autoencoder = Autoencoder(input_size)
+    autoencoder = ConvolutionalAutoencoder(input_size)
     print(autoencoder)
 
     loss_function = nn.MSELoss()

@@ -19,7 +19,7 @@ def Variant_03_PCA_QLearning(path):
     for s in range(0, 2):
         ql.addToFeatureSet(pca_transformed[s])
 
-    for s in range(2, len(pca_transformed)):
+    for s in range(2, 402):
         ql.dynaQAlgorithm(pca_transformed[s])
         print(ql.q_table)
         print(ql.model)
