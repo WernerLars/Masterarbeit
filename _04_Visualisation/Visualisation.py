@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, accuracy_score
 
 
 def visualisingClusters(x, y, cluster, centroids=None):
@@ -36,7 +36,35 @@ def visualisingReconstructedSpike(original, reconstructed, n_features, cluster):
 
 
 def printConfusionMatrix(ground_truth, predictions, labels):
+
     cm = confusion_matrix(ground_truth, predictions, labels=labels)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
     disp.plot()
+    plt.title("Without Cluster Mapping")
     plt.show()
+
+    mapping = []
+    for true in labels:
+        get_truth_values = []
+        for predicted in labels:
+            get_truth_values.append(cm[predicted][true])
+        mapping.append(np.argmax(get_truth_values))
+
+    predictions_mapping = []
+    for prediction in predictions:
+        predictions_mapping.append(mapping[prediction])
+
+    cm_mapping = confusion_matrix(ground_truth, predictions_mapping, labels=labels)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm_mapping, display_labels=labels)
+    disp.plot()
+    plt.title("With Cluster Mapping")
+    plt.show()
+
+    target_names = []
+    for label in labels:
+        target_names.append(f"cluster_{label}")
+
+    print(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
+    cr = classification_report(ground_truth, predictions_mapping, target_names=target_names)
+    print(cr)
+
