@@ -23,6 +23,14 @@ def visualisingClusters(x, y, cluster, centroids=None):
     return
 
 
+def printSpike(spike, n_features, color):
+    plt.figure(figsize=(4, 4))
+    t = np.arange(0, n_features, 1)
+    plt.plot(t, spike, color=color)
+    plt.show()
+    return
+
+
 def visualisingReconstructedSpike(original, reconstructed, n_features, cluster):
     plt.figure(figsize=(4, 4))
     t = np.arange(0, n_features, 1)
@@ -36,7 +44,6 @@ def visualisingReconstructedSpike(original, reconstructed, n_features, cluster):
 
 
 def printConfusionMatrix(ground_truth, predictions, labels):
-
     cm = confusion_matrix(ground_truth, predictions, labels=labels)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
     disp.plot()
@@ -67,4 +74,3 @@ def printConfusionMatrix(ground_truth, predictions, labels):
     print(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
     cr = classification_report(ground_truth, predictions_mapping, target_names=target_names)
     print(cr)
-

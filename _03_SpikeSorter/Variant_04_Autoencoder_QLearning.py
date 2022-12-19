@@ -43,7 +43,7 @@ def Variant_04_Autoencoder_QLearning(path):
     loss_function = nn.MSELoss()
     adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
 
-    epochs = 3
+    epochs = 8
     for t in range(epochs):
         print(f"Epoch {t + 1}\n-------------------------------")
         train(train_dl, autoencoder, ql, loss_function, adam)

@@ -96,6 +96,8 @@ def test(dataloader, y_test, model, loss_fn):
                                               reconstructed_spike.numpy().flatten(),
                                               len(X.numpy().flatten()),
                                               str(y.numpy()[0]))
+                printSpike(X.numpy().flatten(), len(X.numpy().flatten()), "b")
+                printSpike(reconstructed_spike.numpy().flatten(), len(reconstructed_spike.numpy().flatten()), "r")
                 visualise[y.numpy()[0]] = False
 
         loss = loss_fn(reconstructed_spike, X)

@@ -10,7 +10,7 @@ def main():
                 "../_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"]
 
     path = datasets[2]
-    variant = 1
+    variant = 2
 
     if variant == 1:
         Variant_01_PCA_KMeans(path)
