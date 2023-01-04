@@ -34,8 +34,8 @@ def Variant_04_Autoencoder_QLearning(path):
     test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
     print(test_dl)
 
-    # autoencoder = Autoencoder(input_size)
-    autoencoder = ConvolutionalAutoencoder(input_size)
+    autoencoder = Autoencoder(input_size)
+    #autoencoder = ConvolutionalAutoencoder(input_size)
     print(autoencoder)
 
     ql = Q_Learning()
@@ -46,13 +46,13 @@ def Variant_04_Autoencoder_QLearning(path):
     epochs = 8
     for t in range(epochs):
         print(f"Epoch {t + 1}\n-------------------------------")
-        train(train_dl, autoencoder, ql, loss_function, adam)
+        train(train_dl, autoencoder, loss_function, adam)
 
-    test(test_dl, y_test, autoencoder, ql, loss_function)
+    test(test_dl, y_test, autoencoder, ql)
     print("Done!")
 
 
-def train(dataloader, model, ql, loss_fn, optimizer):
+def train(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     model.train()
     for batch, (X, y) in enumerate(dataloader):
@@ -61,27 +61,18 @@ def train(dataloader, model, ql, loss_fn, optimizer):
         reconstructed_spike, encoded_features = model(X)
         loss = loss_fn(reconstructed_spike, X)
 
-        #First Two Spikes are just added to FeatureSet to make normalisation work
-        with torch.no_grad():
-            firstTwoSpikes = 0
-            if firstTwoSpikes < 2:
-                ql.addToFeatureSet(encoded_features.numpy()[0])
-                firstTwoSpikes += 1
-            else:
-                ql.addToFeatureSet(encoded_features.numpy()[0])
-                ql.dynaQAlgorithm(encoded_features.numpy()[0])
-
         # Backpropagation
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
+        # Loss Computation
         if batch % 100 == 0:
             loss, current = loss.item(), batch * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
 
-def test(dataloader, y_test, model, ql, loss_fn):
+def test(dataloader, y_test, model, ql):
     encoded_features_list = []
     encoded_features_X = []
     encoded_features_Y = []
@@ -92,37 +83,42 @@ def test(dataloader, y_test, model, ql, loss_fn):
     print(f"Number of Clusters: {number_of_clusters}")
 
     visualise = []
+    firstTwoSpikes = 0
     for k in range(0, number_of_clusters):
         visualise.append(True)
 
     for batch, (X, y) in enumerate(dataloader):
         reconstructed_spike, encoded_features = model(X)
 
+        # First Two Spikes are just added to FeatureSet to make normalisation work
         with torch.no_grad():
-            ql.addToFeatureSet(encoded_features.numpy()[0])
-            ql.dynaQAlgorithm(encoded_features.numpy()[0])
-            encoded_features_list.append(encoded_features.numpy()[0])
-            encoded_features_X.append(encoded_features.numpy()[0][0])
-            encoded_features_Y.append(encoded_features.numpy()[0][1])
-            y_l.append(y.numpy()[0])
+            if firstTwoSpikes < 2:
+                ql.addToFeatureSet(encoded_features.numpy()[0])
+                firstTwoSpikes += 1
+            else:
 
-            if visualise[y.numpy()[0]]:
-                visualisingReconstructedSpike(X.numpy().flatten(),
-                                              reconstructed_spike.numpy().flatten(),
-                                              len(X.numpy().flatten()),
-                                              str(y.numpy()[0]))
-                visualise[y.numpy()[0]] = False
+                ql.dynaQAlgorithm(encoded_features.numpy()[0])
+                print(ql.q_table)
+                print(ql.model)
+                encoded_features_list.append(encoded_features.numpy()[0])
+                encoded_features_X.append(encoded_features.numpy()[0][0])
+                encoded_features_Y.append(encoded_features.numpy()[0][1])
+                y_l.append(y.numpy()[0])
 
-        loss = loss_fn(reconstructed_spike, X)
+                # Visualisation of Real Spike to Reconstructed Spike on Ground Truth Data
+                if visualise[y.numpy()[0]]:
+                    visualisingReconstructedSpike(X.numpy().flatten(),
+                                                  reconstructed_spike.numpy().flatten(),
+                                                  len(X.numpy().flatten()),
+                                                  str(y.numpy()[0]))
+                    visualise[y.numpy()[0]] = False
 
     print(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
     print(f"First Spike after testing: {encoded_features_list[0]}")
 
-    print(y_test)
+    print(y_l)
     print(ql.clusters)
-    # for n in range(0, number_of_clusters):
-    #     print(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(ql.clusters == n).sum()}")
 
-    visualisingClusters(encoded_features_X, encoded_features_Y, ql.clusters)
-
-    printConfusionMatrix(y_l, ql.clusters, np.unique(y_test))
+    # Last 100 Spikes are visualised in a Graph and evaluated in Confusion Matrix
+    visualisingClusters(encoded_features_X[-100:], encoded_features_Y[-100:], ql.clusters[-100:])
+    printConfusionMatrix(y_l[-100:], ql.clusters[-100:], np.unique(ql.clusters[-100:]))

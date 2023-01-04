@@ -46,7 +46,7 @@ def Variant_02_Autoencoder_KMeans(path):
         print(f"Epoch {t + 1}\n-------------------------------")
         train(train_dl, autoencoder, loss_function, adam)
 
-    test(test_dl, y_test, autoencoder, loss_function)
+    test(test_dl, y_test, autoencoder)
     print("Done!")
 
 
@@ -69,7 +69,7 @@ def train(dataloader, model, loss_fn, optimizer):
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
 
-def test(dataloader, y_test, model, loss_fn):
+def test(dataloader, y_test, model):
     encoded_features_list = []
     encoded_features_X = []
     encoded_features_Y = []
@@ -99,8 +99,6 @@ def test(dataloader, y_test, model, loss_fn):
                 printSpike(X.numpy().flatten(), len(X.numpy().flatten()), "b")
                 printSpike(reconstructed_spike.numpy().flatten(), len(reconstructed_spike.numpy().flatten()), "r")
                 visualise[y.numpy()[0]] = False
-
-        loss = loss_fn(reconstructed_spike, X)
 
     print(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
     print(f"First Spike after testing: {encoded_features_list[0]}")
