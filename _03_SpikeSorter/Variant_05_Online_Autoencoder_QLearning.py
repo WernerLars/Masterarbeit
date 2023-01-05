@@ -8,7 +8,7 @@ import torch
 from torch import nn
 
 
-def Variant_04_Autoencoder_QLearning(path):
+def Variant_05_Online_Autoencoder_QLearning(path):
     dataset = LoadDataset()
     data, y_labels = dataset.loadData(path)
     input_size = len(data.aligned_spikes[0])
@@ -35,7 +35,7 @@ def Variant_04_Autoencoder_QLearning(path):
     print(test_dl)
 
     autoencoder = Autoencoder(input_size)
-    #autoencoder = ConvolutionalAutoencoder(input_size)
+    # autoencoder = ConvolutionalAutoencoder(input_size)
     print(autoencoder)
 
     ql = Q_Learning()
@@ -43,20 +43,24 @@ def Variant_04_Autoencoder_QLearning(path):
     loss_function = nn.MSELoss()
     adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
 
-    epochs = 8
-    for t in range(epochs):
-        print(f"Epoch {t + 1}\n-------------------------------")
-        train(train_dl, autoencoder, loss_function, adam)
+    t = 0
+    for _, (X, _) in enumerate(train_dl):
+        print(f"Spike: {t}\n-------------------------------")
+        if t < 100:
+            epochs = 8
+            for _ in range(epochs):
+                train(X, autoencoder, loss_function, adam)
+            t += 1
+        else:
+            break
 
     test(test_dl, y_test, autoencoder, ql)
     print("Done!")
 
 
-def train(dataloader, model, loss_fn, optimizer):
-    size = len(dataloader.dataset)
+def train(batch, model, loss_fn, optimizer):
     model.train()
-    for batch, (X, y) in enumerate(dataloader):
-
+    for X in batch:
         # Compute prediction error
         reconstructed_spike, encoded_features = model(X)
         loss = loss_fn(reconstructed_spike, X)
@@ -67,9 +71,8 @@ def train(dataloader, model, loss_fn, optimizer):
         optimizer.step()
 
         # Loss Computation
-        if batch % 100 == 0:
-            loss, current = loss.item(), batch * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+        loss = loss.item()
+        print(f"loss: {loss:>7f}")
 
 
 def test(dataloader, y_test, model, ql):
