@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy import sort
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, accuracy_score
+from sklearn.metrics.cluster import contingency_matrix
 
 
 def visualisingClusters(x, y, cluster, centroids=None):
@@ -21,6 +23,22 @@ def visualisingClusters(x, y, cluster, centroids=None):
     plt.legend(loc="upper left")
     plt.show()
     return
+
+
+def getClusterCenters(features_list, labels):
+    centroids = []
+    unique_cluster = sort(np.unique(labels))
+    for cluster in unique_cluster:
+        x_list = []
+        y_list = []
+        for index in range(0, len(labels)):
+            if cluster == labels[index]:
+                x_list.append(features_list[index][0])
+                y_list.append(features_list[index][1])
+        x_mean = np.mean(x_list)
+        y_mean = np.mean(y_list)
+        centroids.append([x_mean, y_mean])
+    return np.asarray(centroids)
 
 
 def printSpike(spike, n_features, color):
@@ -44,18 +62,18 @@ def visualisingReconstructedSpike(original, reconstructed, n_features, cluster):
 
 
 def printConfusionMatrix(ground_truth, predictions, labels):
-    cm = confusion_matrix(ground_truth, predictions, labels=labels)
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
-    disp.plot()
-    plt.title("Without Cluster Mapping")
-    plt.show()
+    cm = contingency_matrix(ground_truth, predictions)
+    print("Contingency Matrix: ")
+    print(cm)
 
     mapping = []
-    for true in labels:
+    for predicted in range(0, len(np.unique(predictions))):
         get_truth_values = []
-        for predicted in labels:
-            get_truth_values.append(cm[predicted][true])
+        for true in labels:
+            get_truth_values.append(cm[true][predicted])
         mapping.append(np.argmax(get_truth_values))
+
+    print("Mapping: ", mapping)
 
     predictions_mapping = []
     for prediction in predictions:

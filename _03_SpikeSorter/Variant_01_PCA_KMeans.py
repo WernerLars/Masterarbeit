@@ -1,7 +1,7 @@
 import numpy as np
 
 from _01_LoadDataset.LoadingDataset import LoadDataset
-from _04_Visualisation.Visualisation import visualisingClusters, printConfusionMatrix
+from _04_Visualisation.Visualisation import visualisingClusters, printConfusionMatrix, getClusterCenters
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 
@@ -31,8 +31,8 @@ def Variant_01_PCA_KMeans(path):
         x.append(spike[0])
         y.append(spike[1])
 
-    print(kmeans.cluster_centers_)
+    centroids = getClusterCenters(pca_transformed, kmeans.labels_)
+    print("Centroids: ", type(centroids))
 
-    visualisingClusters(x, y, kmeans.labels_, kmeans.cluster_centers_)
-
+    visualisingClusters(x, y, kmeans.labels_, centroids)
     printConfusionMatrix(y_labels, kmeans.labels_, np.unique(y_labels))

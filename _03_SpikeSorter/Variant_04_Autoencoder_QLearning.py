@@ -119,6 +119,8 @@ def test(dataloader, y_test, model, ql):
     print(y_l)
     print(ql.clusters)
 
-    # Last 100 Spikes are visualised in a Graph and evaluated in Confusion Matrix
-    visualisingClusters(encoded_features_X[-100:], encoded_features_Y[-100:], ql.clusters[-100:])
-    printConfusionMatrix(y_l[-100:], ql.clusters[-100:], np.unique(ql.clusters[-100:]))
+    # Visualisation only with the last 100 Spikes
+    centroids = getClusterCenters(encoded_features_list[-100:], ql.clusters[-100:])
+    visualisingClusters(encoded_features_X[-100:], encoded_features_Y[-100:], ql.clusters[-100:], centroids)
+
+    printConfusionMatrix(y_l, ql.clusters, np.unique(y_l))
