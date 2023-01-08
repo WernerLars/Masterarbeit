@@ -1,7 +1,9 @@
+import numpy as np
+
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
 from _02_Classes_Autoencoder_QLearning.Autoencoder import *
-from _04_Visualisation.Visualisation import *
+from _04_Visualisation.Visualisation import Visualisation
 from torch.utils.data import DataLoader
 import torch
 from torch import nn
@@ -34,9 +36,11 @@ def Variant_02_Autoencoder_KMeans(path):
     test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
     print(test_dl)
 
-    #autoencoder = Autoencoder(input_size)
+    # autoencoder = Autoencoder(input_size)
     autoencoder = ConvolutionalAutoencoder(input_size)
     print(autoencoder)
+
+    vis = Visualisation("Variant_02_Autoencoder_KMeans")
 
     loss_function = nn.MSELoss()
     adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
@@ -46,7 +50,7 @@ def Variant_02_Autoencoder_KMeans(path):
         print(f"Epoch {t + 1}\n-------------------------------")
         train(train_dl, autoencoder, loss_function, adam)
 
-    test(test_dl, y_test, autoencoder)
+    test(test_dl, y_test, autoencoder, vis)
     print("Done!")
 
 
@@ -69,7 +73,7 @@ def train(dataloader, model, loss_fn, optimizer):
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
 
-def test(dataloader, y_test, model):
+def test(dataloader, y_test, model, vis):
     encoded_features_list = []
     encoded_features_X = []
     encoded_features_Y = []
@@ -92,12 +96,13 @@ def test(dataloader, y_test, model):
             y_l.append(y.numpy()[0])
 
             if visualise[y.numpy()[0]]:
-                visualisingReconstructedSpike(X.numpy().flatten(),
-                                              reconstructed_spike.numpy().flatten(),
-                                              len(X.numpy().flatten()),
-                                              str(y.numpy()[0]))
-                printSpike(X.numpy().flatten(), len(X.numpy().flatten()), "b")
-                printSpike(reconstructed_spike.numpy().flatten(), len(reconstructed_spike.numpy().flatten()), "r")
+                vis.visualisingReconstructedSpike(X.numpy().flatten(),
+                                                  reconstructed_spike.numpy().flatten(),
+                                                  len(X.numpy().flatten()),
+                                                  str(y.numpy()[0]))
+                vis.printSpike(X.numpy().flatten(), len(X.numpy().flatten()), "b", f"real_spike{y.numpy()[0]}")
+                vis.printSpike(reconstructed_spike.numpy().flatten(),
+                               len(reconstructed_spike.numpy().flatten()), "r", f"reconstructed_spike{y.numpy()[0]}")
                 visualise[y.numpy()[0]] = False
 
     print(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
@@ -111,7 +116,6 @@ def test(dataloader, y_test, model):
     for n in range(0, number_of_clusters):
         print(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(kmeans.labels_ == n).sum()}")
 
-    visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
+    vis.visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
 
-    printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test))
-
+    vis.printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test))
