@@ -10,12 +10,15 @@ from sklearn.metrics.cluster import contingency_matrix
 
 class Visualisation(object):
 
-    def __init__(self, name_of_variant):
+    def __init__(self, name_of_variant, dataset_name):
         self.name_of_variant = name_of_variant
+        self.dataset_name = dataset_name
         self.timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
-        if os.path.exists(self.name_of_variant) is False:
-            os.mkdir(self.name_of_variant)
-        self.path = f"{self.name_of_variant}/{self.timestamp}"
+        if os.path.exists(f"{self.dataset_name[0]}_{self.dataset_name[1]}") is False:
+            os.mkdir(f"{self.dataset_name[0]}_{self.dataset_name[1]}")
+        if os.path.exists(f"{self.dataset_name[0]}_{self.dataset_name[1]}/{self.name_of_variant}") is False:
+            os.mkdir(f"{self.dataset_name[0]}_{self.dataset_name[1]}/{self.name_of_variant}")
+        self.path = f"{self.dataset_name[0]}_{self.dataset_name[1]}/{self.name_of_variant}/{self.timestamp}"
         os.mkdir(self.path)
 
     def getVisualisationPath(self):

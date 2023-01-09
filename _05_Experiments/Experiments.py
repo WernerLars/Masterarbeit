@@ -21,9 +21,10 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    path = datasets[3]
-    variant = variants[5]
-    vis = Visualisation(variant)
+    path = datasets[1]
+    dataset_name = path[16:].split("/")
+    variant = variants[2]
+    vis = Visualisation(variant, dataset_name)
     vispath = vis.getVisualisationPath()
 
     logging.basicConfig(filename=f"{vispath}/informations.log",
@@ -32,7 +33,8 @@ def main():
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
-    logger.info(f"Dataset: {path}")
+    logger.info(f"Path: {path}")
+    logger.info(f"Dataset_name: {dataset_name}")
     logger.info(f"Variant: {variant}")
 
     if variant == "Variant_01_PCA_KMeans":
