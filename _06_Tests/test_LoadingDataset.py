@@ -1,5 +1,6 @@
 from unittest import TestCase
 import numpy as np
+import logging
 
 from _01_LoadDataset.LoadingDataset import LoadDataset
 
@@ -9,9 +10,11 @@ class TestLoadDataset(TestCase):
     def setUp(self):
         self.path = "../_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
         self.dataset = LoadDataset()
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.INFO)
 
     def test_load_data(self):
-        dataloader, y_labels = self.dataset.loadData(self.path)
+        dataloader, y_labels = self.dataset.loadData(self.path, self.logger)
         self.assertEqual(np.ndarray, type(dataloader.raw))
         self.assertEqual(np.ndarray, type(dataloader.times))
         self.assertEqual(np.ndarray, type(dataloader.cluster))
