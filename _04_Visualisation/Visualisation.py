@@ -18,6 +18,8 @@ class Visualisation(object):
         self.path = f"{self.name_of_variant}/{self.timestamp}"
         os.mkdir(self.path)
 
+    def getVisualisationPath(self):
+        return self.path
 
     def visualisingClusters(self, x, y, cluster, centroids=None):
         plt.figure(figsize=(8, 8))
@@ -71,10 +73,29 @@ class Visualisation(object):
         plt.savefig(f"{self.path}/reconstructedSpike_cluster_{cluster}.png")
         return
 
-    def printConfusionMatrix(self, ground_truth, predictions, labels):
+    def printConfusionMatrix(self, ground_truth, predictions, labels, logger):
         cm = contingency_matrix(ground_truth, predictions)
+        logger.info("Contingency Matrix: ")
+        logger.info(cm)
         print("Contingency Matrix: ")
         print(cm)
+
+        plt.figure(figsize=(8, 6))
+        plt.imshow(cm, interpolation="nearest")
+        for (j, i), label in np.ndenumerate(cm):
+            if label < 50:
+                color = "yellow"
+            else:
+                color = "black"
+            plt.text(i, j, label, ha="center", va="center", fontsize=13, color=color)
+        plt.title("Contingency Matrix", fontsize=16)
+        plt.xticks(sorted(np.unique(predictions)), fontsize=13)
+        plt.yticks(sorted(labels), fontsize=13)
+        cbar = plt.colorbar()
+        cbar.ax.tick_params(labelsize=13)
+        plt.xlabel("Predicted label", fontsize=13)
+        plt.ylabel("True label", fontsize=13)
+        plt.savefig(f"{self.path}/contingency_matrix.png")
 
         mapping = []
         for predicted in range(0, len(np.unique(predictions))):
@@ -83,7 +104,8 @@ class Visualisation(object):
                 get_truth_values.append(cm[true][predicted])
             mapping.append(np.argmax(get_truth_values))
 
-        print("Mapping: ", mapping)
+        logger.info(f"Mapping: {mapping}")
+        print(f"Mapping: {mapping}")
 
         predictions_mapping = []
         for prediction in predictions:
@@ -99,6 +121,8 @@ class Visualisation(object):
         for label in labels:
             target_names.append(f"cluster_{label}")
 
+        logger.info(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
         print(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
         cr = classification_report(ground_truth, predictions_mapping, target_names=target_names)
+        logger.info(cr)
         print(cr)

@@ -1,29 +1,28 @@
 import numpy as np
 
 from _01_LoadDataset.LoadingDataset import LoadDataset
-from _04_Visualisation.Visualisation import Visualisation
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 
 
-def Variant_01_PCA_KMeans(path):
+def Variant_01_PCA_KMeans(path, vis, logger):
     dataset = LoadDataset()
-    dataloader, y_labels = dataset.loadData(path)
+    dataloader, y_labels = dataset.loadData(path, logger)
 
     pca = PCA(n_components=2)
     pca_transformed = pca.fit_transform(dataloader.aligned_spikes)
-    print("Number of Samples after PCA: ", len(pca_transformed))
-    print("First Spike Frame after PCA: ", pca_transformed[0])
+    logger.info(f"Number of Samples after PCA: {len(pca_transformed)}")
+    logger.info(f"First Spike Frame after PCA: {pca_transformed[0]}")
 
     number_of_clusters = max(y_labels) + 1
-    print("Number of Clusters: ", number_of_clusters)
+    logger.info(f"Number of Clusters: {number_of_clusters}")
 
     kmeans = KMeans(n_clusters=number_of_clusters)
     kmeans.fit(pca_transformed)
 
-    print(kmeans.labels_)
+    logger.info(kmeans.labels_)
     for i in range(0, number_of_clusters):
-        print("Cluster ", i, " Occurences: ", (y_labels == i).sum(), "; KMEANS: ", (kmeans.labels_ == i).sum())
+        logger.info(f"Cluster {i}: Occurrences: {(y_labels == i).sum()}  KMEANS: {(kmeans.labels_ == i).sum()}")
 
     x = []
     y = []
@@ -31,10 +30,7 @@ def Variant_01_PCA_KMeans(path):
         x.append(spike[0])
         y.append(spike[1])
 
-    vis = Visualisation("Variant_01_PCA_KMeans")
-
     centroids = vis.getClusterCenters(pca_transformed, kmeans.labels_)
-    print("Centroids: ", type(centroids))
 
     vis.visualisingClusters(x, y, kmeans.labels_, centroids)
-    vis.printConfusionMatrix(y_labels, kmeans.labels_, np.unique(y_labels))
+    vis.printConfusionMatrix(y_labels, kmeans.labels_, np.unique(y_labels), logger)
