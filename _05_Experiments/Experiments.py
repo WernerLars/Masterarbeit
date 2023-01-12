@@ -23,29 +23,30 @@ def main():
 
     path = datasets[3]
     dataset_name = path[16:].split("/")
-    variant = variants[4]
-    vis = Visualisation(variant, dataset_name)
-    vispath = vis.getVisualisationPath()
+    variant_name = variants[2]
+    vis = Visualisation(variant_name, dataset_name)
+    vis_path = vis.getVisualisationPath()
 
-    logging.basicConfig(filename=f"{vispath}/informations.log",
+    logging.basicConfig(filename=f"{vis_path}/informations.log",
                         format="%(message)s",
                         filemode="w")
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
-    logger.info(f"Path: {path}")
+    logger.info(f"Dataset_Path: {path}")
     logger.info(f"Dataset_name: {dataset_name}")
-    logger.info(f"Variant: {variant}")
+    logger.info(f"Variant_name: {variant_name}")
+    logger.info(f"Visualisation_Path: {vis_path}")
 
-    if variant == "Variant_01_PCA_KMeans":
+    if variant_name == "Variant_01_PCA_KMeans":
         Variant_01_PCA_KMeans(path, vis, logger)
-    elif variant == "Variant_02_Autoencoder_KMeans":
+    elif variant_name == "Variant_02_Autoencoder_KMeans":
         Variant_02_Autoencoder_KMeans(path, vis, logger)
-    elif variant == "Variant_03_PCA_QLearning":
+    elif variant_name == "Variant_03_PCA_QLearning":
         Variant_03_PCA_QLearning(path, vis, logger)
-    elif variant == "Variant_04_Offline_Autoencoder_QLearning":
+    elif variant_name == "Variant_04_Offline_Autoencoder_QLearning":
         Variant_04_Offline_Autoencoder_QLearning(path, vis, logger)
-    elif variant == "Variant_05_Online_Autoencoder_QLearning":
+    elif variant_name == "Variant_05_Online_Autoencoder_QLearning":
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger)
 
 

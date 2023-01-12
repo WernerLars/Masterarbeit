@@ -1,5 +1,4 @@
 import numpy as np
-
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
 from _02_Classes_Autoencoder_QLearning.Autoencoder import *
@@ -9,112 +8,119 @@ from torch import nn
 from sklearn.cluster import KMeans
 
 
-def Variant_02_Autoencoder_KMeans(path, vis, logger):
-    dataset = LoadDataset()
-    data, y_labels = dataset.loadData(path, logger)
-    input_size = len(data.aligned_spikes[0])
-    logger.info(f"Input Size: {input_size}")
+class Variant_02_Autoencoder_KMeans(object):
+    def __init__(self, path, vis, logger):
+        self.path = path
+        self.vis = vis
+        self.logger = logger
+        self.dataset = LoadDataset()
+        self.data, self.y_labels = self.dataset.loadData(path, logger)
+        self.input_size = len(self.data.aligned_spikes[0])
+        self.autoencoder_models = {
+            1: Autoencoder(self.input_size),
+            2: ConvolutionalAutoencoder(self.input_size)
+        }
+        self.autoencoder = self.autoencoder_models[1]
+        self.logger.info(self.autoencoder)
+        self.loss_function = nn.MSELoss()
+        self.optimizer = torch.optim.Adam(self.autoencoder.parameters(), lr=1e-3)
+        self.preprocessing()
 
-    train_idx = round(len(data.aligned_spikes) * 0.8)
-    logger.info(f"Train Index: {train_idx}")
+    def preprocessing(self):
+        self.logger.info(f"Input Size: {self.input_size}")
 
-    x_train = data.aligned_spikes[0:train_idx]
-    y_train = y_labels[0:train_idx]
-    x_test = data.aligned_spikes[train_idx:]
-    y_test = y_labels[train_idx:]
+        train_idx = round(len(self.data.aligned_spikes) * 0.8)
+        self.logger.info(f"Train Index: {train_idx}")
 
-    logger.info(f"x_train: {len(x_train)}")
-    logger.info(f"y_train: {len(y_train)}")
-    logger.info(f"x_test: {len(x_test)}")
-    logger.info(f"y_test: {len(y_test)}")
+        x_train = self.data.aligned_spikes[0:train_idx]
+        y_train = self.y_labels[0:train_idx]
+        x_test = self.data.aligned_spikes[train_idx:]
+        y_test = self.y_labels[train_idx:]
 
-    train_d = SpikeClassToPytorchDataset(x_train, y_train)
-    train_dl = DataLoader(train_d, batch_size=1, shuffle=True)
-    logger.info(train_dl)
-    test_d = SpikeClassToPytorchDataset(x_test, y_test)
-    test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
-    logger.info(test_dl)
+        self.logger.info(f"x_train: {len(x_train)}")
+        self.logger.info(f"y_train: {len(y_train)}")
+        self.logger.info(f"x_test: {len(x_test)}")
+        self.logger.info(f"y_test: {len(y_test)}")
 
-    # autoencoder = Autoencoder(input_size)
-    autoencoder = ConvolutionalAutoencoder(input_size)
-    logger.info(autoencoder)
+        train_d = SpikeClassToPytorchDataset(x_train, y_train)
+        train_dl = DataLoader(train_d, batch_size=1, shuffle=True)
+        self.logger.info(train_dl)
+        test_d = SpikeClassToPytorchDataset(x_test, y_test)
+        test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
+        self.logger.info(test_dl)
 
-    loss_function = nn.MSELoss()
-    adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
+        epochs = 8
+        for t in range(epochs):
+            self.logger.info(f"Epoch {t + 1}\n-------------------------------")
+            print(f"Epoch {t + 1}\n-------------------------------")
+            self.train(train_dl)
 
-    epochs = 8
-    for t in range(epochs):
-        logger.info(f"Epoch {t + 1}\n-------------------------------")
-        print(f"Epoch {t + 1}\n-------------------------------")
-        train(train_dl, autoencoder, loss_function, adam, logger)
+        self.test(test_dl, y_test)
+        self.logger.info("Done!")
 
-    test(test_dl, y_test, autoencoder, vis, logger)
-    logger.info("Done!")
+    def train(self, train_dataloader):
+        size = len(train_dataloader.dataset)
+        self.autoencoder.train()
+        for batch, (X, y) in enumerate(train_dataloader):
 
+            # Compute prediction error
+            reconstructed_spike, encoded_features = self.autoencoder(X)
+            loss = self.loss_function(reconstructed_spike, X)
 
-def train(dataloader, model, loss_fn, optimizer, logger):
-    size = len(dataloader.dataset)
-    model.train()
-    for batch, (X, y) in enumerate(dataloader):
+            # Backpropagation
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
 
-        # Compute prediction error
-        reconstructed_spike, encoded_features = model(X)
-        loss = loss_fn(reconstructed_spike, X)
+            if batch % 100 == 0:
+                loss, current = loss.item(), batch * len(X)
+                self.logger.info(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+                print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
-        # Backpropagation
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+    def test(self, dataloader, y_test):
+        encoded_features_list = []
+        encoded_features_X = []
+        encoded_features_Y = []
+        y_l = []
 
-        if batch % 100 == 0:
-            loss, current = loss.item(), batch * len(X)
-            logger.info(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+        number_of_clusters = max(y_test) + 1
+        self.logger.info(f"Number of Clusters: {number_of_clusters}")
 
+        visualise = []
+        for k in range(0, number_of_clusters):
+            visualise.append(True)
 
-def test(dataloader, y_test, model, vis, logger):
-    encoded_features_list = []
-    encoded_features_X = []
-    encoded_features_Y = []
-    y_l = []
+        for batch, (X, y) in enumerate(dataloader):
+            reconstructed_spike, encoded_features = self.autoencoder(X)
 
-    number_of_clusters = max(y_test) + 1
-    logger.info(f"Number of Clusters: {number_of_clusters}")
+            with torch.no_grad():
+                encoded_features_list.append(encoded_features.numpy()[0])
+                encoded_features_X.append(encoded_features.numpy()[0][0])
+                encoded_features_Y.append(encoded_features.numpy()[0][1])
+                y_l.append(y.numpy()[0])
 
-    visualise = []
-    for k in range(0, number_of_clusters):
-        visualise.append(True)
+                if visualise[y.numpy()[0]]:
+                    self.vis.visualisingReconstructedSpike(X.numpy().flatten(),
+                                                      reconstructed_spike.numpy().flatten(),
+                                                      len(X.numpy().flatten()),
+                                                      str(y.numpy()[0]))
+                    self.vis.printSpike(X.numpy().flatten(), len(X.numpy().flatten()), "b", f"real_spike{y.numpy()[0]}")
+                    self.vis.printSpike(reconstructed_spike.numpy().flatten(),
+                                   len(reconstructed_spike.numpy().flatten()), "r",
+                                   f"reconstructed_spike{y.numpy()[0]}")
+                    visualise[y.numpy()[0]] = False
 
-    for batch, (X, y) in enumerate(dataloader):
-        reconstructed_spike, encoded_features = model(X)
+        self.logger.info(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
+        self.logger.info(f"First Spike after testing: {encoded_features_list[0]}")
 
-        with torch.no_grad():
-            encoded_features_list.append(encoded_features.numpy()[0])
-            encoded_features_X.append(encoded_features.numpy()[0][0])
-            encoded_features_Y.append(encoded_features.numpy()[0][1])
-            y_l.append(y.numpy()[0])
+        kmeans = KMeans(n_clusters=number_of_clusters)
+        kmeans.fit(encoded_features_list)
 
-            if visualise[y.numpy()[0]]:
-                vis.visualisingReconstructedSpike(X.numpy().flatten(),
-                                                  reconstructed_spike.numpy().flatten(),
-                                                  len(X.numpy().flatten()),
-                                                  str(y.numpy()[0]))
-                vis.printSpike(X.numpy().flatten(), len(X.numpy().flatten()), "b", f"real_spike{y.numpy()[0]}")
-                vis.printSpike(reconstructed_spike.numpy().flatten(),
-                               len(reconstructed_spike.numpy().flatten()), "r", f"reconstructed_spike{y.numpy()[0]}")
-                visualise[y.numpy()[0]] = False
+        self.logger.info(y_test)
+        self.logger.info(kmeans.labels_)
+        for n in range(0, number_of_clusters):
+            self.logger.info(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(kmeans.labels_ == n).sum()}")
 
-    logger.info(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
-    logger.info(f"First Spike after testing: {encoded_features_list[0]}")
+        self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
 
-    kmeans = KMeans(n_clusters=number_of_clusters)
-    kmeans.fit(encoded_features_list)
-
-    logger.info(y_test)
-    logger.info(kmeans.labels_)
-    for n in range(0, number_of_clusters):
-        logger.info(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(kmeans.labels_ == n).sum()}")
-
-    vis.visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
-
-    vis.printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test), logger)
+        self.vis.printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test), self.logger)
