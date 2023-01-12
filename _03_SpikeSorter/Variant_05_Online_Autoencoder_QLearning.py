@@ -4,6 +4,7 @@ from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
 from _02_Classes_Autoencoder_QLearning.Autoencoder import *
 from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
+from _02_Classes_Autoencoder_QLearning.Templates import Templates
 from torch.utils.data import DataLoader
 import torch
 from torch import nn
@@ -39,12 +40,14 @@ def Variant_05_Online_Autoencoder_QLearning(path, vis, logger):
     # autoencoder = ConvolutionalAutoencoder(input_size)
     logger.info(autoencoder)
 
+    templates = Templates()
     ql = Q_Learning()
 
     loss_function = nn.MSELoss()
     adam = torch.optim.Adam(autoencoder.parameters(), lr=1e-3)
 
     t = 0
+    firstTwoSpikes = 0
     for _, (X, _) in enumerate(train_dl):
         logger.info(f"Spike: {t}\n-------------------------------")
         print(f"Spike: {t}\n-------------------------------")
@@ -54,7 +57,17 @@ def Variant_05_Online_Autoencoder_QLearning(path, vis, logger):
                 train(X, autoencoder, loss_function, adam, logger)
             t += 1
         else:
-            break
+            if firstTwoSpikes < 2:
+                _, encoded_features = autoencoder(X)
+                with torch.no_grad():
+                    ql.addToFeatureSet(encoded_features.numpy()[0])
+                firstTwoSpikes += 1
+            else:
+                if t < 310:
+                    trainAutoencoderWithQLearning(X, autoencoder, loss_function, adam, templates, ql, logger)
+                    t += 1
+                else:
+                    break
 
     test(test_dl, y_test, autoencoder, ql, vis, logger)
     logger.info("Done!")
@@ -78,12 +91,27 @@ def train(batch, model, loss_fn, optimizer, logger):
         print(f"loss: {loss:>7f}")
 
 
+def trainAutoencoderWithQLearning(spike, model, loss_fn, optimizer, templates, ql, logger):
+    _, encoded_features = model(spike)
+    with torch.no_grad():
+        cluster = ql.dynaQAlgorithm(encoded_features.numpy()[0])
+        templates.computeMeanTemplate(spike, cluster)
+    batch = []
+    for c_index in range(0, len(templates.template_list)):
+        if c_index == cluster:
+            batch.append(spike)
+        else:
+            batch.append(templates.template_list[c_index])
+    print(f"Mini-Batch: {batch}")
+    train(batch, model, loss_fn, optimizer, logger)
+
+
 def test(dataloader, y_test, model, ql, vis, logger):
     encoded_features_list = []
     encoded_features_X = []
     encoded_features_Y = []
     y_l = []
-    ql.reset_spikes_clusters()
+    ql.reset_q_learning()
 
     number_of_clusters = max(y_test) + 1
     logger.info(f"Number of Clusters: {number_of_clusters}")
@@ -94,7 +122,7 @@ def test(dataloader, y_test, model, ql, vis, logger):
         visualise.append(True)
 
     current = 1
-    size = len(y_test)-2
+    size = len(y_test) - 2
 
     for batch, (X, y) in enumerate(dataloader):
         reconstructed_spike, encoded_features = model(X)
@@ -129,8 +157,7 @@ def test(dataloader, y_test, model, ql, vis, logger):
     logger.info(y_l)
     logger.info(ql.clusters)
 
-    # Visualisation only with the last 100 Spikes
-    centroids = vis.getClusterCenters(encoded_features_list[-100:], ql.clusters[-100:])
-    vis.visualisingClusters(encoded_features_X[-100:], encoded_features_Y[-100:], ql.clusters[-100:], centroids)
+    centroids = vis.getClusterCenters(encoded_features_list, ql.clusters)
+    vis.visualisingClusters(encoded_features_X, encoded_features_Y, ql.clusters, centroids)
 
     vis.printConfusionMatrix(y_l, ql.clusters, np.unique(y_l), logger)

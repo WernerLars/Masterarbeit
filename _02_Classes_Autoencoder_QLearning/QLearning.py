@@ -30,6 +30,21 @@ class Q_Learning(object):
         self.random_features_number = random_features_number
         self.planning_number = planning_number
 
+    def reset_q_learning(self):
+        self.q_table = {
+            "new_cluster": [0]
+        }
+        self.model = {
+            "new_cluster": [[0, ""]]
+        }
+        self.randomFeatures = {}
+        self.features = [[], []]
+        self.states = ["new_cluster"]
+        self.actions = [0]
+        self.clusters_number = 0
+        self.spikes = []
+        self.clusters = []
+
     def set_q_value(self, state, action, value):
         self.q_table[state][action] = value
 
@@ -93,7 +108,7 @@ class Q_Learning(object):
             return np.argmax(q_values)
 
     def selectRandomFeatures(self, action, i):
-        random_indexes = [randint(0, len(self.randomFeatures[f"c{action}"][i])-1)
+        random_indexes = [randint(0, len(self.randomFeatures[f"c{action}"][i]) - 1)
                           for _ in range(0, self.random_features_number)]
         feature_selection = []
         for j in range(0, self.random_features_number):
@@ -102,29 +117,32 @@ class Q_Learning(object):
 
     def computeReward(self, action, features_numbers, features_normalised):
         if action == 0:
-            return -(self.punishment_coefficient*features_numbers)**2
+            return -(self.punishment_coefficient * features_numbers) ** 2
         else:
             feature_sum = 0
             for i in range(0, features_numbers):
                 features_selected = self.selectRandomFeatures(action, i)
-                feature_sum += (features_normalised[i] - np.mean(features_selected))**2
+                feature_sum += (features_normalised[i] - np.mean(features_selected)) ** 2
             return -feature_sum
 
     def addSpike(self, spike, s):
         max_action = np.argmax(self.q_table[s])
         if max_action == 0:
             self.new_cluster()
-            cluster = self.clusters_number-1
+            cluster = self.clusters_number - 1
             self.spikes.append(spike)
             self.clusters.append(cluster)
             for i in range(0, len(spike)):
-                self.randomFeatures[f"c{cluster+1}"][i] = np.append(self.randomFeatures[f"c{cluster+1}"][i], spike[i])
+                self.randomFeatures[f"c{cluster + 1}"][i] = np.append(self.randomFeatures[f"c{cluster + 1}"][i],
+                                                                      spike[i])
         else:
             cluster = max_action - 1
             self.spikes.append(spike)
             self.clusters.append(cluster)
             for i in range(0, len(spike)):
-                self.randomFeatures[f"c{cluster+1}"][i] = np.append(self.randomFeatures[f"c{cluster+1}"][i], spike[i])
+                self.randomFeatures[f"c{cluster + 1}"][i] = np.append(self.randomFeatures[f"c{cluster + 1}"][i],
+                                                                      spike[i])
+        return cluster
 
     def dynaQAlgorithm(self, spike):
         self.addToFeatureSet(spike)
@@ -160,4 +178,5 @@ class Q_Learning(object):
             s = s_new
             counter += 1
 
-        self.addSpike(feature_normalised, s)
+        cluster = self.addSpike(feature_normalised, s)
+        return cluster

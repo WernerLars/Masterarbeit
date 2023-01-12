@@ -21,9 +21,9 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    path = datasets[1]
+    path = datasets[3]
     dataset_name = path[16:].split("/")
-    variant = variants[2]
+    variant = variants[4]
     vis = Visualisation(variant, dataset_name)
     vispath = vis.getVisualisationPath()
 

@@ -83,7 +83,7 @@ class Visualisation(object):
         print("Contingency Matrix: ")
         print(cm)
 
-        plt.figure(figsize=(8, 6))
+        plt.figure(figsize=(12, 6))
         plt.imshow(cm, interpolation="nearest")
         for (j, i), label in np.ndenumerate(cm):
             if label < 50:

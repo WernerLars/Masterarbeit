@@ -125,8 +125,7 @@ def test(dataloader, y_test, model, ql, vis, logger):
     logger.info(y_l)
     logger.info(ql.clusters)
 
-    # Visualisation only with the last 100 Spikes
-    centroids = vis.getClusterCenters(encoded_features_list[-100:], ql.clusters[-100:])
-    vis.visualisingClusters(encoded_features_X[-100:], encoded_features_Y[-100:], ql.clusters[-100:], centroids)
+    centroids = vis.getClusterCenters(encoded_features_list, ql.clusters)
+    vis.visualisingClusters(encoded_features_X, encoded_features_Y, ql.clusters, centroids)
 
     vis.printConfusionMatrix(y_l, ql.clusters, np.unique(y_l), logger)
