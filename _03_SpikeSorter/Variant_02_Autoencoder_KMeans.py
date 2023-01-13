@@ -13,8 +13,8 @@ class Variant_02_Autoencoder_KMeans(object):
         self.path = path
         self.vis = vis
         self.logger = logger
-        self.dataset = LoadDataset()
-        self.data, self.y_labels = self.dataset.loadData(path, logger)
+        self.dataset = LoadDataset(self.path, self.logger)
+        self.data, self.y_labels = self.dataset.loadData()
         self.input_size = len(self.data.aligned_spikes[0])
         self.autoencoder_models = {
             1: Autoencoder(self.input_size),
@@ -123,4 +123,4 @@ class Variant_02_Autoencoder_KMeans(object):
 
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
 
-        self.vis.printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test), self.logger)
+        self.vis.printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test))

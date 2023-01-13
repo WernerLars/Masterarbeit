@@ -23,7 +23,7 @@ def main():
 
     path = datasets[3]
     dataset_name = path[16:].split("/")
-    variant_name = variants[2]
+    variant_name = variants[3]
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
 
@@ -32,6 +32,7 @@ def main():
                         filemode="w")
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
+    vis.setLogger(logger)
 
     logger.info(f"Dataset_Path: {path}")
     logger.info(f"Dataset_name: {dataset_name}")

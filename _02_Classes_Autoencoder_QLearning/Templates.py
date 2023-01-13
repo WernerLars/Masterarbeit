@@ -16,12 +16,3 @@ class Templates(object):
                 new = old + self.learning_rate*(spike[dim] - old)
                 self.template_list[cluster][dim] = new
             print(f"New Template List: {self.template_list}")
-
-
-# s = [1, 2, 3, 4, 5, 6]
-# c = 0
-# templates = Templates()
-# templates.computeMeanTemplate(s, c)
-# s = [4, 2, 3, 4, 5, 6]
-# templates.computeMeanTemplate(s, c)
-

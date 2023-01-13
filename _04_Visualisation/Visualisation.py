@@ -9,10 +9,10 @@ from sklearn.metrics.cluster import contingency_matrix
 
 
 class Visualisation(object):
-
     def __init__(self, variant_name, dataset_name):
         self.variant_name = variant_name
         self.dataset_name = dataset_name
+        self.logger = None
         self.timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
         if os.path.exists(f"{self.dataset_name[0]}_{self.dataset_name[1]}") is False:
             os.mkdir(f"{self.dataset_name[0]}_{self.dataset_name[1]}")
@@ -23,6 +23,9 @@ class Visualisation(object):
 
     def getVisualisationPath(self):
         return self.path
+
+    def setLogger(self, logger):
+        self.logger = logger
 
     def visualisingClusters(self, x, y, cluster, centroids=None):
         plt.figure(figsize=(8, 8))
@@ -76,10 +79,10 @@ class Visualisation(object):
         plt.savefig(f"{self.path}/reconstructedSpike_cluster_{cluster}.png")
         return
 
-    def printConfusionMatrix(self, ground_truth, predictions, labels, logger):
+    def printConfusionMatrix(self, ground_truth, predictions, labels):
         cm = contingency_matrix(ground_truth, predictions)
-        logger.info("Contingency Matrix: ")
-        logger.info(cm)
+        self.logger.info("Contingency Matrix: ")
+        self.logger.info(cm)
         print("Contingency Matrix: ")
         print(cm)
 
@@ -107,7 +110,7 @@ class Visualisation(object):
                 get_truth_values.append(cm[true][predicted])
             mapping.append(np.argmax(get_truth_values))
 
-        logger.info(f"Mapping: {mapping}")
+        self.logger.info(f"Mapping: {mapping}")
         print(f"Mapping: {mapping}")
 
         predictions_mapping = []
@@ -124,8 +127,8 @@ class Visualisation(object):
         for label in labels:
             target_names.append(f"cluster_{label}")
 
-        logger.info(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
+        self.logger.info(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
         print(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
         cr = classification_report(ground_truth, predictions_mapping, target_names=target_names)
-        logger.info(cr)
+        self.logger.info(cr)
         print(cr)
