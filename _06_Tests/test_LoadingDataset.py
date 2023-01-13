@@ -9,12 +9,12 @@ class TestLoadDataset(TestCase):
 
     def setUp(self):
         self.path = "../_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
-        self.dataset = LoadDataset()
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
+        self.dataset = LoadDataset(self.path, self.logger)
 
     def test_load_data(self):
-        dataloader, y_labels = self.dataset.loadData(self.path, self.logger)
+        dataloader, y_labels = self.dataset.loadData()
         self.assertEqual(np.ndarray, type(dataloader.raw))
         self.assertEqual(np.ndarray, type(dataloader.times))
         self.assertEqual(np.ndarray, type(dataloader.cluster))
