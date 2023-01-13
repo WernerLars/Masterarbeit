@@ -23,7 +23,7 @@ def main():
 
     path = datasets[3]
     dataset_name = path[16:].split("/")
-    variant_name = variants[3]
+    variant_name = variants[4]
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
 
