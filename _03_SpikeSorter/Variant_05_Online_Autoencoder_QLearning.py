@@ -17,6 +17,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.logger = logger
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
+        self.split_ratio = 0.8
         self.input_size = len(self.data.aligned_spikes[0])
         self.logger.info(f"Input Size: {self.input_size}")
         self.autoencoder_models = {
@@ -29,10 +30,14 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.optimizer = torch.optim.Adam(self.autoencoder.parameters(), lr=1e-3)
         self.templates = Templates()
         self.ql = Q_Learning()
+        self.epochs = 8
+        self.batch_size = 1
+        self.maxAutoencoderTraining = 300
         self.preprocessing()
 
     def preprocessing(self):
-        train_idx = round(len(self.data.aligned_spikes) * 0.8)
+        torch.manual_seed(0)
+        train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
         self.logger.info(f"Train Index: {train_idx}")
 
         x_train = self.data.aligned_spikes[0:train_idx]
@@ -46,10 +51,10 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.logger.info(f"y_test: {len(y_test)}")
 
         train_d = SpikeClassToPytorchDataset(x_train, y_train)
-        train_dl = DataLoader(train_d, batch_size=1, shuffle=True)
+        train_dl = DataLoader(train_d, batch_size=self.batch_size)
         self.logger.info(train_dl)
         test_d = SpikeClassToPytorchDataset(x_test, y_test)
-        test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
+        test_dl = DataLoader(test_d, batch_size=self.batch_size)
         self.logger.info(test_dl)
 
         t = 0
@@ -57,9 +62,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         for _, (X, _) in enumerate(train_dl):
             self.logger.info(f"Spike: {t}\n-------------------------------")
             print(f"Spike: {t}\n-------------------------------")
-            if t < 300:
-                epochs = 8
-                for _ in range(epochs):
+            if t < self.maxAutoencoderTraining:
+                for _ in range(self.epochs):
                     self.train(X)
                 t += 1
             else:
@@ -69,11 +73,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                         self.ql.addToFeatureSet(encoded_features.numpy()[0])
                     firstTwoSpikes += 1
                 else:
-                    if t < 310:
-                        self.trainAutoencoderWithQLearning(X)
-                        t += 1
-                    else:
-                        break
+                    self.trainAutoencoderWithQLearning(X)
 
         self.test(test_dl, y_test)
         self.logger.info("Done!")
@@ -120,10 +120,10 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.logger.info(f"Number of Clusters: {number_of_clusters}")
 
         visualise = []
-        firstTwoSpikes = 0
         for k in range(0, number_of_clusters):
             visualise.append(True)
 
+        firstTwoSpikes = 0
         current = 1
         size = len(y_test) - 2
 

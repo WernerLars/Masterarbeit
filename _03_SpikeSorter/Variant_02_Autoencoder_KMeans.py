@@ -15,6 +15,7 @@ class Variant_02_Autoencoder_KMeans(object):
         self.logger = logger
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
+        self.split_ratio = 0.8
         self.input_size = len(self.data.aligned_spikes[0])
         self.autoencoder_models = {
             1: Autoencoder(self.input_size),
@@ -24,12 +25,15 @@ class Variant_02_Autoencoder_KMeans(object):
         self.logger.info(self.autoencoder)
         self.loss_function = nn.MSELoss()
         self.optimizer = torch.optim.Adam(self.autoencoder.parameters(), lr=1e-3)
+        self.epochs = 8
+        self.batch_size = 1
         self.preprocessing()
 
     def preprocessing(self):
+        torch.manual_seed(0)
         self.logger.info(f"Input Size: {self.input_size}")
 
-        train_idx = round(len(self.data.aligned_spikes) * 0.8)
+        train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
         self.logger.info(f"Train Index: {train_idx}")
 
         x_train = self.data.aligned_spikes[0:train_idx]
@@ -43,14 +47,13 @@ class Variant_02_Autoencoder_KMeans(object):
         self.logger.info(f"y_test: {len(y_test)}")
 
         train_d = SpikeClassToPytorchDataset(x_train, y_train)
-        train_dl = DataLoader(train_d, batch_size=1, shuffle=True)
+        train_dl = DataLoader(train_d, batch_size=self.batch_size)
         self.logger.info(train_dl)
         test_d = SpikeClassToPytorchDataset(x_test, y_test)
-        test_dl = DataLoader(test_d, batch_size=1, shuffle=True)
+        test_dl = DataLoader(test_d, batch_size=self.batch_size)
         self.logger.info(test_dl)
 
-        epochs = 8
-        for t in range(epochs):
+        for t in range(self.epochs):
             self.logger.info(f"Epoch {t + 1}\n-------------------------------")
             print(f"Epoch {t + 1}\n-------------------------------")
             self.train(train_dl)
