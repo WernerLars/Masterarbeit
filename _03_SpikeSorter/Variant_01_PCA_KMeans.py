@@ -5,14 +5,16 @@ from sklearn.cluster import KMeans
 
 
 class Variant_01_PCA_KMeans(object):
-    def __init__(self, path, vis, logger):
+    def __init__(self, path, vis, logger, pca_components=2):
         self.path = path
         self.vis = vis
         self.logger = logger
+        self.pca_components = pca_components
+
         self.dataset = LoadDataset(self.path, self.logger)
         self.dataloader, self.y_labels = self.dataset.loadData()
-        self.pca_components = 2
         self.pca_transformed = []
+
         self.feature_extraction()
         self.clustering()
 

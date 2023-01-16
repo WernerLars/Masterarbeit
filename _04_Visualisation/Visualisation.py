@@ -27,6 +27,38 @@ class Visualisation(object):
     def setLogger(self, logger):
         self.logger = logger
 
+    def printSpike(self, spike, n_features, color, filename):
+        plt.figure(figsize=(4, 4))
+        t = np.arange(0, n_features, 1)
+        plt.plot(t, spike, color=color)
+        plt.savefig(f"{self.path}/{filename}.png")
+
+    def visualisingReconstructedSpike(self, original, reconstructed, n_features, cluster):
+        plt.figure(figsize=(4, 4))
+        t = np.arange(0, n_features, 1)
+        title = "True Label: " + cluster
+        plt.plot(t, original, label="original")
+        plt.plot(t, reconstructed, label="reconstructed")
+        plt.legend(loc="upper left")
+        plt.title(title)
+        plt.savefig(f"{self.path}/reconstructedSpike_cluster_{cluster}.png")
+
+    def getClusterCenters(self, features_list, labels):
+        centroids = []
+        unique_cluster = sort(np.unique(labels))
+        for cluster in unique_cluster:
+            x_list = []
+            y_list = []
+            for index in range(0, len(labels)):
+                if cluster == labels[index]:
+                    x_list.append(features_list[index][0])
+                    y_list.append(features_list[index][1])
+            x_mean = np.mean(x_list)
+            y_mean = np.mean(y_list)
+            centroids.append([x_mean, y_mean])
+        self.logger.info(f"Centroids: {centroids}")
+        return np.asarray(centroids)
+
     def visualisingClusters(self, x, y, cluster, centroids=None):
         plt.figure(figsize=(8, 8))
         unique_cluster = np.unique(cluster)
@@ -44,40 +76,20 @@ class Visualisation(object):
             plt.scatter(centroids[:, 0], centroids[:, 1], s=80, color='k', marker='+')
         plt.legend(loc="upper left")
         plt.savefig(f"{self.path}/clusters.png")
-        return
 
-    def getClusterCenters(self, features_list, labels):
-        centroids = []
-        unique_cluster = sort(np.unique(labels))
-        for cluster in unique_cluster:
-            x_list = []
-            y_list = []
-            for index in range(0, len(labels)):
-                if cluster == labels[index]:
-                    x_list.append(features_list[index][0])
-                    y_list.append(features_list[index][1])
-            x_mean = np.mean(x_list)
-            y_mean = np.mean(y_list)
-            centroids.append([x_mean, y_mean])
-        return np.asarray(centroids)
-
-    def printSpike(self, spike, n_features, color, filename):
-        plt.figure(figsize=(4, 4))
-        t = np.arange(0, n_features, 1)
-        plt.plot(t, spike, color=color)
-        plt.savefig(f"{self.path}/{filename}.png")
-        return
-
-    def visualisingReconstructedSpike(self, original, reconstructed, n_features, cluster):
-        plt.figure(figsize=(4, 4))
-        t = np.arange(0, n_features, 1)
-        title = "True Label: " + cluster
-        plt.plot(t, original, label="original")
-        plt.plot(t, reconstructed, label="reconstructed")
-        plt.legend(loc="upper left")
-        plt.title(title)
-        plt.savefig(f"{self.path}/reconstructedSpike_cluster_{cluster}.png")
-        return
+    def printLossCurve(self, loss_values, epoch=""):
+        plt.figure(figsize=(6, 4))
+        t = np.arange(0, len(loss_values), 1)
+        plt.plot(t, loss_values, color="b")
+        plt.title(f"LossCurve{epoch}")
+        if epoch == "":
+            plt.xlabel("Epochs")
+            plt.ylabel("Losses")
+            plt.savefig(f"{self.path}/lossCurveEpochs.png")
+        else:
+            plt.xlabel("Each 100 Spikes")
+            plt.ylabel("Losses")
+            plt.savefig(f"{self.path}/lossCurveEpoch{epoch}.png")
 
     def printConfusionMatrix(self, ground_truth, predictions, labels):
         cm = contingency_matrix(ground_truth, predictions)

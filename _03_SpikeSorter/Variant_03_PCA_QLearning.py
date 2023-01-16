@@ -6,15 +6,17 @@ from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
 
 
 class Variant_03_PCA_QLearning(object):
-    def __init__(self, path, vis, logger):
+    def __init__(self, path, vis, logger, pca_components=2, q_learning_size=300):
         self.path = path
         self.vis = vis
         self.logger = logger
+        self.pca_components = pca_components
+        self.q_learning_size = q_learning_size
+
         self.dataset = LoadDataset(self.path, self.logger)
         self.dataloader, self.y_labels = self.dataset.loadData()
-        self.pca_components = 2
         self.pca_transformed = []
-        self.q_learning_size = 300
+
         self.feature_extraction()
         self.clustering()
 
@@ -45,5 +47,6 @@ class Variant_03_PCA_QLearning(object):
 
         centroids = self.vis.getClusterCenters(ql.spikes, ql.clusters)
         self.vis.visualisingClusters(x, y, ql.clusters, centroids)
-        self.vis.printConfusionMatrix(self.y_labels[:self.q_learning_size], ql.clusters,
+        self.vis.printConfusionMatrix(self.y_labels[:self.q_learning_size],
+                                      ql.clusters,
                                       np.unique(self.y_labels[:self.q_learning_size]))

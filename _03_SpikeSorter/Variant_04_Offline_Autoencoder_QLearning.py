@@ -10,30 +10,35 @@ from torch import nn
 
 
 class Variant_04_Offline_Autoencoder_QLearning(object):
-    def __init__(self, path, vis, logger):
+    def __init__(self, path, vis, logger,
+                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, seed=0):
         self.path = path
         self.vis = vis
         self.logger = logger
+        self.chooseAutoencoder = chooseAutoencoder
+        self.split_ratio = split_ratio
+        self.epochs = epochs
+        self.batch_size = batch_size
+        self.seed = seed
+
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
-        self.split_ratio = 0.8
         self.input_size = len(self.data.aligned_spikes[0])
         self.logger.info(f"Input Size: {self.input_size}")
         self.autoencoder_models = {
             1: Autoencoder(self.input_size),
             2: ConvolutionalAutoencoder(self.input_size)
         }
-        self.autoencoder = self.autoencoder_models[1]
+        self.autoencoder = self.autoencoder_models[self.chooseAutoencoder]
         self.logger.info(self.autoencoder)
         self.loss_function = nn.MSELoss()
         self.optimizer = torch.optim.Adam(self.autoencoder.parameters(), lr=1e-3)
         self.ql = Q_Learning()
-        self.epochs = 8
-        self.batch_size = 1
+
         self.preprocessing()
 
     def preprocessing(self):
-        torch.manual_seed(0)
+        torch.manual_seed(self.seed)
         train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
         self.logger.info(f"Train Index: {train_idx}")
 
@@ -83,11 +88,12 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
                 print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
     def test(self, dataloader, y_test):
+        self.ql.reset_spikes_clusters()
+
         encoded_features_list = []
         encoded_features_X = []
         encoded_features_Y = []
-        y_l = []
-        self.ql.reset_spikes_clusters()
+        cluster_labels = []
 
         number_of_clusters = max(y_test) + 1
         self.logger.info(f"Number of Clusters: {number_of_clusters}")
@@ -100,7 +106,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         current = 1
         size = len(y_test) - 2
 
-        for batch, (X, y) in enumerate(dataloader):
+        for _, (X, y) in enumerate(dataloader):
             reconstructed_spike, encoded_features = self.autoencoder(X)
 
             # First Two Spikes are just added to FeatureSet to make normalisation work
@@ -109,31 +115,32 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
                     self.ql.addToFeatureSet(encoded_features.numpy()[0])
                     firstTwoSpikes += 1
                 else:
-
                     self.ql.dynaQAlgorithm(encoded_features.numpy()[0])
                     self.logger.info(f"Q_Learning: {current:>5d}/{size:>5d}]")
                     print(f"Q_Learning: {current:>5d}/{size:>5d}]")
                     current += 1
+
                     encoded_features_list.append(encoded_features.numpy()[0])
                     encoded_features_X.append(encoded_features.numpy()[0][0])
                     encoded_features_Y.append(encoded_features.numpy()[0][1])
-                    y_l.append(y.numpy()[0])
+                    cluster = y.numpy()[0]
+                    cluster_labels.append(cluster)
 
                     # Visualisation of Real Spike to Reconstructed Spike on Ground Truth Data
-                    if visualise[y.numpy()[0]]:
+                    if visualise[cluster]:
                         self.vis.visualisingReconstructedSpike(X.numpy().flatten(),
                                                                reconstructed_spike.numpy().flatten(),
                                                                len(X.numpy().flatten()),
-                                                               str(y.numpy()[0]))
-                        visualise[y.numpy()[0]] = False
+                                                               str(cluster))
+                        visualise[cluster] = False
 
         self.logger.info(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
         self.logger.info(f"First Spike after testing: {encoded_features_list[0]}")
 
-        self.logger.info(y_l)
+        self.logger.info(cluster_labels)
         self.logger.info(self.ql.clusters)
 
         centroids = self.vis.getClusterCenters(encoded_features_list, self.ql.clusters)
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, self.ql.clusters, centroids)
 
-        self.vis.printConfusionMatrix(y_l, self.ql.clusters, np.unique(y_l))
+        self.vis.printConfusionMatrix(cluster_labels, self.ql.clusters, np.unique(cluster_labels))

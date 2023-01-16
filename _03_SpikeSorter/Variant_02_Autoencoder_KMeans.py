@@ -9,30 +9,36 @@ from sklearn.cluster import KMeans
 
 
 class Variant_02_Autoencoder_KMeans(object):
-    def __init__(self, path, vis, logger):
+    def __init__(self, path, vis, logger,
+                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, seed=0):
         self.path = path
         self.vis = vis
         self.logger = logger
+        self.chooseAutoencoder = chooseAutoencoder
+        self.split_ratio = split_ratio
+        self.epochs = epochs
+        self.batch_size = batch_size
+        self.seed = seed
+
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
-        self.split_ratio = 0.8
         self.input_size = len(self.data.aligned_spikes[0])
         self.autoencoder_models = {
             1: Autoencoder(self.input_size),
             2: ConvolutionalAutoencoder(self.input_size)
         }
-        self.autoencoder = self.autoencoder_models[1]
+        self.autoencoder = self.autoencoder_models[self.chooseAutoencoder]
         self.logger.info(self.autoencoder)
         self.loss_function = nn.MSELoss()
         self.optimizer = torch.optim.Adam(self.autoencoder.parameters(), lr=1e-3)
-        self.epochs = 8
-        self.batch_size = 1
+        self.loss_values = []
+        self.epoch_loss = []
+
         self.preprocessing()
 
     def preprocessing(self):
-        torch.manual_seed(0)
+        torch.manual_seed(self.seed)
         self.logger.info(f"Input Size: {self.input_size}")
-
         train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
         self.logger.info(f"Train Index: {train_idx}")
 
@@ -57,13 +63,16 @@ class Variant_02_Autoencoder_KMeans(object):
             self.logger.info(f"Epoch {t + 1}\n-------------------------------")
             print(f"Epoch {t + 1}\n-------------------------------")
             self.train(train_dl)
+            self.vis.printLossCurve(self.epoch_loss, t+1)
 
+        self.vis.printLossCurve(self.loss_values)
         self.test(test_dl, y_test)
         self.logger.info("Done!")
 
     def train(self, train_dataloader):
         size = len(train_dataloader.dataset)
         self.autoencoder.train()
+        self.epoch_loss = []
         for batch, (X, y) in enumerate(train_dataloader):
 
             # Compute prediction error
@@ -76,15 +85,18 @@ class Variant_02_Autoencoder_KMeans(object):
             self.optimizer.step()
 
             if batch % 100 == 0:
-                loss, current = loss.item(), batch * len(X)
+                loss = loss.item()
+                self.epoch_loss.append(loss)
+                current = batch * len(X)
                 self.logger.info(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
                 print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+        self.loss_values.append(sum(self.epoch_loss)/len(train_dataloader))
 
     def test(self, dataloader, y_test):
         encoded_features_list = []
         encoded_features_X = []
         encoded_features_Y = []
-        y_l = []
+        cluster_labels = []
 
         number_of_clusters = max(y_test) + 1
         self.logger.info(f"Number of Clusters: {number_of_clusters}")
@@ -93,25 +105,30 @@ class Variant_02_Autoencoder_KMeans(object):
         for k in range(0, number_of_clusters):
             visualise.append(True)
 
-        for batch, (X, y) in enumerate(dataloader):
+        for _, (X, y) in enumerate(dataloader):
             reconstructed_spike, encoded_features = self.autoencoder(X)
 
             with torch.no_grad():
-                encoded_features_list.append(encoded_features.numpy()[0])
-                encoded_features_X.append(encoded_features.numpy()[0][0])
-                encoded_features_Y.append(encoded_features.numpy()[0][1])
-                y_l.append(y.numpy()[0])
+                x_np = X.numpy().flatten()
+                encoded_features_np = encoded_features.numpy()[0]
+                reconstructed_spike_np = reconstructed_spike.numpy().flatten()
+                cluster = y.numpy()[0]
 
-                if visualise[y.numpy()[0]]:
-                    self.vis.visualisingReconstructedSpike(X.numpy().flatten(),
-                                                      reconstructed_spike.numpy().flatten(),
-                                                      len(X.numpy().flatten()),
-                                                      str(y.numpy()[0]))
-                    self.vis.printSpike(X.numpy().flatten(), len(X.numpy().flatten()), "b", f"real_spike{y.numpy()[0]}")
-                    self.vis.printSpike(reconstructed_spike.numpy().flatten(),
-                                   len(reconstructed_spike.numpy().flatten()), "r",
-                                   f"reconstructed_spike{y.numpy()[0]}")
-                    visualise[y.numpy()[0]] = False
+                encoded_features_list.append(encoded_features_np)
+                encoded_features_X.append(encoded_features_np[0])
+                encoded_features_Y.append(encoded_features_np[1])
+                cluster_labels.append(cluster)
+
+                if visualise[cluster]:
+                    self.vis.visualisingReconstructedSpike(x_np,
+                                                           reconstructed_spike_np,
+                                                           len(x_np),
+                                                           str(cluster))
+                    self.vis.printSpike(x_np, len(x_np),
+                                        "b", f"real_spike{cluster}")
+                    self.vis.printSpike(reconstructed_spike_np, len(reconstructed_spike_np),
+                                        "r", f"reconstructed_spike{cluster}")
+                    visualise[cluster] = False
 
         self.logger.info(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
         self.logger.info(f"First Spike after testing: {encoded_features_list[0]}")
@@ -122,8 +139,10 @@ class Variant_02_Autoencoder_KMeans(object):
         self.logger.info(y_test)
         self.logger.info(kmeans.labels_)
         for n in range(0, number_of_clusters):
-            self.logger.info(f"Cluster {n} Occurrences: {(y_test == n).sum()}; KMEANS: {(kmeans.labels_ == n).sum()}")
+            self.logger.info(f"Cluster {n} Occurrences: {(y_test == n).sum()}; "
+                             f"KMEANS: {(kmeans.labels_ == n).sum()}")
 
-        self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, kmeans.labels_, kmeans.cluster_centers_)
+        self.vis.visualisingClusters(encoded_features_X, encoded_features_Y,
+                                     kmeans.labels_, kmeans.cluster_centers_)
 
-        self.vis.printConfusionMatrix(y_l, kmeans.labels_, np.unique(y_test))
+        self.vis.printConfusionMatrix(cluster_labels, kmeans.labels_, np.unique(y_test))
