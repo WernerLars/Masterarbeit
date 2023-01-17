@@ -5,11 +5,13 @@ from sklearn.cluster import KMeans
 
 
 class Variant_01_PCA_KMeans(object):
-    def __init__(self, path, vis, logger, pca_components=2):
+    def __init__(self, path, vis, logger, parameter_logger, pca_components=2):
         self.path = path
         self.vis = vis
         self.logger = logger
+        self.parameter_logger = parameter_logger
         self.pca_components = pca_components
+        self.parameter_logger.info(f"PCA Components: {self.pca_components}")
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.dataloader, self.y_labels = self.dataset.loadData()
@@ -27,6 +29,7 @@ class Variant_01_PCA_KMeans(object):
     def clustering(self):
         number_of_clusters = max(self.y_labels) + 1
         self.logger.info(f"Number of Clusters: {number_of_clusters}")
+        self.parameter_logger.info(f"K-Means Number of Clusters: {number_of_clusters}")
 
         kmeans = KMeans(n_clusters=number_of_clusters)
         kmeans.fit(self.pca_transformed)

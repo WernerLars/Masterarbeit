@@ -27,28 +27,40 @@ def main():
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
 
-    logging.basicConfig(filename=f"{vis_path}/informations.log",
-                        format="%(message)s",
-                        filemode="w")
-    logger = logging.getLogger()
+    formatter = logging.Formatter("%(message)s")
+    handler1 = logging.FileHandler(filename=f"{vis_path}/informations.log", mode="w")
+    handler1.setFormatter(formatter)
+    logger = logging.getLogger("Information Logger")
     logger.setLevel(logging.INFO)
+    logger.addHandler(handler1)
+
     vis.setLogger(logger)
 
+    handler2 = logging.FileHandler(filename=f"{vis_path}/parameters.log", mode="w")
+    handler2.setFormatter(formatter)
+    parameter_logger = logging.getLogger("Parameter Logger")
+    parameter_logger.setLevel(logging.INFO)
+    parameter_logger.addHandler(handler2)
+
     logger.info(f"Dataset_Path: {path}")
+    parameter_logger.info(f"Dataset_Path: {path}")
     logger.info(f"Dataset_name: {dataset_name}")
+    parameter_logger.info(f"Dataset_name: {dataset_name}")
     logger.info(f"Variant_name: {variant_name}")
+    parameter_logger.info(f"Variant_name: {variant_name}")
     logger.info(f"Visualisation_Path: {vis_path}")
+    parameter_logger.info(f"Visualisation_Path: {vis_path}")
 
     if variant_name == "Variant_01_PCA_KMeans":
-        Variant_01_PCA_KMeans(path, vis, logger)
+        Variant_01_PCA_KMeans(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_02_Autoencoder_KMeans":
-        Variant_02_Autoencoder_KMeans(path, vis, logger)
+        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_03_PCA_QLearning":
-        Variant_03_PCA_QLearning(path, vis, logger)
+        Variant_03_PCA_QLearning(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_04_Offline_Autoencoder_QLearning":
-        Variant_04_Offline_Autoencoder_QLearning(path, vis, logger)
+        Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning":
-        Variant_05_Online_Autoencoder_QLearning(path, vis, logger)
+        Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger)
 
 
 if __name__ == '__main__':

@@ -11,38 +11,52 @@ from torch import nn
 
 
 class Variant_05_Online_Autoencoder_QLearning(object):
-    def __init__(self, path, vis, logger,
-                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1,
+    def __init__(self, path, vis, logger, parameter_logger,
+                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, seed=0,
                  maxAutoencoderTraining=300, maxTraining=1000):
         self.path = path
         self.vis = vis
         self.logger = logger
+        self.parameter_logger = parameter_logger
         self.chooseAutoencoder = chooseAutoencoder
         self.split_ratio = split_ratio
+        self.parameter_logger.info(f"Split Ratio: {self.split_ratio}")
         self.epochs = epochs
+        self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
+        self.parameter_logger.info(f"Batch Size: {self.batch_size}")
+        self.seed = seed
+        self.parameter_logger.info(f"Seed: {self.seed}")
         self.maxAutoencoderTraining = maxAutoencoderTraining
+        self.parameter_logger.info(f"maximal Spikes for Autoencoder Training : {self.maxAutoencoderTraining}")
         self.maxTraining = maxTraining
+        self.parameter_logger.info(f"maximal Spikes for Training: {self.maxTraining}")
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
         self.input_size = len(self.data.aligned_spikes[0])
-        self.logger.info(f"Input Size: {self.input_size}")
+        self.parameter_logger.info(f"Input Size: {self.input_size}")
+
         self.autoencoder_models = {
             1: Autoencoder(self.input_size),
             2: ConvolutionalAutoencoder(self.input_size)
         }
         self.autoencoder = self.autoencoder_models[self.chooseAutoencoder]
         self.logger.info(self.autoencoder)
+
         self.loss_function = nn.MSELoss()
+        self.parameter_logger.info(self.loss_function)
+
         self.optimizer = torch.optim.Adam(self.autoencoder.parameters(), lr=1e-3)
+        self.parameter_logger.info(self.optimizer)
+
         self.templates = Templates()
-        self.ql = Q_Learning()
+        self.ql = Q_Learning(self.parameter_logger)
 
         self.preprocessing()
 
     def preprocessing(self):
-        torch.manual_seed(0)
+        torch.manual_seed(self.seed)
         train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
         self.logger.info(f"Train Index: {train_idx}")
 
@@ -90,7 +104,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
     def train(self, batch):
         self.autoencoder.train()
         for X in batch:
-            # Compute prediction error
+            # Compute reconstruction error
             reconstructed_spike, encoded_features = self.autoencoder(X)
             loss = self.loss_function(reconstructed_spike, X)
 

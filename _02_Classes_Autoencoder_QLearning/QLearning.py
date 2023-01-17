@@ -1,13 +1,14 @@
 from math import ceil
-from random import randint, random, choice
+from random import randint, choice
 import numpy as np
-from numpy import mean
 from numpy.random import uniform
 
 
 class Q_Learning(object):
-    def __init__(self, punishment_coefficient=0.27, alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
+    def __init__(self, parameter_logger, punishment_coefficient=0.27, alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
                  episode_number_coefficient=1.4, random_features_number=20, planning_number=20):
+        self.parameter_logger = parameter_logger
+        self.parameter_logger.info("---Q Learning Parameters---")
         self.q_table = {
             "new_cluster": [0]
         }
@@ -22,13 +23,21 @@ class Q_Learning(object):
         self.spikes = []
         self.clusters = []
         self.punishment_coefficient = punishment_coefficient
+        self.parameter_logger.info(f"Punishment Coefficient: {self.punishment_coefficient}")
         self.alpha = alpha
+        self.parameter_logger.info(f"Alpha: {self.alpha}")
         self.epsilon = epsilon
+        self.parameter_logger.info(f"Epsilon: {self.epsilon}")
         self.gamma = gamma
+        self.parameter_logger.info(f"Gamma: {self.gamma}")
         self.episode_number = episode_number
+        self.parameter_logger.info(f"Initial Episode Number: {self.episode_number}")
         self.episode_number_coefficient = episode_number_coefficient
+        self.parameter_logger.info(f"Episode Number Coefficient: {self.episode_number_coefficient}")
         self.random_features_number = random_features_number
+        self.parameter_logger.info(f"Number of Random Features: {self.random_features_number}")
         self.planning_number = planning_number
+        self.parameter_logger.info(f"Planning Number: {self.planning_number}")
 
     def reset_q_learning(self):
         self.q_table = {
@@ -85,6 +94,7 @@ class Q_Learning(object):
         self.randomFeatures[new_key] = [[], []]
         self.clusters_number += 1
         self.episode_number = self.computeEpisodeNumber()
+        self.parameter_logger.info(f"New Episode Number: {self.episode_number}")
 
     def addToFeatureSet(self, spike):
         self.features[0].append(spike[0])
