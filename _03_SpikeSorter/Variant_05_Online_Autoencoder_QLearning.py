@@ -44,6 +44,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.autoencoder = self.autoencoder_models[self.chooseAutoencoder][1]
         self.parameter_logger.info(f"Chosen Model: {self.autoencoder_models[self.chooseAutoencoder][0]}")
         self.parameter_logger.info(self.autoencoder)
+        self.optimisingAutoencoder = self.autoencoder_models[self.chooseAutoencoder][1]
 
         self.loss_function = nn.MSELoss()
         self.parameter_logger.info(self.loss_function)
@@ -85,7 +86,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
             print(f"Spike: {t}\n-------------------------------")
             if t < self.maxAutoencoderTraining:
                 for _ in range(self.epochs):
-                    self.train(X)
+                    self.train(X, self.autoencoder)
                 t += 1
             elif firstTwoSpikes < 2:
                 _, encoded_features = self.autoencoder(X)
@@ -94,6 +95,9 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 firstTwoSpikes += 1
                 t += 1
             elif t < self.maxTraining:
+                if t % 100 == 0:
+                    self.autoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
+                    print(f"{t}: Model updated")
                 self.trainAutoencoderWithQLearning(X)
                 t += 1
             else:
@@ -102,11 +106,11 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.test(test_dl, y_test)
         self.logger.info("Done!")
 
-    def train(self, batch):
-        self.autoencoder.train()
+    def train(self, batch, model):
+        model.train()
         for X in batch:
             # Compute reconstruction error
-            reconstructed_spike, encoded_features = self.autoencoder(X)
+            reconstructed_spike, encoded_features = model(X)
             loss = self.loss_function(reconstructed_spike, X)
 
             # Backpropagation
@@ -118,6 +122,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
             loss = loss.item()
             self.logger.info(f"loss: {loss:>7f}")
             print(f"loss: {loss:>7f}")
+        torch.save(model.state_dict(), f"{self.vis.path}/model.pt")
 
     def trainAutoencoderWithQLearning(self, spike):
         _, encoded_features = self.autoencoder(spike)
@@ -130,7 +135,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 batch.append(spike)
             else:
                 batch.append(self.templates.template_list[c_index])
-        self.train(batch)
+        self.optimisingAutoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
+        self.train(batch, self.optimisingAutoencoder)
 
     def test(self, dataloader, y_test):
         self.ql.reset_q_learning()
