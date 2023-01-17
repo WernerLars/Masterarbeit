@@ -38,11 +38,12 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.parameter_logger.info(f"Input Size: {self.input_size}")
 
         self.autoencoder_models = {
-            1: Autoencoder(self.input_size),
-            2: ConvolutionalAutoencoder(self.input_size)
+            1: ["Autoencoder", Autoencoder(self.input_size)],
+            2: ["Convolutional Autoencoder", ConvolutionalAutoencoder(self.input_size)]
         }
-        self.autoencoder = self.autoencoder_models[self.chooseAutoencoder]
-        self.logger.info(self.autoencoder)
+        self.autoencoder = self.autoencoder_models[self.chooseAutoencoder][1]
+        self.parameter_logger.info(f"Chosen Model: {self.autoencoder_models[self.chooseAutoencoder][0]}")
+        self.parameter_logger.info(self.autoencoder)
 
         self.loss_function = nn.MSELoss()
         self.parameter_logger.info(self.loss_function)
