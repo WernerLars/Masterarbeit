@@ -145,4 +145,4 @@ class Variant_02_Autoencoder_KMeans(object):
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y,
                                      kmeans.labels_, kmeans.cluster_centers_)
 
-        self.vis.printConfusionMatrix(cluster_labels, kmeans.labels_, np.unique(y_test))
+        self.vis.printMetrics(cluster_labels, kmeans.labels_, np.unique(y_test))

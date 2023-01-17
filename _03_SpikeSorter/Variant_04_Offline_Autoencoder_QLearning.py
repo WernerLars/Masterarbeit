@@ -143,4 +143,4 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         centroids = self.vis.getClusterCenters(encoded_features_list, self.ql.clusters)
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, self.ql.clusters, centroids)
 
-        self.vis.printConfusionMatrix(cluster_labels, self.ql.clusters, np.unique(cluster_labels))
+        self.vis.printMetrics(cluster_labels, self.ql.clusters, np.unique(cluster_labels))

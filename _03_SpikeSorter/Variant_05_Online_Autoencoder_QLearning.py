@@ -12,7 +12,8 @@ from torch import nn
 
 class Variant_05_Online_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger,
-                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, maxAutoencoderTraining=300):
+                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1,
+                 maxAutoencoderTraining=300, maxTraining=1000):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -21,6 +22,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.epochs = epochs
         self.batch_size = batch_size
         self.maxAutoencoderTraining = maxAutoencoderTraining
+        self.maxTraining = maxTraining
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
@@ -70,14 +72,17 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 for _ in range(self.epochs):
                     self.train(X)
                 t += 1
+            elif firstTwoSpikes < 2:
+                _, encoded_features = self.autoencoder(X)
+                with torch.no_grad():
+                    self.ql.addToFeatureSet(encoded_features.numpy()[0])
+                firstTwoSpikes += 1
+                t += 1
+            elif t < self.maxTraining:
+                self.trainAutoencoderWithQLearning(X)
+                t += 1
             else:
-                if firstTwoSpikes < 2:
-                    _, encoded_features = self.autoencoder(X)
-                    with torch.no_grad():
-                        self.ql.addToFeatureSet(encoded_features.numpy()[0])
-                    firstTwoSpikes += 1
-                else:
-                    self.trainAutoencoderWithQLearning(X)
+                break
 
         self.test(test_dl, y_test)
         self.logger.info("Done!")
@@ -110,7 +115,6 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 batch.append(spike)
             else:
                 batch.append(self.templates.template_list[c_index])
-        print(f"Mini-Batch: {batch}")
         self.train(batch)
 
     def test(self, dataloader, y_test):
@@ -170,4 +174,4 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         centroids = self.vis.getClusterCenters(encoded_features_list, self.ql.clusters)
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, self.ql.clusters, centroids)
 
-        self.vis.printConfusionMatrix(cluster_labels, self.ql.clusters, np.unique(cluster_labels))
+        self.vis.printMetrics(cluster_labels, self.ql.clusters, np.unique(cluster_labels))

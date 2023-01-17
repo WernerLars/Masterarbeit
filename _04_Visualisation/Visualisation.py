@@ -91,13 +91,7 @@ class Visualisation(object):
             plt.ylabel("Losses")
             plt.savefig(f"{self.path}/lossCurveEpoch{epoch}.png")
 
-    def printConfusionMatrix(self, ground_truth, predictions, labels):
-        cm = contingency_matrix(ground_truth, predictions)
-        self.logger.info("Contingency Matrix: ")
-        self.logger.info(cm)
-        print("Contingency Matrix: ")
-        print(cm)
-
+    def printContingencyMatrix(self, cm, predictions, labels):
         plt.figure(figsize=(12, 6))
         plt.imshow(cm, interpolation="nearest")
         for (j, i), label in np.ndenumerate(cm):
@@ -115,19 +109,84 @@ class Visualisation(object):
         plt.ylabel("True label", fontsize=13)
         plt.savefig(f"{self.path}/contingency_matrix.png")
 
-        mapping = []
+    def deleteContingencyMatrixColumns(self, cm, ground_truth, predictions):
+        max_column_values = []
+        number_of_true_labels = len(np.unique(ground_truth))
         for predicted in range(0, len(np.unique(predictions))):
+            get_column_values = []
+            for true in range(0, number_of_true_labels):
+                get_column_values.append(cm[true][predicted])
+            max_column_values.append(max(get_column_values))
+
+        self.logger.info(f"Max_Column_Values: {max_column_values}")
+        print(f"Max_Column_Values: {max_column_values}")
+
+        max_column_indexes = []
+        for _ in range(0, number_of_true_labels):
+            highest_value_index = np.argmax(max_column_values)
+            max_column_values[highest_value_index] = -1
+            max_column_indexes.append(highest_value_index)
+
+        self.logger.info(f"Max_Column_Indexes: {max_column_indexes}")
+        print(f"Max_Column_Indexes: {max_column_indexes}")
+
+        new_cm = []
+        for true in range(0, number_of_true_labels):
+            new_values = []
+            for predicted in range(0, len(np.unique(predictions))):
+                if predicted in max_column_indexes:
+                    new_values.append(cm[true][predicted])
+            new_cm.append(new_values)
+
+        self.logger.info(f"New Contingency Matrix: {new_cm}")
+        print(f"New Contingency Matrix: {new_cm}")
+
+        self.logger.info(f"Before Deletion:")
+        print("Before Deletion:")
+        self.logger.info(f"Ground Truth Length: {len(ground_truth)}")
+        print(f"Ground Truth Length: {len(ground_truth)}")
+        self.logger.info(f"Predictions Length: {len(predictions)}")
+        print(f"Predictions Length: {len(predictions)}")
+
+        new_ground_truth = []
+        new_predictions = []
+        for index in range(0, len(ground_truth)):
+            if predictions[index] in max_column_indexes:
+                new_ground_truth.append(ground_truth[index])
+                new_predictions.append(predictions[index])
+
+        self.logger.info(f"After Deletion:")
+        print(f"After Deletion:")
+        self.logger.info(f"Ground Truth Length: {len(new_ground_truth)}")
+        print(f"Ground Truth Length: {len(new_ground_truth)}")
+        self.logger.info(f"Predictions Length: {len(new_predictions)}")
+        print(f"Predictions Length: {len(new_predictions)}")
+
+        return new_cm, new_ground_truth, new_predictions
+
+    def printMetrics(self, ground_truth, predictions, labels):
+        cm = contingency_matrix(ground_truth, predictions)
+        self.logger.info("Contingency Matrix: ")
+        self.logger.info(cm)
+        print("Contingency Matrix: ")
+        print(cm)
+        self.printContingencyMatrix(cm, predictions, labels)
+
+        cm, ground_truth, predictions = self.deleteContingencyMatrixColumns(cm, ground_truth, predictions)
+
+        mapping = {}
+        for index, predicted in enumerate(sorted(np.unique(predictions))):
             get_truth_values = []
             for true in labels:
-                get_truth_values.append(cm[true][predicted])
-            mapping.append(np.argmax(get_truth_values))
+                get_truth_values.append(cm[true][index])
+            mapping[str(predicted)] = np.argmax(get_truth_values)
 
         self.logger.info(f"Mapping: {mapping}")
         print(f"Mapping: {mapping}")
 
         predictions_mapping = []
         for prediction in predictions:
-            predictions_mapping.append(mapping[prediction])
+            predictions_mapping.append(mapping[str(prediction)])
 
         cm_mapping = confusion_matrix(ground_truth, predictions_mapping, labels=labels)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm_mapping, display_labels=labels)
@@ -144,3 +203,4 @@ class Visualisation(object):
         cr = classification_report(ground_truth, predictions_mapping, target_names=target_names)
         self.logger.info(cr)
         print(cr)
+

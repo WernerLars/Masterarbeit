@@ -47,6 +47,6 @@ class Variant_03_PCA_QLearning(object):
 
         centroids = self.vis.getClusterCenters(ql.spikes, ql.clusters)
         self.vis.visualisingClusters(x, y, ql.clusters, centroids)
-        self.vis.printConfusionMatrix(self.y_labels[:self.q_learning_size],
-                                      ql.clusters,
-                                      np.unique(self.y_labels[:self.q_learning_size]))
+        self.vis.printMetrics(self.y_labels[:self.q_learning_size],
+                              ql.clusters,
+                              np.unique(self.y_labels[:self.q_learning_size]))

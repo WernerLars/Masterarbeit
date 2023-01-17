@@ -46,4 +46,4 @@ class Variant_01_PCA_KMeans(object):
         centroids = self.vis.getClusterCenters(self.pca_transformed, kmeans.labels_)
 
         self.vis.visualisingClusters(x, y, kmeans.labels_, centroids)
-        self.vis.printConfusionMatrix(self.y_labels, kmeans.labels_, np.unique(self.y_labels))
+        self.vis.printMetrics(self.y_labels, kmeans.labels_, np.unique(self.y_labels))
