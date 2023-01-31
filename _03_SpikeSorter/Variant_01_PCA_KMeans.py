@@ -46,7 +46,10 @@ class Variant_01_PCA_KMeans(object):
             x.append(spike[0])
             y.append(spike[1])
 
-        centroids = self.vis.getClusterCenters(self.pca_transformed, kmeans.labels_)
+        centroids_true = self.vis.getClusterCenters(self.pca_transformed, self.y_labels)
+        centroids_kmeans = self.vis.getClusterCenters(self.pca_transformed, kmeans.labels_)
 
-        self.vis.visualisingClusters(x, y, kmeans.labels_, centroids)
+        self.vis.visualisingFeatures(x, y)
+        self.vis.visualisingClusters(x, y, self.y_labels, centroids_true, "true")
+        self.vis.visualisingClusters(x, y, kmeans.labels_, centroids_kmeans, "kmeans")
         self.vis.printMetrics(self.y_labels, kmeans.labels_, np.unique(self.y_labels))

@@ -49,8 +49,15 @@ class Variant_03_PCA_QLearning(object):
         self.logger.info(ql.clusters)
         self.logger.info(ql.randomFeatures)
 
-        centroids = self.vis.getClusterCenters(ql.spikes, ql.clusters)
-        self.vis.visualisingClusters(x, y, ql.clusters, centroids)
+        centroids_true = self.vis.getClusterCenters(ql.spikes,
+                                                    self.y_labels[:self.q_learning_size])
+        centroids_qlearning = self.vis.getClusterCenters(ql.spikes, ql.clusters)
+
+        self.vis.visualisingFeatures(x, y)
+        self.vis.visualisingClusters(x, y, self.y_labels[:self.q_learning_size]
+                                     , centroids_true, "true")
+        self.vis.visualisingClusters(x, y, ql.clusters, centroids_qlearning, "qlearning")
+
         self.vis.printMetrics(self.y_labels[:self.q_learning_size],
                               ql.clusters,
                               np.unique(self.y_labels[:self.q_learning_size]))

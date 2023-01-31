@@ -59,7 +59,12 @@ class Visualisation(object):
         self.logger.info(f"Centroids: {centroids}")
         return np.asarray(centroids)
 
-    def visualisingClusters(self, x, y, cluster, centroids=None):
+    def visualisingFeatures(self, x, y):
+        plt.figure(figsize=(8, 8))
+        plt.scatter(x, y, color="k")
+        plt.savefig(f"{self.path}/clusters_features.png")
+
+    def visualisingClusters(self, x, y, cluster, centroids=None, filename=""):
         plt.figure(figsize=(8, 8))
         unique_cluster = np.unique(cluster)
         for i in unique_cluster:
@@ -75,7 +80,7 @@ class Visualisation(object):
         else:
             plt.scatter(centroids[:, 0], centroids[:, 1], s=80, color='k', marker='+')
         plt.legend(loc="upper left")
-        plt.savefig(f"{self.path}/clusters.png")
+        plt.savefig(f"{self.path}/clusters_{filename}.png")
 
     def printLossCurve(self, loss_values, epoch=""):
         plt.figure(figsize=(6, 4))

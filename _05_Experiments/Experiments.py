@@ -10,8 +10,8 @@ import logging
 def main():
     datasets = {
         1: "../_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat",
-        2: "../_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat",
-        3: "../_00_Datasets/03_SimDaten_Quiroga2020/016_C_Easy1_noise005.mat"
+        2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
+        3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat"
     }
     variants = {
         1: "Variant_01_PCA_KMeans",
