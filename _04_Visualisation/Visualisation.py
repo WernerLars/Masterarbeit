@@ -9,16 +9,16 @@ from sklearn.metrics.cluster import contingency_matrix
 
 
 class Visualisation(object):
-    def __init__(self, variant_name, dataset_name):
+    def __init__(self, variant_name, dataset_name, exp_path=""):
         self.variant_name = variant_name
         self.dataset_name = dataset_name
         self.logger = None
         self.timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
-        if os.path.exists(f"{self.dataset_name[0]}_{self.dataset_name[1]}") is False:
-            os.mkdir(f"{self.dataset_name[0]}_{self.dataset_name[1]}")
-        if os.path.exists(f"{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}") is False:
-            os.mkdir(f"{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}")
-        self.path = f"{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}/{self.timestamp}"
+        if os.path.exists(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}") is False:
+            os.mkdir(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}")
+        if os.path.exists(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}") is False:
+            os.mkdir(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}")
+        self.path = f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}/{self.timestamp}"
         os.mkdir(self.path)
 
     def getVisualisationPath(self):
