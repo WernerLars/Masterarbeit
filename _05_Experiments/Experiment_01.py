@@ -13,8 +13,8 @@ import logging
 def main():
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
-        # 2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
-        # 3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat",
+        2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
+        3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat",
         # 4: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat",
         # 5: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise025.mat",
         # 6: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat",
