@@ -10,7 +10,8 @@ from sklearn.cluster import KMeans
 
 class Variant_02_Autoencoder_KMeans(object):
     def __init__(self, path, vis, logger, parameter_logger,
-                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, seed=0):
+                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, seed=0,
+                 number_of_features=2):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -28,11 +29,13 @@ class Variant_02_Autoencoder_KMeans(object):
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
         self.input_size = len(self.data.aligned_spikes[0])
+        self.number_of_features = number_of_features
         self.parameter_logger.info(f"Input Size: {self.input_size}")
 
         self.autoencoder_models = {
-            1: ["Autoencoder", Autoencoder(self.input_size)],
-            2: ["Convolutional Autoencoder", ConvolutionalAutoencoder(self.input_size)]
+            1: ["Autoencoder", Autoencoder(self.input_size, self.number_of_features)],
+            2: ["Convolutional Autoencoder", ConvolutionalAutoencoder(self.input_size,
+                                                                      self.number_of_features)]
         }
         self.autoencoder = self.autoencoder_models[self.chooseAutoencoder][1]
         self.parameter_logger.info(f"Chosen Model: {self.autoencoder_models[self.chooseAutoencoder][0]}")

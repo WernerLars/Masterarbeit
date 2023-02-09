@@ -31,7 +31,7 @@ class Variant_03_PCA_QLearning(object):
         self.logger.info(f"First Spike Frame after PCA: {self.pca_transformed[0]}")
 
     def clustering(self):
-        ql = Q_Learning(self.parameter_logger)
+        ql = Q_Learning(self.parameter_logger, self.pca_components)
         for s in range(0, 2):
             ql.addToFeatureSet(self.pca_transformed[s])
 

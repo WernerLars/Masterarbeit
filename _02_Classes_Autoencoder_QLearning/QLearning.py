@@ -1,3 +1,4 @@
+import random
 from math import ceil
 from random import randint, choice
 import numpy as np
@@ -5,9 +6,13 @@ from numpy.random import uniform
 
 
 class Q_Learning(object):
-    def __init__(self, parameter_logger, punishment_coefficient=0.27, alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
+    def __init__(self, parameter_logger, number_of_features, punishment_coefficient=0.26,
+                 alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
                  episode_number_coefficient=1.4, random_features_number=20, planning_number=20):
         self.parameter_logger = parameter_logger
+        self.number_of_features = number_of_features
+        np.random.seed(0)
+        random.seed(0)
         self.parameter_logger.info("---Q Learning Parameters---")
         self.q_table = {
             "new_cluster": [0]
@@ -16,7 +21,7 @@ class Q_Learning(object):
             "new_cluster": [[0, ""]]
         }
         self.randomFeatures = {}
-        self.features = [[], []]
+        self.features = [[] for _ in range(self.number_of_features)]
         self.states = ["new_cluster"]
         self.actions = [0]
         self.clusters_number = 0
@@ -47,7 +52,7 @@ class Q_Learning(object):
             "new_cluster": [[0, ""]]
         }
         self.randomFeatures = {}
-        self.features = [[], []]
+        self.features = [[] for _ in range(self.number_of_features)]
         self.states = ["new_cluster"]
         self.actions = [0]
         self.clusters_number = 0
@@ -91,18 +96,18 @@ class Q_Learning(object):
 
         self.states.append(new_key)
         self.actions.append(state_length)
-        self.randomFeatures[new_key] = [[], []]
+        self.randomFeatures[new_key] = [[] for _ in range(self.number_of_features)]
         self.clusters_number += 1
         self.episode_number = self.computeEpisodeNumber()
         self.parameter_logger.info(f"New Episode Number: {self.episode_number}")
 
     def addToFeatureSet(self, spike):
-        self.features[0].append(spike[0])
-        self.features[1].append(spike[1])
+        for i in range(0, self.number_of_features):
+            self.features[i].append(spike[i])
 
     def normaliseFeatures(self, spike):
         features_normalised = np.zeros(len(spike))
-        for i in range(0, len(spike)):
+        for i in range(0, self.number_of_features):
             features_normalised[i] = (spike[i]) / (max(self.features[i]) - min(self.features[i]))
         return features_normalised
 
@@ -125,12 +130,12 @@ class Q_Learning(object):
             feature_selection.append(self.randomFeatures[f"c{action}"][i][random_indexes[j]])
         return feature_selection
 
-    def computeReward(self, action, features_numbers, features_normalised):
+    def computeReward(self, action, features_normalised):
         if action == 0:
-            return -(self.punishment_coefficient * features_numbers) ** 2
+            return -(self.punishment_coefficient * self.number_of_features) ** 2
         else:
             feature_sum = 0
-            for i in range(0, features_numbers):
+            for i in range(0, self.number_of_features):
                 features_selected = self.selectRandomFeatures(action, i)
                 feature_sum += (features_normalised[i] - np.mean(features_selected)) ** 2
             return -feature_sum
@@ -142,14 +147,14 @@ class Q_Learning(object):
             cluster = self.clusters_number - 1
             self.spikes.append(spike)
             self.clusters.append(cluster)
-            for i in range(0, len(spike)):
+            for i in range(0, self.number_of_features):
                 self.randomFeatures[f"c{cluster + 1}"][i] = np.append(self.randomFeatures[f"c{cluster + 1}"][i],
                                                                       spike[i])
         else:
             cluster = max_action - 1
             self.spikes.append(spike)
             self.clusters.append(cluster)
-            for i in range(0, len(spike)):
+            for i in range(0, self.number_of_features):
                 self.randomFeatures[f"c{cluster + 1}"][i] = np.append(self.randomFeatures[f"c{cluster + 1}"][i],
                                                                       spike[i])
         return cluster
@@ -165,7 +170,7 @@ class Q_Learning(object):
 
         while counter <= self.episode_number:
             a = self.epsilonGreedy(s)
-            r = self.computeReward(a, len(feature_normalised), feature_normalised)
+            r = self.computeReward(a, feature_normalised)
             s_new = self.states[a]
             max_action = np.max(self.q_table[s_new])
             value = self.q_table[s][a] + self.alpha * (r + (self.gamma * max_action) - self.q_table[s][a])

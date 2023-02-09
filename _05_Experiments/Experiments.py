@@ -9,9 +9,10 @@ import logging
 
 def main():
     datasets = {
-        1: "../_00_Datasets/01_SimDaten_Martinez2009/simulation_1.mat",
-        2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
-        3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat"
+        1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
+        2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat",
+        3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat",
+        4: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat"
     }
     variants = {
         1: "Variant_01_PCA_KMeans",
@@ -21,9 +22,9 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    path = datasets[3]
+    path = datasets[4]
     dataset_name = path[16:].split("/")
-    variant_name = variants[5]
+    variant_name = variants[1]
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
 
