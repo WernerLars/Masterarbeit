@@ -1,11 +1,13 @@
 import os
 
 import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
 
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Experiment_01_2023_02_09-22_51_34"
+        self.experiment_path = "../_05_Experiments/Experiment_01_2023_02_10-11_24_37"
         self.filename = "informations.log"
         self.dataset_names = []
         self.variant_names = []
@@ -21,7 +23,7 @@ class Tables(object):
                     accuracy = round(float(split[1]), 4)
                 elif line.startswith("Variant_name:"):
                     split = line.split(":")
-                    variant_name = split[1][12:-2]
+                    variant_name = split[1][12:-1]
                     if variant_name not in self.variant_names:
                         self.variant_names.append(variant_name)
                 elif line.startswith("Dataset_Path:"):
@@ -37,7 +39,11 @@ class Tables(object):
         df = pd.DataFrame(self.accuracys,
                           index=self.dataset_names,
                           columns=self.variant_names)
-        print(df)
+        plt.figure(figsize=(20, 6))
+        sns.heatmap(df, cmap="Greens", annot=True)
+        plt.xticks(rotation=0)
+        plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
+        #df.to_csv(f"{self.experiment_path}/AccuracyTable.csv")
         #print(df.to_latex())
 
     def printAccuracyGraph(self):

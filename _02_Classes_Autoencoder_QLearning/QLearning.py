@@ -6,7 +6,7 @@ from numpy.random import uniform
 
 
 class Q_Learning(object):
-    def __init__(self, parameter_logger, number_of_features, punishment_coefficient=0.26,
+    def __init__(self, parameter_logger, number_of_features, punishment_coefficient=0.27,
                  alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
                  episode_number_coefficient=1.4, random_features_number=20, planning_number=20):
         self.parameter_logger = parameter_logger

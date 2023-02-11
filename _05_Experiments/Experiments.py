@@ -12,7 +12,8 @@ def main():
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
         2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat",
         3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat",
-        4: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat"
+        4: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat",
+        5: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat"
     }
     variants = {
         1: "Variant_01_PCA_KMeans",
@@ -22,9 +23,9 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    path = datasets[1]
+    path = datasets[5]
     dataset_name = path[16:].split("/")
-    variant_name = variants[1]
+    variant_name = variants[4]
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
 

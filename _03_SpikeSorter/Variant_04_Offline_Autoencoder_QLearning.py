@@ -25,6 +25,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
         self.seed = seed
+        torch.manual_seed(self.seed)
         self.parameter_logger.info(f"Seed: {self.seed}")
 
         self.dataset = LoadDataset(self.path, self.logger)
@@ -53,7 +54,6 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.preprocessing()
 
     def preprocessing(self):
-        torch.manual_seed(self.seed)
         train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
         self.logger.info(f"Train Index: {train_idx}")
 

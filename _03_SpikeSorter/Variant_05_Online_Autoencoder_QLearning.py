@@ -27,6 +27,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
         self.seed = seed
+        torch.manual_seed(self.seed)
         self.parameter_logger.info(f"Seed: {self.seed}")
         self.maxAutoencoderTraining = maxAutoencoderTraining
         self.parameter_logger.info(f"maximal Spikes for Autoencoder Training : {self.maxAutoencoderTraining}")
@@ -61,7 +62,6 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.preprocessing()
 
     def preprocessing(self):
-        torch.manual_seed(self.seed)
         train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
         self.logger.info(f"Train Index: {train_idx}")
 
