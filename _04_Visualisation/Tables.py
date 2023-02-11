@@ -47,7 +47,16 @@ class Tables(object):
         #print(df.to_latex())
 
     def printAccuracyGraph(self):
-        return
+        plt.figure(figsize=(20, 14))
+        for i, variant in enumerate(self.variant_names):
+            graph = []
+            for array in self.accuracys:
+                graph.append(array[i])
+            plt.plot(self.dataset_names, graph, label=variant, marker="o", markersize=12)
+        plt.xticks(rotation=64)
+        plt.legend(loc="lower right")
+        plt.title("Accuracy Graph", fontsize=20)
+        plt.savefig(f"{self.experiment_path}/AccuracyGraph.png")
 
 
 def main():
@@ -61,6 +70,7 @@ def main():
     print(tables.dataset_names)
     print(tables.variant_names)
     tables.printAccuracyTable()
+    tables.printAccuracyGraph()
 
 
 if __name__ == '__main__':
