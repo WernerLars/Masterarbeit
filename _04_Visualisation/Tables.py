@@ -40,7 +40,7 @@ class Tables(object):
                           index=self.dataset_names,
                           columns=self.variant_names)
         plt.figure(figsize=(20, 6))
-        sns.heatmap(df, cmap="Greens", annot=True)
+        sns.heatmap(df, cmap="Spectral", annot=True)
         plt.xticks(rotation=0)
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
         #df.to_csv(f"{self.experiment_path}/AccuracyTable.csv")

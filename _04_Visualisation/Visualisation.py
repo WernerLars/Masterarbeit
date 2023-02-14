@@ -59,10 +59,10 @@ class Visualisation(object):
         self.logger.info(f"Centroids: {centroids}")
         return np.asarray(centroids)
 
-    def visualisingFeatures(self, x, y):
+    def visualisingFeatures(self, x, y, filename=""):
         plt.figure(figsize=(8, 8))
         plt.scatter(x, y, color="k")
-        plt.savefig(f"{self.path}/clusters_features.png")
+        plt.savefig(f"{self.path}/clusters_features{filename}.png")
 
     def visualisingClusters(self, x, y, cluster, centroids=None, filename=""):
         plt.figure(figsize=(8, 8))

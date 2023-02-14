@@ -100,5 +100,6 @@ def main():
             logger.removeHandler(handler1)
             parameter_logger.removeHandler(handler2)
 
+
 if __name__ == '__main__':
     main()
