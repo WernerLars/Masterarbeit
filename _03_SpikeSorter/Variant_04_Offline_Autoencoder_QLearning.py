@@ -131,7 +131,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
             # First Two Spikes are just added to FeatureSet to make normalisation work
             with torch.no_grad():
-                if firstTwoSpikes < 2:
+                if firstTwoSpikes < 2 and self.normalise:
                     self.ql.addToFeatureSet(encoded_features.numpy()[0])
                     firstTwoSpikes += 1
                 else:

@@ -13,9 +13,9 @@ from torch import nn
 class Variant_05_Online_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False,
                  chooseAutoencoder=1, epochs=8, batch_size=1, seed=0,
-                 maxAutoencoderTraining=100, maxTraining=200,
+                 maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
-                 punishment_coefficient=0.3):
+                 punishment_coefficient=1):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -120,8 +120,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         if self.firstTwoSpikes < 2 and self.normalise:
             with torch.no_grad():
                 self.ql.addToFeatureSet(encoded_features.numpy()[0])
-                batch = X
-                self.firstTwoSpikes += 1
+            batch = X
+            self.firstTwoSpikes += 1
         else:
             with torch.no_grad():
                 cluster = self.ql.dynaQAlgorithm(encoded_features.numpy()[0])
@@ -139,13 +139,14 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                                                            str(true_label))
                     self.visualise[true_label] = False
 
-                self.templates.computeMeanTemplate(X, cluster)
-                batch = []
-                for c_index in range(0, len(self.templates.template_list)):
-                    if c_index == cluster:
-                        batch.append(X)
-                    else:
-                        batch.append(self.templates.template_list[c_index])
+            self.templates.computeMeanTemplate(X, cluster)
+            batch = []
+            for c_index in range(0, len(self.templates.template_list)):
+                if c_index == cluster:
+                    batch.append(X)
+                else:
+                    batch.append(self.templates.template_list[c_index])
+
         self.optimisingAutoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
         self.train(batch, self.optimisingAutoencoder)
 
