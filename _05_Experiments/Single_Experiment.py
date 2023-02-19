@@ -40,9 +40,9 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    path = datasets[12]
+    path = datasets[1]
     dataset_name = path[16:].split("/")
-    variant_name = variants[4]
+    variant_name = variants[3]
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
 
@@ -75,7 +75,7 @@ def main():
     elif variant_name == "Variant_02_Autoencoder_KMeans":
         Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_03_PCA_QLearning":
-        Variant_03_PCA_QLearning(path, vis, logger, parameter_logger, q_learning_size=300)
+        Variant_03_PCA_QLearning(path, vis, logger, parameter_logger, q_learning_size=300, normalise=False)
     elif variant_name == "Variant_04_Offline_Autoencoder_QLearning":
         Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning":

@@ -10,7 +10,7 @@ from torch import nn
 
 
 class Variant_04_Offline_Autoencoder_QLearning(object):
-    def __init__(self, path, vis, logger, parameter_logger,
+    def __init__(self, path, vis, logger, parameter_logger, normalise=False,
                  chooseAutoencoder=1, split_ratio=0.9, epochs=8, batch_size=1, seed=0,
                  number_of_features=2,
                  punishment_coefficient=0.51):
@@ -18,6 +18,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.vis = vis
         self.logger = logger
         self.parameter_logger = parameter_logger
+        self.normalise = normalise
         self.chooseAutoencoder = chooseAutoencoder
         self.split_ratio = split_ratio
         self.parameter_logger.info(f"Split Ratio: {self.split_ratio}")
@@ -52,6 +53,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.parameter_logger.info(self.optimizer)
 
         self.ql = Q_Learning(self.parameter_logger, self.number_of_features,
+                             normalise=self.normalise,
                              punishment_coefficient=punishment_coefficient)
 
         self.preprocessing()
@@ -160,23 +162,24 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
         centroids_true = self.vis.getClusterCenters(encoded_features_list, cluster_labels)
         centroids_qlearning = self.vis.getClusterCenters(encoded_features_list, self.ql.clusters)
-        #centroids_qlearning_normalised = self.vis.getClusterCenters(self.ql.spikes, self.ql.clusters)
 
         self.vis.visualisingFeatures(encoded_features_X, encoded_features_Y)
-        #x_norm = []
-        #y_norm = []
-        #for features_normalised in self.ql.spikes:
-         #   x_norm.append(features_normalised[0])
-          #  y_norm.append(features_normalised[1])
-        #self.vis.visualisingFeatures(x_norm, y_norm, "_normalised")
+
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, cluster_labels,
                                      centroids_true, "true")
-        #self.vis.visualisingClusters(x_norm, y_norm, cluster_labels,
-         #                            filename="true_normalised")
-
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, self.ql.clusters,
                                      centroids_qlearning, "qlearning")
-        #self.vis.visualisingClusters(x_norm, y_norm, self.ql.clusters,
-         #                            centroids_qlearning_normalised, "qlearning_normalised")
-
         self.vis.printMetrics(cluster_labels, self.ql.clusters, np.unique(cluster_labels))
+
+        if self.normalise:
+            centroids_qlearning_normalised = self.vis.getClusterCenters(self.ql.spikes, self.ql.clusters)
+            x_norm = []
+            y_norm = []
+            for features_normalised in self.ql.spikes:
+                x_norm.append(features_normalised[0])
+                y_norm.append(features_normalised[1])
+            self.vis.visualisingFeatures(x_norm, y_norm, "_normalised")
+            self.vis.visualisingClusters(x_norm, y_norm, cluster_labels,
+                                         filename="true_normalised")
+            self.vis.visualisingClusters(x_norm, y_norm, self.ql.clusters,
+                                         centroids_qlearning_normalised, "qlearning_normalised")

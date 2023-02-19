@@ -54,38 +54,18 @@ class Variant_02_Autoencoder_KMeans(object):
         self.preprocessing()
 
     def preprocessing(self):
-        # train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
-        # self.logger.info(f"Train Index: {train_idx}")
-        #
-        # x_train = self.data.aligned_spikes[0:train_idx]
-        # y_train = self.y_labels[0:train_idx]
-        # x_test = self.data.aligned_spikes[train_idx:]
-        # y_test = self.y_labels[train_idx:]
-        #
-        # self.logger.info(f"x_train: {len(x_train)}")
-        # self.logger.info(f"y_train: {len(y_train)}")
-        # self.logger.info(f"x_test: {len(x_test)}")
-        # self.logger.info(f"y_test: {len(y_test)}")
-        #
-        # train_d = SpikeClassToPytorchDataset(x_train, y_train)
-        # train_dl = DataLoader(train_d, batch_size=self.batch_size)
-        # self.logger.info(train_dl)
-        # test_d = SpikeClassToPytorchDataset(x_test, y_test)
-        # test_dl = DataLoader(test_d, batch_size=self.batch_size)
-        # self.logger.info(test_dl)
-
         data = SpikeClassToPytorchDataset(self.data.aligned_spikes, self.y_labels)
         dataloader = DataLoader(data, batch_size=self.batch_size)
+        self.logger.info(dataloader)
 
         for t in range(self.epochs):
             self.logger.info(f"Epoch {t + 1}\n-------------------------------")
             print(f"Epoch {t + 1}\n-------------------------------")
-            #self.train(train_dl)
             self.train(dataloader)
             self.vis.printLossCurve(self.epoch_loss, t+1)
 
         self.vis.printLossCurve(self.loss_values)
-        self.test(dataloader, self.y_labels)
+        self.clustering(dataloader, self.y_labels)
         self.logger.info("Done!")
 
     def train(self, train_dataloader):
@@ -111,7 +91,7 @@ class Variant_02_Autoencoder_KMeans(object):
                 print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
         self.loss_values.append(sum(self.epoch_loss)/len(train_dataloader))
 
-    def test(self, dataloader, y_test):
+    def clustering(self, dataloader, y_test):
         encoded_features_list = []
         encoded_features_X = []
         encoded_features_Y = []

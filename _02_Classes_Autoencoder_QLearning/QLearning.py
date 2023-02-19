@@ -6,7 +6,7 @@ from numpy.random import uniform
 
 
 class Q_Learning(object):
-    def __init__(self, parameter_logger, number_of_features, punishment_coefficient=0.3,
+    def __init__(self, parameter_logger, number_of_features, normalise=False, punishment_coefficient=0.3,
                  alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
                  episode_number_coefficient=1.4, random_features_number=20, planning_number=20):
         self.parameter_logger = parameter_logger
@@ -27,6 +27,8 @@ class Q_Learning(object):
         self.clusters_number = 0
         self.spikes = []
         self.clusters = []
+        self.normalise = normalise
+        self.parameter_logger.info(f"Normalisation: {self.normalise}")
         self.punishment_coefficient = punishment_coefficient
         self.parameter_logger.info(f"Punishment Coefficient: {self.punishment_coefficient}")
         self.alpha = alpha
@@ -160,9 +162,11 @@ class Q_Learning(object):
         return cluster
 
     def dynaQAlgorithm(self, spike):
-        #self.addToFeatureSet(spike)
-        #feature_normalised = self.normaliseFeatures(spike)
-        feature_normalised = spike
+        if self.normalise:
+            self.addToFeatureSet(spike)
+            features = self.normaliseFeatures(spike)
+        else:
+            features = spike
         self.reset_q_table()
         self.reset_model_table()
         s = choice(self.states)
@@ -171,7 +175,7 @@ class Q_Learning(object):
 
         while counter <= self.episode_number:
             a = self.epsilonGreedy(s)
-            r = self.computeReward(a, feature_normalised)
+            r = self.computeReward(a, features)
             s_new = self.states[a]
             max_action = np.max(self.q_table[s_new])
             value = self.q_table[s][a] + self.alpha * (r + (self.gamma * max_action) - self.q_table[s][a])
@@ -194,5 +198,5 @@ class Q_Learning(object):
             s = s_new
             counter += 1
 
-        cluster = self.addSpike(feature_normalised, s)
+        cluster = self.addSpike(features, s)
         return cluster

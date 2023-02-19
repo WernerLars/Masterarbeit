@@ -6,14 +6,15 @@ from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
 
 
 class Variant_03_PCA_QLearning(object):
-    def __init__(self, path, vis, logger, parameter_logger,
+    def __init__(self, path, vis, logger, parameter_logger, normalise=False,
                  pca_components=2, q_learning_size=None,
-                 punishment_coefficient=1):
+                 punishment_coefficient=1.5):
         self.path = path
         self.vis = vis
         self.logger = logger
         self.parameter_logger = parameter_logger
         self.pca_components = pca_components
+        self.normalise = normalise
         self.parameter_logger.info(f"PCA Components: {self.pca_components}")
         self.q_learning_size = q_learning_size
         self.parameter_logger.info(f"Q Learning Size: {q_learning_size}")
@@ -22,7 +23,9 @@ class Variant_03_PCA_QLearning(object):
         self.dataloader, self.y_labels = self.dataset.loadData()
         self.pca_transformed = []
 
-        self.ql = Q_Learning(self.parameter_logger, self.pca_components, punishment_coefficient=punishment_coefficient)
+        self.ql = Q_Learning(self.parameter_logger, self.pca_components,
+                             normalise=self.normalise,
+                             punishment_coefficient=punishment_coefficient)
 
         self.feature_extraction()
         self.clustering()
@@ -34,8 +37,9 @@ class Variant_03_PCA_QLearning(object):
         self.logger.info(f"First Spike Frame after PCA: {self.pca_transformed[0]}")
 
     def clustering(self):
-        #for s in range(0, 2):
-        #    self.ql.addToFeatureSet(self.pca_transformed[s])
+        if self.normalise:
+            for s in range(0, 2):
+                self.ql.addToFeatureSet(self.pca_transformed[s])
 
         x = []
         y = []
