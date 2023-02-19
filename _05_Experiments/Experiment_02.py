@@ -1,7 +1,7 @@
 import os
 import time
 
-from _03_SpikeSorter.Variant_01_PCA_KMeans import Variant_01_PCA_KMeans
+from _03_SpikeSorter.Variant_02_Autoencoder_KMeans import Variant_02_Autoencoder_KMeans
 from _04_Visualisation.Visualisation import Visualisation
 import logging
 
@@ -31,14 +31,16 @@ def main():
         21: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",
         22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat",
     }
-    variant_name = "Variant_01_PCA_KMeans"
-    exp_name = "Experiment_01"
+
+    variant_name = "Variant_02_Autoencoder_KMeans"
+    exp_name = "Experiment_02"
     print(exp_name)
     timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
     exp_path = f"{exp_name}_{timestamp}"
     os.mkdir(exp_path)
 
     for dataset in datasets:
+
         print(variant_name)
         print(datasets[dataset])
 
@@ -71,7 +73,7 @@ def main():
         logger.info(f"Visualisation_Path: {vis_path}")
         parameter_logger.info(f"Visualisation_Path: {vis_path}")
 
-        Variant_01_PCA_KMeans(path, vis, logger, parameter_logger)
+        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger)
 
         handler1.close()
         handler2.close()

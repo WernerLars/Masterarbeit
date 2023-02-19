@@ -7,7 +7,8 @@ from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
 
 class Variant_03_PCA_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger,
-                 pca_components=2, q_learning_size=300):
+                 pca_components=2, q_learning_size=None,
+                 punishment_coefficient=1):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -21,6 +22,8 @@ class Variant_03_PCA_QLearning(object):
         self.dataloader, self.y_labels = self.dataset.loadData()
         self.pca_transformed = []
 
+        self.ql = Q_Learning(self.parameter_logger, self.pca_components, punishment_coefficient=punishment_coefficient)
+
         self.feature_extraction()
         self.clustering()
 
@@ -31,33 +34,35 @@ class Variant_03_PCA_QLearning(object):
         self.logger.info(f"First Spike Frame after PCA: {self.pca_transformed[0]}")
 
     def clustering(self):
-        ql = Q_Learning(self.parameter_logger, self.pca_components)
-        for s in range(0, 2):
-            ql.addToFeatureSet(self.pca_transformed[s])
+        #for s in range(0, 2):
+        #    self.ql.addToFeatureSet(self.pca_transformed[s])
 
-        self.logger.info(f"Number of Spikes for Q_Learning: {self.q_learning_size}")
-        for s in range(0, self.q_learning_size):
-            ql.dynaQAlgorithm(self.pca_transformed[s])
-            self.logger.info(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
-            print(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
         x = []
         y = []
-        for spike in ql.spikes:
-            x.append(spike[0])
-            y.append(spike[1])
+        self.logger.info(f"Number of Spikes for Q_Learning: {self.q_learning_size}")
+        if self.q_learning_size is None:
+            self.q_learning_size = len(self.pca_transformed)
 
-        self.logger.info(ql.clusters)
-        self.logger.info(ql.randomFeatures)
+        for s in range(0, self.q_learning_size):
+            features = self.pca_transformed[s]
+            self.ql.dynaQAlgorithm(features)
+            self.logger.info(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
+            print(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
+            x.append(features[0])
+            y.append(features[1])
 
-        centroids_true = self.vis.getClusterCenters(ql.spikes,
+        self.logger.info(self.ql.clusters)
+        self.logger.info(self.ql.randomFeatures)
+
+        centroids_true = self.vis.getClusterCenters(self.pca_transformed,
                                                     self.y_labels[:self.q_learning_size])
-        centroids_qlearning = self.vis.getClusterCenters(ql.spikes, ql.clusters)
+        centroids_qlearning = self.vis.getClusterCenters(self.pca_transformed, self.ql.clusters)
 
         self.vis.visualisingFeatures(x, y)
         self.vis.visualisingClusters(x, y, self.y_labels[:self.q_learning_size]
                                      , centroids_true, "true")
-        self.vis.visualisingClusters(x, y, ql.clusters, centroids_qlearning, "qlearning")
+        self.vis.visualisingClusters(x, y, self.ql.clusters, centroids_qlearning, "qlearning")
 
         self.vis.printMetrics(self.y_labels[:self.q_learning_size],
-                              ql.clusters,
+                              self.ql.clusters,
                               np.unique(self.y_labels[:self.q_learning_size]))

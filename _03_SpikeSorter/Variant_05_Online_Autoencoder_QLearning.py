@@ -14,7 +14,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger,
                  chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, seed=0,
                  maxAutoencoderTraining=300, maxTraining=1000,
-                 number_of_features=2):
+                 number_of_features=2,
+                 punishment_coefficient=0.3):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -57,7 +58,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.parameter_logger.info(self.optimizer)
 
         self.templates = Templates()
-        self.ql = Q_Learning(self.parameter_logger, self.number_of_features)
+        self.ql = Q_Learning(self.parameter_logger, self.number_of_features,
+                             punishment_coefficient=punishment_coefficient)
 
         self.preprocessing()
 

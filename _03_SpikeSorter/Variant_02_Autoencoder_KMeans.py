@@ -10,7 +10,7 @@ from sklearn.cluster import KMeans
 
 class Variant_02_Autoencoder_KMeans(object):
     def __init__(self, path, vis, logger, parameter_logger,
-                 chooseAutoencoder=1, split_ratio=0.8, epochs=8, batch_size=1, seed=0,
+                 chooseAutoencoder=1, split_ratio=1, epochs=8, batch_size=1, seed=0,
                  number_of_features=2):
         self.path = path
         self.vis = vis
@@ -54,34 +54,38 @@ class Variant_02_Autoencoder_KMeans(object):
         self.preprocessing()
 
     def preprocessing(self):
-        train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
-        self.logger.info(f"Train Index: {train_idx}")
+        # train_idx = round(len(self.data.aligned_spikes) * self.split_ratio)
+        # self.logger.info(f"Train Index: {train_idx}")
+        #
+        # x_train = self.data.aligned_spikes[0:train_idx]
+        # y_train = self.y_labels[0:train_idx]
+        # x_test = self.data.aligned_spikes[train_idx:]
+        # y_test = self.y_labels[train_idx:]
+        #
+        # self.logger.info(f"x_train: {len(x_train)}")
+        # self.logger.info(f"y_train: {len(y_train)}")
+        # self.logger.info(f"x_test: {len(x_test)}")
+        # self.logger.info(f"y_test: {len(y_test)}")
+        #
+        # train_d = SpikeClassToPytorchDataset(x_train, y_train)
+        # train_dl = DataLoader(train_d, batch_size=self.batch_size)
+        # self.logger.info(train_dl)
+        # test_d = SpikeClassToPytorchDataset(x_test, y_test)
+        # test_dl = DataLoader(test_d, batch_size=self.batch_size)
+        # self.logger.info(test_dl)
 
-        x_train = self.data.aligned_spikes[0:train_idx]
-        y_train = self.y_labels[0:train_idx]
-        x_test = self.data.aligned_spikes[train_idx:]
-        y_test = self.y_labels[train_idx:]
-
-        self.logger.info(f"x_train: {len(x_train)}")
-        self.logger.info(f"y_train: {len(y_train)}")
-        self.logger.info(f"x_test: {len(x_test)}")
-        self.logger.info(f"y_test: {len(y_test)}")
-
-        train_d = SpikeClassToPytorchDataset(x_train, y_train)
-        train_dl = DataLoader(train_d, batch_size=self.batch_size)
-        self.logger.info(train_dl)
-        test_d = SpikeClassToPytorchDataset(x_test, y_test)
-        test_dl = DataLoader(test_d, batch_size=self.batch_size)
-        self.logger.info(test_dl)
+        data = SpikeClassToPytorchDataset(self.data.aligned_spikes, self.y_labels)
+        dataloader = DataLoader(data, batch_size=self.batch_size)
 
         for t in range(self.epochs):
             self.logger.info(f"Epoch {t + 1}\n-------------------------------")
             print(f"Epoch {t + 1}\n-------------------------------")
-            self.train(train_dl)
+            #self.train(train_dl)
+            self.train(dataloader)
             self.vis.printLossCurve(self.epoch_loss, t+1)
 
         self.vis.printLossCurve(self.loss_values)
-        self.test(test_dl, y_test)
+        self.test(dataloader, self.y_labels)
         self.logger.info("Done!")
 
     def train(self, train_dataloader):
