@@ -11,7 +11,7 @@ from torch import nn
 
 
 class Variant_05_Online_Autoencoder_QLearning(object):
-    def __init__(self, path, vis, logger, parameter_logger, normalise=False,
+    def __init__(self, path, vis, logger, parameter_logger, normalise=False, templateMatching=True, optimising=True,
                  chooseAutoencoder=1, epochs=8, batch_size=1, seed=0,
                  maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
@@ -23,6 +23,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.chooseAutoencoder = chooseAutoencoder
         self.epochs = epochs
         self.normalise = normalise
+        self.templateMatching = templateMatching
+        self.optimising = optimising
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
@@ -88,7 +90,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                     self.train(X, self.autoencoder)
                 t += 1
             elif t < self.maxTraining:
-                if t % 100 == 0:
+                if t % 100 == 0 and self.optimising:
                     self.autoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
                     print(f"{t}: Model updated")
                 self.trainAutoencoderWithQLearning(X, y)
@@ -112,16 +114,16 @@ class Variant_05_Online_Autoencoder_QLearning(object):
             loss = loss.item()
             self.logger.info(f"loss: {loss:>7f}")
             print(f"loss: {loss:>7f}")
-        torch.save(model.state_dict(), f"{self.vis.path}/model.pt")
+        if self.optimising:
+            torch.save(model.state_dict(), f"{self.vis.path}/model.pt")
 
     def trainAutoencoderWithQLearning(self, X, y):
         reconstructed_spike, encoded_features = self.autoencoder(X)
-
+        batch = X
         if self.firstTwoSpikes < 2 and self.normalise:
             with torch.no_grad():
                 self.ql.addToFeatureSet(encoded_features.numpy()[0])
-            batch = X
-            self.firstTwoSpikes += 1
+                self.firstTwoSpikes += 1
         else:
             with torch.no_grad():
                 cluster = self.ql.dynaQAlgorithm(encoded_features.numpy()[0])
@@ -139,6 +141,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                                                            str(true_label))
                     self.visualise[true_label] = False
 
+        if self.templateMatching:
             self.templates.computeMeanTemplate(X, cluster)
             batch = []
             for c_index in range(0, len(self.templates.template_list)):
@@ -147,8 +150,9 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 else:
                     batch.append(self.templates.template_list[c_index])
 
-        self.optimisingAutoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
-        self.train(batch, self.optimisingAutoencoder)
+        if self.optimising:
+            self.optimisingAutoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
+            self.train(batch, self.optimisingAutoencoder)
 
     def clusterVisualisation(self):
 
@@ -157,6 +161,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
 
         self.logger.info(self.cluster_labels)
         self.logger.info(self.ql.clusters)
+        self.ql.printQTable()
+        self.ql.printModel()
 
         centroids_true = self.vis.getClusterCenters(self.encoded_features_list, self.cluster_labels)
         centroids_qlearning = self.vis.getClusterCenters(self.encoded_features_list, self.ql.clusters)

@@ -57,6 +57,8 @@ class Variant_03_PCA_QLearning(object):
 
         self.logger.info(self.ql.clusters)
         self.logger.info(self.ql.randomFeatures)
+        self.ql.printQTable()
+        self.ql.printModel()
 
         centroids_true = self.vis.getClusterCenters(self.pca_transformed,
                                                     self.y_labels[:self.q_learning_size])

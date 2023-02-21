@@ -2,6 +2,7 @@ import random
 from math import ceil
 from random import randint, choice
 import numpy as np
+import pandas as pd
 from numpy.random import uniform
 
 
@@ -80,6 +81,16 @@ class Q_Learning(object):
     def reset_spikes_clusters(self):
         self.spikes = []
         self.clusters = []
+
+    def printQTable(self):
+        df = pd.DataFrame.from_dict(self.q_table, orient="index", columns=self.q_table.keys())
+        self.parameter_logger.info(df)
+        print(df)
+
+    def printModel(self):
+        df = pd.DataFrame.from_dict(self.model, orient="index", columns=self.model.keys())
+        self.parameter_logger.info(df)
+        print(df)
 
     def new_cluster(self):
         state_length = len(self.q_table.keys())
