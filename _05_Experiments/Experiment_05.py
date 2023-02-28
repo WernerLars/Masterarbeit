@@ -39,6 +39,17 @@ def main():
     exp_path = f"{exp_name}_{timestamp}"
     os.mkdir(exp_path)
 
+    normalise = False
+    templates = True
+    optimising = True
+
+    if normalise:
+        variant_name = f"{variant_name}_normalised"
+    if templates:
+        variant_name = f"{variant_name}_templates"
+    if optimising:
+        variant_name = f"{variant_name}_optimised"
+
     for dataset in datasets:
 
         print(variant_name)
@@ -66,6 +77,8 @@ def main():
         parameter_logger.setLevel(logging.INFO)
         parameter_logger.addHandler(handler2)
 
+        logger.info(f"Experiment_path: {exp_path}")
+        parameter_logger.info(f"Experiment_path: {exp_path}")
         logger.info(f"Dataset_Path: {path}")
         parameter_logger.info(f"Dataset_Path: {path}")
         logger.info(f"Dataset_name: {dataset_name}")
@@ -76,7 +89,11 @@ def main():
         parameter_logger.info(f"Visualisation_Path: {vis_path}")
 
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
-                                                punishment_coefficient=punishment_coefficient)
+                                                punishment_coefficient=punishment_coefficient,
+                                                normalise=normalise,
+                                                templateMatching=templates,
+                                                optimising=optimising,
+                                        )
 
         handler1.close()
         handler2.close()

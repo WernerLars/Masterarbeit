@@ -62,6 +62,8 @@ def main():
         parameter_logger.setLevel(logging.INFO)
         parameter_logger.addHandler(handler2)
 
+        logger.info(f"Experiment_path: {exp_path}")
+        parameter_logger.info(f"Experiment_path: {exp_path}")
         logger.info(f"Dataset_Path: {path}")
         parameter_logger.info(f"Dataset_Path: {path}")
         logger.info(f"Dataset_name: {dataset_name}")

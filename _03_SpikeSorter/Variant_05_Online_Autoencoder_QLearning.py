@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.random import uniform
 
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
@@ -12,6 +13,7 @@ from torch import nn
 
 class Variant_05_Online_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False, templateMatching=True, optimising=True,
+                 noisyBatch=True, noiseFactor=0.1,
                  chooseAutoencoder=1, epochs=8, batch_size=1, seed=0,
                  maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
@@ -23,8 +25,15 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.chooseAutoencoder = chooseAutoencoder
         self.epochs = epochs
         self.normalise = normalise
+        self.parameter_logger.info(f"Normalisation: {self.normalise}")
         self.templateMatching = templateMatching
+        self.parameter_logger.info(f"Template Matching: {self.templateMatching}")
         self.optimising = optimising
+        self.parameter_logger.info(f"Optimising Autoencoder: {self.optimising}")
+        self.noisyBatch = noisyBatch
+        self.parameter_logger.info(f"Noisy Batches: {self.noisyBatch}")
+        self.noiseFactor = noiseFactor
+        self.parameter_logger.info(f"Noisy Factor: {self.noiseFactor}")
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
@@ -148,7 +157,15 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 if c_index == cluster:
                     batch.append(X)
                 else:
-                    batch.append(self.templates.template_list[c_index])
+                    template = self.templates.template_list[c_index]
+                    print("Before:", template)
+                    if self.noisyBatch:
+                        for dim, value in enumerate(template):
+                            p = uniform(-self.noiseFactor, self.noiseFactor)
+                            print("Dimension:", dim, ";P:", p)
+                            template[dim] = value + p
+                    print("After:", template)
+                    batch.append(template)
 
         if self.optimising:
             self.optimisingAutoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))

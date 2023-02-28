@@ -9,9 +9,11 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Test"
+        self.experiment_path = "../_05_Experiments/Same"
         self.filename = "informations.log"
         self.dataset_names = []
+        self.experiment_names = []
+        self.experiment_counter = 0
         self.variant_names = []
         self.accuracys = []
         self.df = None
@@ -21,14 +23,21 @@ class Tables(object):
             accuracy = 0
             data_index = 0
             for line in log.readlines():
-                if line.startswith("Accuracy:"):
+                if line.startswith("Experiment_path:"):
+                    split = line.split(":")
+                    if split[1] not in self.experiment_names:
+                        self.experiment_counter += 1
+                        self.experiment_names.append(split[1])
+                        print(self.experiment_names)
+                elif line.startswith("Accuracy:"):
                     split = line.split(":")
                     accuracy = round(float(split[1]), 4)
                 elif line.startswith("Variant_name:"):
                     split = line.split(":")
                     variant_name = split[1][12:-1]
-                    if variant_name not in self.variant_names:
-                        self.variant_names.append(variant_name)
+                    if f"{self.experiment_counter}_{variant_name}" not in self.variant_names:
+                        self.variant_names.append(f"{self.experiment_counter}_{variant_name}")
+                        print(self.variant_names)
                 elif line.startswith("Dataset_Path:"):
                     split = line.split(":")
                     dataset_name = split[1][16:].split("/")[2][:-5]

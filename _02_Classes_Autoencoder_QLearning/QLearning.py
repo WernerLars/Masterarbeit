@@ -9,7 +9,8 @@ from numpy.random import uniform
 class Q_Learning(object):
     def __init__(self, parameter_logger, number_of_features, normalise=False, punishment_coefficient=0.3,
                  alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
-                 episode_number_coefficient=1.4, random_features_number=20, planning_number=20):
+                 episode_number_coefficient=1.4, random_features_number=20, planning_number=20,
+                 maxRandomFeatures=60):
         self.parameter_logger = parameter_logger
         self.number_of_features = number_of_features
         np.random.seed(0)
@@ -46,6 +47,8 @@ class Q_Learning(object):
         self.parameter_logger.info(f"Number of Random Features: {self.random_features_number}")
         self.planning_number = planning_number
         self.parameter_logger.info(f"Planning Number: {self.planning_number}")
+        self.maxRandomFeatures = maxRandomFeatures
+        self.parameter_logger.info(f"Max Random Features: {self.maxRandomFeatures}")
 
     def reset_q_learning(self):
         self.q_table = {
@@ -83,14 +86,21 @@ class Q_Learning(object):
         self.clusters = []
 
     def printQTable(self):
-        df = pd.DataFrame.from_dict(self.q_table, orient="index", columns=self.q_table.keys())
+        for state in self.q_table:
+            self.q_table[state] = np.round(self.q_table[state], 2)
+        df = pd.DataFrame.from_dict(self.q_table, orient="index")
         self.parameter_logger.info(df)
         print(df)
+        #print(df.to_latex())
 
     def printModel(self):
-        df = pd.DataFrame.from_dict(self.model, orient="index", columns=self.model.keys())
+        for state in self.model:
+            for action, _ in enumerate(self.model[state]):
+                self.model[state][action][0] = np.round(self.model[state][action][0], 2)
+        df = pd.DataFrame.from_dict(self.model, orient="index")
         self.parameter_logger.info(df)
         print(df)
+        #print(df.to_latex())
 
     def new_cluster(self):
         state_length = len(self.q_table.keys())
@@ -168,8 +178,12 @@ class Q_Learning(object):
             self.spikes.append(spike)
             self.clusters.append(cluster)
             for i in range(0, self.number_of_features):
+                self.parameter_logger.info(len(self.randomFeatures[f"c{cluster + 1}"][i]))
+                if len(self.randomFeatures[f"c{cluster + 1}"][i]) >= self.maxRandomFeatures:
+                    self.randomFeatures[f"c{cluster + 1}"][i] = np.delete(self.randomFeatures[f"c{cluster + 1}"][i], 0)
                 self.randomFeatures[f"c{cluster + 1}"][i] = np.append(self.randomFeatures[f"c{cluster + 1}"][i],
                                                                       spike[i])
+                self.parameter_logger.info(len(self.randomFeatures[f"c{cluster + 1}"][i]))
         return cluster
 
     def dynaQAlgorithm(self, spike):
