@@ -14,10 +14,10 @@ from torch import nn
 class Variant_05_Online_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False, templateMatching=True, optimising=True,
                  noisyBatch=True, noiseFactor=0.1,
-                 chooseAutoencoder=1, epochs=8, batch_size=1, seed=0,
+                 chooseAutoencoder=1, epochs=8, batch_size=1,
                  maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
-                 punishment_coefficient=1):
+                 punishment_coefficient=0.6):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -37,13 +37,11 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
-        self.seed = seed
-        torch.manual_seed(self.seed)
-        self.parameter_logger.info(f"Seed: {self.seed}")
         self.maxAutoencoderTraining = maxAutoencoderTraining
         self.parameter_logger.info(f"maximal Spikes for Autoencoder Training : {self.maxAutoencoderTraining}")
         self.maxTraining = maxTraining
         self.parameter_logger.info(f"maximal Spikes for Training: {self.maxTraining}")
+        self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
@@ -158,13 +156,10 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                     batch.append(X)
                 else:
                     template = self.templates.template_list[c_index]
-                    print("Before:", template)
                     if self.noisyBatch:
                         for dim, value in enumerate(template):
                             p = uniform(-self.noiseFactor, self.noiseFactor)
-                            print("Dimension:", dim, ";P:", p)
                             template[dim] = value + p
-                    print("After:", template)
                     batch.append(template)
 
         if self.optimising:

@@ -10,8 +10,7 @@ from sklearn.cluster import KMeans
 
 class Variant_02_Autoencoder_KMeans(object):
     def __init__(self, path, vis, logger, parameter_logger,
-                 chooseAutoencoder=1, split_ratio=1, epochs=8, batch_size=1, seed=0,
-                 number_of_features=2):
+                 chooseAutoencoder=1, split_ratio=1, epochs=8, batch_size=1, number_of_features=2):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -23,9 +22,6 @@ class Variant_02_Autoencoder_KMeans(object):
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
-        self.seed = seed
-        torch.manual_seed(self.seed)
-        self.parameter_logger.info(f"Seed: {self.seed}")
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()

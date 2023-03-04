@@ -1,3 +1,7 @@
+import random
+import numpy as np
+import torch
+
 from _03_SpikeSorter.Variant_01_PCA_KMeans import Variant_01_PCA_KMeans
 from _03_SpikeSorter.Variant_02_Autoencoder_KMeans import Variant_02_Autoencoder_KMeans
 from _03_SpikeSorter.Variant_03_PCA_QLearning import Variant_03_PCA_QLearning
@@ -8,6 +12,11 @@ import logging
 
 
 def main():
+    seed = 0
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
         2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
@@ -40,9 +49,9 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    path = datasets[1]
+    path = datasets[20]
     dataset_name = path[16:].split("/")
-    variant_name = variants[5]
+    variant_name = variants[4]
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
 

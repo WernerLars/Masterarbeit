@@ -1,5 +1,8 @@
 import os
-import time
+import random
+
+import numpy as np
+import torch
 
 from _03_SpikeSorter.Variant_01_PCA_KMeans import Variant_01_PCA_KMeans
 from _04_Visualisation.Visualisation import Visualisation
@@ -7,6 +10,11 @@ import logging
 
 
 def main():
+    seed = 0
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
         2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
@@ -32,11 +40,9 @@ def main():
         22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat",
     }
     variant_name = "Variant_01_PCA_KMeans"
-    exp_name = "Experiment_01"
-    print(exp_name)
-    timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
-    exp_path = f"{exp_name}_{timestamp}"
-    os.mkdir(exp_path)
+    exp_path = "Base_Line_w_pc_0.6/Experiment_01"
+    if os.path.exists(exp_path) is False:
+        os.mkdir(exp_path)
 
     for dataset in datasets:
         print(variant_name)
@@ -62,6 +68,7 @@ def main():
         parameter_logger.setLevel(logging.INFO)
         parameter_logger.addHandler(handler2)
 
+        parameter_logger.info(f"Seed: {seed}")
         logger.info(f"Experiment_path: {exp_path}")
         parameter_logger.info(f"Experiment_path: {exp_path}")
         logger.info(f"Dataset_Path: {path}")

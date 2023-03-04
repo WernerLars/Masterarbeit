@@ -14,11 +14,11 @@ class Visualisation(object):
         self.dataset_name = dataset_name
         self.logger = None
         self.timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
-        if os.path.exists(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}") is False:
-            os.mkdir(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}")
-        if os.path.exists(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}") is False:
-            os.mkdir(f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}")
-        self.path = f"{exp_path}{self.dataset_name[0]}_{self.dataset_name[1]}/{self.variant_name}/{self.timestamp}"
+        if os.path.exists(f"{exp_path}{self.dataset_name[1]}") is False:
+            os.mkdir(f"{exp_path}{self.dataset_name[1]}")
+        if os.path.exists(f"{exp_path}{self.dataset_name[1]}/{self.variant_name}") is False:
+            os.mkdir(f"{exp_path}{self.dataset_name[1]}/{self.variant_name}")
+        self.path = f"{exp_path}{self.dataset_name[1]}/{self.variant_name}/{self.timestamp}"
         os.mkdir(self.path)
 
     def getVisualisationPath(self):
@@ -115,31 +115,27 @@ class Visualisation(object):
         plt.savefig(f"{self.path}/contingency_matrix.png")
 
     def deleteContingencyMatrixColumns(self, cm, ground_truth, predictions):
-        max_column_values = []
-        number_of_true_labels = len(np.unique(ground_truth))
-        for predicted in range(0, len(np.unique(predictions))):
-            get_column_values = []
-            for true in range(0, number_of_true_labels):
-                get_column_values.append(cm[true][predicted])
-            max_column_values.append(max(get_column_values))
-
-        self.logger.info(f"Max_Column_Values: {max_column_values}")
-        print(f"Max_Column_Values: {max_column_values}")
-
-        max_column_indexes = []
-        for _ in range(0, number_of_true_labels):
-            highest_value_index = np.argmax(max_column_values)
-            max_column_values[highest_value_index] = -1
-            max_column_indexes.append(highest_value_index)
-
-        self.logger.info(f"Max_Column_Indexes: {max_column_indexes}")
-        print(f"Max_Column_Indexes: {max_column_indexes}")
+        unique = np.unique(ground_truth)
+        max_indexes = []
+        con_matrix = np.copy(cm)
+        for _ in range(len(unique)):
+            max_row_values = []
+            indexes = []
+            for array in con_matrix:
+                max_row_values.append(max(array))
+                indexes.append(np.argmax(array))
+            max_index = np.argmax(max_row_values)
+            max_indexes.append(indexes[max_index])
+            for i in range(len(np.unique(predictions))):
+                con_matrix[max_index][i] = -1
+            for i in range(len(unique)):
+                con_matrix[i][indexes[max_index]] = -1
 
         new_cm = []
-        for true in range(0, number_of_true_labels):
+        for true in range(len(unique)):
             new_values = []
             for predicted in range(0, len(np.unique(predictions))):
-                if predicted in max_column_indexes:
+                if predicted in max_indexes:
                     new_values.append(cm[true][predicted])
             new_cm.append(new_values)
 
@@ -156,7 +152,7 @@ class Visualisation(object):
         new_ground_truth = []
         new_predictions = []
         for index in range(0, len(ground_truth)):
-            if predictions[index] in max_column_indexes:
+            if predictions[index] in max_indexes:
                 new_ground_truth.append(ground_truth[index])
                 new_predictions.append(predictions[index])
 
@@ -208,4 +204,7 @@ class Visualisation(object):
         cr = classification_report(ground_truth, predictions_mapping, target_names=target_names)
         self.logger.info(cr)
         print(cr)
+
+
+
 

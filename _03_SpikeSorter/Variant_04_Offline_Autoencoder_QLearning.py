@@ -11,9 +11,9 @@ from torch import nn
 
 class Variant_04_Offline_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False,
-                 chooseAutoencoder=1, split_ratio=0.9, epochs=8, batch_size=1, seed=0,
+                 chooseAutoencoder=1, split_ratio=0.9, epochs=8, batch_size=1,
                  number_of_features=2,
-                 punishment_coefficient=0.51):
+                 punishment_coefficient=0.6):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -26,9 +26,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
-        self.seed = seed
-        torch.manual_seed(self.seed)
-        self.parameter_logger.info(f"Seed: {self.seed}")
+        self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.loadData()
@@ -124,7 +122,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
         firstTwoSpikes = 0
         current = 1
-        size = len(y_test) - 2
+        size = len(y_test)
 
         for _, (X, y) in enumerate(dataloader):
             reconstructed_spike, encoded_features = self.autoencoder(X)
@@ -134,6 +132,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
                 if firstTwoSpikes < 2 and self.normalise:
                     self.ql.addToFeatureSet(encoded_features.numpy()[0])
                     firstTwoSpikes += 1
+                    size -= 1
                 else:
                     self.ql.dynaQAlgorithm(encoded_features.numpy()[0])
                     self.logger.info(f"Q_Learning: {current:>5d}/{size:>5d}]")

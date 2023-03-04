@@ -8,7 +8,7 @@ from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
 class Variant_03_PCA_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False,
                  pca_components=2, q_learning_size=None,
-                 punishment_coefficient=1.5):
+                 punishment_coefficient=0.6):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -18,6 +18,7 @@ class Variant_03_PCA_QLearning(object):
         self.parameter_logger.info(f"PCA Components: {self.pca_components}")
         self.q_learning_size = q_learning_size
         self.parameter_logger.info(f"Q Learning Size: {q_learning_size}")
+        self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.dataloader, self.y_labels = self.dataset.loadData()

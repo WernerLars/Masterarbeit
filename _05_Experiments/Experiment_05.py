@@ -1,5 +1,8 @@
 import os
-import time
+import random
+
+import numpy as np
+import torch
 
 from _03_SpikeSorter.Variant_05_Online_Autoencoder_QLearning import Variant_05_Online_Autoencoder_QLearning
 from _04_Visualisation.Visualisation import Visualisation
@@ -7,6 +10,11 @@ import logging
 
 
 def main():
+    seed = 0
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+
     datasets = {
         1: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat", 0.5],
         2: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat", 0.6],
@@ -33,25 +41,25 @@ def main():
     }
 
     variant_name = "Variant_05_Online_Autoencoder_QLearning"
-    exp_name = "Experiment_05"
-    print(exp_name)
-    timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
-    exp_path = f"{exp_name}_{timestamp}"
-    os.mkdir(exp_path)
+    exp_path = "Experiment_05"
+    if os.path.exists(exp_path) is False:
+        os.mkdir(exp_path)
 
     normalise = False
-    templates = True
     optimising = True
+    templates = True
+    noisy = False
 
     if normalise:
-        variant_name = f"{variant_name}_normalised"
-    if templates:
-        variant_name = f"{variant_name}_templates"
+        variant_name = f"{variant_name}_norm"
     if optimising:
-        variant_name = f"{variant_name}_optimised"
+        variant_name = f"{variant_name}_opt"
+    if templates:
+        variant_name = f"{variant_name}_temp"
+    if noisy:
+        variant_name = f"{variant_name}_noisy"
 
     for dataset in datasets:
-
         print(variant_name)
         print(datasets[dataset])
 
@@ -77,6 +85,7 @@ def main():
         parameter_logger.setLevel(logging.INFO)
         parameter_logger.addHandler(handler2)
 
+        parameter_logger.info(f"Seed: {seed}")
         logger.info(f"Experiment_path: {exp_path}")
         parameter_logger.info(f"Experiment_path: {exp_path}")
         logger.info(f"Dataset_Path: {path}")
@@ -93,7 +102,7 @@ def main():
                                                 normalise=normalise,
                                                 templateMatching=templates,
                                                 optimising=optimising,
-                                        )
+                                                )
 
         handler1.close()
         handler2.close()

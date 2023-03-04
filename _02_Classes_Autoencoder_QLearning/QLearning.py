@@ -7,14 +7,12 @@ from numpy.random import uniform
 
 
 class Q_Learning(object):
-    def __init__(self, parameter_logger, number_of_features, normalise=False, punishment_coefficient=0.3,
+    def __init__(self, parameter_logger, number_of_features, normalise=False, punishment_coefficient=0.6,
                  alpha=0.8, epsilon=0.01, gamma=0.97, episode_number=0,
                  episode_number_coefficient=1.4, random_features_number=20, planning_number=20,
                  maxRandomFeatures=60):
         self.parameter_logger = parameter_logger
         self.number_of_features = number_of_features
-        np.random.seed(0)
-        random.seed(0)
         self.parameter_logger.info("---Q Learning Parameters---")
         self.q_table = {
             "new_cluster": [0]

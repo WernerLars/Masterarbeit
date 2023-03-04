@@ -1,5 +1,8 @@
 import os
-import time
+import random
+
+import numpy as np
+import torch
 
 from _03_SpikeSorter.Variant_03_PCA_QLearning import Variant_03_PCA_QLearning
 from _04_Visualisation.Visualisation import Visualisation
@@ -7,6 +10,11 @@ import logging
 
 
 def main():
+    seed = 0
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+
     datasets = {
         1: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat", 1.5],
         2: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat", 1.5],
@@ -24,7 +32,7 @@ def main():
         14: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise010.mat", 0.8],
         15: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat", 1.1],
         16: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat", 1.25],
-        17: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat", 0.74],
+        17: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat", 0.6],
         18: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat", 0.79],
         19: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat", 1.05],
         20: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat", 1.1],
@@ -33,11 +41,9 @@ def main():
     }
 
     variant_name = "Variant_03_PCA_QLearning"
-    exp_name = "Experiment_03"
-    print(exp_name)
-    timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
-    exp_path = f"{exp_name}_{timestamp}"
-    os.mkdir(exp_path)
+    exp_path = "Experiment_03"
+    if os.path.exists(exp_path) is False:
+        os.mkdir(exp_path)
 
     for dataset in datasets:
 
@@ -65,6 +71,7 @@ def main():
         parameter_logger.setLevel(logging.INFO)
         parameter_logger.addHandler(handler2)
 
+        parameter_logger.info(f"Seed: {seed}")
         logger.info(f"Experiment_path: {exp_path}")
         parameter_logger.info(f"Experiment_path: {exp_path}")
         logger.info(f"Dataset_Path: {path}")
@@ -76,7 +83,8 @@ def main():
         logger.info(f"Visualisation_Path: {vis_path}")
         parameter_logger.info(f"Visualisation_Path: {vis_path}")
 
-        Variant_03_PCA_QLearning(path, vis, logger, parameter_logger, punishment_coefficient=punishment_coefficient,
+        Variant_03_PCA_QLearning(path, vis, logger, parameter_logger,
+                                 punishment_coefficient=punishment_coefficient,
                                  q_learning_size=300)
 
         handler1.close()
