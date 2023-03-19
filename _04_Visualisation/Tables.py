@@ -10,7 +10,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Base_Line_w_pc_0.6"
+        self.experiment_path = "../_05_Experiments/Different_Variant_05"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -84,29 +84,37 @@ class Tables(object):
 
     def printBoxplot1(self):
         plt.figure(figsize=(10 + 1.7 * len(self.dataset_names), 20))
-        for i, variant in enumerate(self.variant_names):
-            graph = self.df[variant]
-            plt.scatter(self.dataset_names, graph, label=variant, marker="*", s=500)
-        plt.gca().yaxis.set_major_formatter(PercentFormatter(100))
-        plt.yticks(fontsize=23)
+        #for i, variant in enumerate(self.variant_names):
+        #    graph = self.df[variant]
+            #plt.scatter(self.dataset_names, graph, label=variant, marker="*", s=500)
+        #for i, dataset in enumerate(self.dataset_names):
+        #    sns.violinplot(data=self.accuracys[i])
+            #t = np.arange(len(self.accuracys[i]))
+            #plt.scatter(t, self.accuracys[i], label=dataset, marker="*", s=500)
+        #sns.violinplot(data=self.df)
+        sns.violinplot(data=self.accuracys, cut=0, scale='width')
+
+        #plt.gca().yaxis.set_major_formatter(PercentFormatter(100))
+        plt.yticks(fontsize=30)
         plt.xticks(np.arange(len(self.dataset_names)), [x.replace('_', '\n') for x in self.dataset_names],
-                   fontsize=20)
-        plt.legend(loc="lower right", fontsize=23)
-        plt.title("Accuracy for Datasets", fontsize=30)
+                   fontsize=30)
+        #plt.legend(loc="lower right", fontsize=23)
+        plt.title("Accuracy auf Datensätzen", fontsize=40)
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/Boxplot1.png")
 
     def printBoxplot2(self):
         plt.figure(figsize=(15 + 1.7 * len(self.variant_names), 20))
-        for i, dataset in enumerate(self.dataset_names):
-            t = np.arange(len(self.accuracys[i]))
-            plt.scatter(t, self.accuracys[i], label=dataset, marker="*", s=500)
-        plt.title(f"Accuracy for Variants", fontsize=30)
+        sns.violinplot(data=self.df, cut=0, scale='width')
+        #for i, dataset in enumerate(self.dataset_names):
+        #    t = np.arange(len(self.accuracys[i]))
+        #    plt.scatter(t, self.accuracys[i], label=dataset, marker="*", s=500)
+        plt.title(f"Accuracy der Varianten", fontsize=30)
         plt.gca().yaxis.set_major_formatter(PercentFormatter(100))
         plt.yticks(fontsize=23)
         plt.xticks(np.arange(len(self.accuracys[0])), [x.replace('_', '\n') for x in self.variant_names], fontsize=23)
         plt.xlim(-0.5, len(self.variant_names))
-        plt.legend(loc="center left", fontsize=23, bbox_to_anchor=(1, 0.5))
+        #plt.legend(loc="center left", fontsize=23, bbox_to_anchor=(1, 0.5))
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/Boxplot2.png")
 

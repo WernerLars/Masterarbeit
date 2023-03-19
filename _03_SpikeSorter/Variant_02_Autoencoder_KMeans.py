@@ -10,14 +10,12 @@ from sklearn.cluster import KMeans
 
 class Variant_02_Autoencoder_KMeans(object):
     def __init__(self, path, vis, logger, parameter_logger,
-                 chooseAutoencoder=1, split_ratio=1, epochs=8, batch_size=1, number_of_features=2):
+                 chooseAutoencoder=1, epochs=8, batch_size=1, number_of_features=2):
         self.path = path
         self.vis = vis
         self.logger = logger
         self.parameter_logger = parameter_logger
         self.chooseAutoencoder = chooseAutoencoder
-        self.split_ratio = split_ratio
-        self.parameter_logger.info(f"Split Ratio: {self.split_ratio}")
         self.epochs = epochs
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
@@ -32,7 +30,9 @@ class Variant_02_Autoencoder_KMeans(object):
         self.autoencoder_models = {
             1: ["Autoencoder", Autoencoder(self.input_size, self.number_of_features)],
             2: ["Convolutional Autoencoder", ConvolutionalAutoencoder(self.input_size,
-                                                                      self.number_of_features)]
+                                                                      self.number_of_features)],
+            3: ["Convolutional Autoencoder Test", ConvolutionalAutoencoderTest(self.input_size,
+                                                                               self.number_of_features)]
         }
         self.autoencoder = self.autoencoder_models[self.chooseAutoencoder][1]
         self.parameter_logger.info(f"Chosen Model: {self.autoencoder_models[self.chooseAutoencoder][0]}")
@@ -147,4 +147,4 @@ class Variant_02_Autoencoder_KMeans(object):
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y,
                                      kmeans.labels_, centroids_kmeans, "kmeans")
 
-        self.vis.printMetrics(cluster_labels, kmeans.labels_, np.unique(cluster_labels))
+        self.vis.printMetrics(cluster_labels, kmeans.labels_)

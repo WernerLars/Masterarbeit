@@ -52,4 +52,4 @@ class Variant_01_PCA_KMeans(object):
         self.vis.visualisingFeatures(x, y)
         self.vis.visualisingClusters(x, y, self.y_labels, centroids_true, "true")
         self.vis.visualisingClusters(x, y, kmeans.labels_, centroids_kmeans, "kmeans")
-        self.vis.printMetrics(self.y_labels, kmeans.labels_, np.unique(self.y_labels))
+        self.vis.printMetrics(self.y_labels, kmeans.labels_)

@@ -170,7 +170,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
                                      centroids_true, "true")
         self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, self.ql.clusters,
                                      centroids_qlearning, "qlearning")
-        self.vis.printMetrics(cluster_labels, self.ql.clusters, np.unique(cluster_labels))
+        self.vis.printMetrics(cluster_labels, self.ql.clusters)
 
         if self.normalise:
             centroids_qlearning_normalised = self.vis.getClusterCenters(self.ql.spikes, self.ql.clusters)

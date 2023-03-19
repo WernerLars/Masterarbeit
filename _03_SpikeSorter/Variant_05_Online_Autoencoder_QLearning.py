@@ -12,8 +12,8 @@ from torch import nn
 
 
 class Variant_05_Online_Autoencoder_QLearning(object):
-    def __init__(self, path, vis, logger, parameter_logger, normalise=False, templateMatching=True, optimising=True,
-                 noisyBatch=True, noiseFactor=0.1,
+    def __init__(self, path, vis, logger, parameter_logger, normalise=False, templateMatching=False, optimising=False,
+                 noisyBatch=False, noiseFactor=0.1,
                  chooseAutoencoder=1, epochs=8, batch_size=1,
                  maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
@@ -185,4 +185,4 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.vis.visualisingClusters(self.encoded_features_X, self.encoded_features_Y, self.ql.clusters,
                                      centroids_qlearning, "qlearning")
 
-        self.vis.printMetrics(self.cluster_labels, self.ql.clusters, np.unique(self.cluster_labels))
+        self.vis.printMetrics(self.cluster_labels, self.ql.clusters)

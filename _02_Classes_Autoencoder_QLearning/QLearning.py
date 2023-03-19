@@ -1,3 +1,5 @@
+import dis
+import logging
 import random
 from math import ceil
 from random import randint, choice
@@ -89,7 +91,7 @@ class Q_Learning(object):
         df = pd.DataFrame.from_dict(self.q_table, orient="index")
         self.parameter_logger.info(df)
         print(df)
-        #print(df.to_latex())
+        # print(df.to_latex())
 
     def printModel(self):
         for state in self.model:
@@ -98,7 +100,7 @@ class Q_Learning(object):
         df = pd.DataFrame.from_dict(self.model, orient="index")
         self.parameter_logger.info(df)
         print(df)
-        #print(df.to_latex())
+        # print(df.to_latex())
 
     def new_cluster(self):
         state_length = len(self.q_table.keys())
@@ -151,14 +153,14 @@ class Q_Learning(object):
             feature_selection.append(self.randomFeatures[f"c{action}"][i][random_indexes[j]])
         return feature_selection
 
-    def computeReward(self, action, features_normalised):
+    def computeReward(self, action, features):
         if action == 0:
             return -(self.punishment_coefficient * self.number_of_features) ** 2
         else:
             feature_sum = 0
             for i in range(0, self.number_of_features):
                 features_selected = self.selectRandomFeatures(action, i)
-                feature_sum += (features_normalised[i] - np.mean(features_selected)) ** 2
+                feature_sum += (features[i] - np.mean(features_selected)) ** 2
             return -feature_sum
 
     def addSpike(self, spike, s):
@@ -176,12 +178,10 @@ class Q_Learning(object):
             self.spikes.append(spike)
             self.clusters.append(cluster)
             for i in range(0, self.number_of_features):
-                self.parameter_logger.info(len(self.randomFeatures[f"c{cluster + 1}"][i]))
                 if len(self.randomFeatures[f"c{cluster + 1}"][i]) >= self.maxRandomFeatures:
                     self.randomFeatures[f"c{cluster + 1}"][i] = np.delete(self.randomFeatures[f"c{cluster + 1}"][i], 0)
                 self.randomFeatures[f"c{cluster + 1}"][i] = np.append(self.randomFeatures[f"c{cluster + 1}"][i],
                                                                       spike[i])
-                self.parameter_logger.info(len(self.randomFeatures[f"c{cluster + 1}"][i]))
         return cluster
 
     def dynaQAlgorithm(self, spike):
@@ -223,3 +223,13 @@ class Q_Learning(object):
 
         cluster = self.addSpike(features, s)
         return cluster
+
+    def printByteCode(self):
+        dis.dis(self.computeReward)
+        #dis.dis(self.dynaQAlgorithm)
+
+
+# logger = logging.getLogger("Test Logger")
+# logger.setLevel(logging.INFO)
+# ql = Q_Learning(logger, 2)
+# ql.printByteCode()

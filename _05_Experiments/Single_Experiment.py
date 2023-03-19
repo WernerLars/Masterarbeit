@@ -12,11 +12,6 @@ import logging
 
 
 def main():
-    seed = 0
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
         2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
@@ -49,11 +44,21 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    path = datasets[20]
+    dataset_number = 1
+    variant_number = 2
+    punishment_coefficient = 0.6
+
+    seed = 0
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+
+    path = datasets[dataset_number]
     dataset_name = path[16:].split("/")
-    variant_name = variants[4]
+    variant_name = variants[variant_number]
     vis = Visualisation(variant_name, dataset_name)
     vis_path = vis.getVisualisationPath()
+    exp_path = f"Experiment_0{variant_number}"
 
     formatter = logging.Formatter("%(message)s")
     handler1 = logging.FileHandler(filename=f"{vis_path}/informations.log", mode="w")
@@ -70,6 +75,9 @@ def main():
     parameter_logger.setLevel(logging.INFO)
     parameter_logger.addHandler(handler2)
 
+    parameter_logger.info(f"Seed: {seed}")
+    logger.info(f"Experiment_path: {exp_path}")
+    parameter_logger.info(f"Experiment_path: {exp_path}")
     logger.info(f"Dataset_Path: {path}")
     parameter_logger.info(f"Dataset_Path: {path}")
     logger.info(f"Dataset_name: {dataset_name}")
@@ -82,13 +90,17 @@ def main():
     if variant_name == "Variant_01_PCA_KMeans":
         Variant_01_PCA_KMeans(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_02_Autoencoder_KMeans":
-        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger)
+        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger, chooseAutoencoder=3)
     elif variant_name == "Variant_03_PCA_QLearning":
-        Variant_03_PCA_QLearning(path, vis, logger, parameter_logger, q_learning_size=300, normalise=False)
+        Variant_03_PCA_QLearning(path, vis, logger, parameter_logger,
+                                 punishment_coefficient=punishment_coefficient,
+                                 q_learning_size=300, normalise=False)
     elif variant_name == "Variant_04_Offline_Autoencoder_QLearning":
-        Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger)
+        Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger,
+                                                 punishment_coefficient=punishment_coefficient)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning":
-        Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger)
+        Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
+                                                punishment_coefficient=punishment_coefficient)
 
 
 if __name__ == '__main__':
