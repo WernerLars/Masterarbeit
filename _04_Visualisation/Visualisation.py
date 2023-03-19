@@ -1,3 +1,4 @@
+import copy
 import os
 import time
 
@@ -96,7 +97,7 @@ class Visualisation(object):
             plt.ylabel("Losses")
             plt.savefig(f"{self.path}/lossCurveEpoch{epoch}.png")
 
-    def printContingencyMatrix(self, cm, predictions, labels):
+    def printContingencyMatrix(self, cm, true_labels, predicted_labels, matched=None):
         plt.figure(figsize=(12, 6))
         plt.imshow(cm, interpolation="nearest")
         for (j, i), label in np.ndenumerate(cm):
@@ -106,105 +107,112 @@ class Visualisation(object):
                 color = "black"
             plt.text(i, j, label, ha="center", va="center", fontsize=13, color=color)
         plt.title("Contingency Matrix", fontsize=16)
-        plt.xticks(sorted(np.unique(predictions)), fontsize=13)
-        plt.yticks(sorted(labels), fontsize=13)
+        plt.xticks(ticks=np.arange(len(predicted_labels)), labels=predicted_labels, fontsize=13)
+        plt.yticks(true_labels, fontsize=13)
         cbar = plt.colorbar()
         cbar.ax.tick_params(labelsize=13)
         plt.xlabel("Predicted label", fontsize=13)
         plt.ylabel("True label", fontsize=13)
-        plt.savefig(f"{self.path}/contingency_matrix.png")
+        if matched is None:
+            plt.savefig(f"{self.path}/contingency_matrix.png")
+        else:
+            plt.savefig(f"{self.path}/contingency_matrix_{matched}.png")
 
-    def deleteContingencyMatrixColumns(self, cm, ground_truth, predictions):
-        unique = np.unique(ground_truth)
-        max_indexes = []
-        con_matrix = np.copy(cm)
-        for _ in range(len(unique)):
+    def matchLabelsInCM(self, cm, ground_truth_labels, clustered_labels):
+        number_of_gtl = len(ground_truth_labels)
+        number_of_cl = len(clustered_labels)
+
+        match_labels = {}
+        matched_labels = []
+        converted_cm = [[] for _ in range(number_of_gtl)]
+
+        for i, row in enumerate(cm):
+            for elem in row:
+                converted_cm[i].append(elem)
+        print(converted_cm)
+
+        if number_of_cl < number_of_gtl:
+            for t in range(number_of_gtl - number_of_cl):
+                for i, row in enumerate(converted_cm):
+                    converted_cm[i].append(0)
+                clustered_labels.append(number_of_cl+t)
+        print(converted_cm)
+        print(clustered_labels)
+
+        copy_cm = copy.deepcopy(converted_cm)
+        for _ in range(len(ground_truth_labels)):
             max_row_values = []
             indexes = []
-            for array in con_matrix:
+            for array in copy_cm:
                 max_row_values.append(max(array))
                 indexes.append(np.argmax(array))
-            max_index = np.argmax(max_row_values)
-            max_indexes.append(indexes[max_index])
-            for i in range(len(np.unique(predictions))):
-                con_matrix[max_index][i] = -1
-            for i in range(len(unique)):
-                con_matrix[i][indexes[max_index]] = -1
+            gt_label = np.argmax(max_row_values)
+            clustered_label = indexes[gt_label]
+            match_labels[gt_label] = clustered_label
+            matched_labels.append(clustered_label)
 
-        new_cm = []
-        for true in range(len(unique)):
-            new_values = []
-            for predicted in range(0, len(np.unique(predictions))):
-                if predicted in max_indexes:
-                    new_values.append(cm[true][predicted])
-            new_cm.append(new_values)
+            for i in range(len(clustered_labels)):
+                copy_cm[gt_label][i] = -1
+            for i in range(len(ground_truth_labels)):
+                copy_cm[i][clustered_label] = -1
+            print(copy_cm)
+            self.logger.info(copy_cm)
+        print(f"Match_Labels: {match_labels}")
+        self.logger.info(f"Match_Labels: {match_labels}")
 
-        self.logger.info(f"New Contingency Matrix: {new_cm}")
-        print(f"New Contingency Matrix: {new_cm}")
+        new_cm = [[] for _ in range(number_of_gtl)]
+        new_clustered_labels = []
 
-        self.logger.info(f"Before Deletion:")
-        print("Before Deletion:")
-        self.logger.info(f"Ground Truth Length: {len(ground_truth)}")
-        print(f"Ground Truth Length: {len(ground_truth)}")
-        self.logger.info(f"Predictions Length: {len(predictions)}")
-        print(f"Predictions Length: {len(predictions)}")
+        for gt_label in ground_truth_labels:
+            matched_clustered_label = match_labels[gt_label]
+            for index, row in enumerate(converted_cm):
+                new_cm[index].append(converted_cm[index][matched_clustered_label])
+            new_clustered_labels.append(matched_clustered_label)
 
-        new_ground_truth = []
-        new_predictions = []
-        for index in range(0, len(ground_truth)):
-            if predictions[index] in max_indexes:
-                new_ground_truth.append(ground_truth[index])
-                new_predictions.append(predictions[index])
+        for label in clustered_labels:
+            if label not in matched_labels:
+                for index, row in enumerate(converted_cm):
+                    new_cm[index].append(converted_cm[index][label])
+                new_clustered_labels.append(label)
 
-        self.logger.info(f"After Deletion:")
-        print(f"After Deletion:")
-        self.logger.info(f"Ground Truth Length: {len(new_ground_truth)}")
-        print(f"Ground Truth Length: {len(new_ground_truth)}")
-        self.logger.info(f"Predictions Length: {len(new_predictions)}")
-        print(f"Predictions Length: {len(new_predictions)}")
+        new_cm = np.asarray(new_cm)
+        self.logger.info("New Contingency Matrix: ")
+        self.logger.info(new_cm)
+        print(f"New Contingency Matrix: ")
+        print(new_cm)
+        self.logger.info(f"New Clustered Label Sequence: {new_clustered_labels}")
+        print(f"New Clustered Label Sequence: {new_clustered_labels}")
+        return new_cm, new_clustered_labels
 
-        return new_cm, new_ground_truth, new_predictions
+    def printMetrics(self, ground_truth, predictions):
+        ground_truth_labels = sorted(np.unique(ground_truth))
+        clustered_labels = sorted(np.unique(predictions))
 
-    def printMetrics(self, ground_truth, predictions, labels):
         cm = contingency_matrix(ground_truth, predictions)
         self.logger.info("Contingency Matrix: ")
         self.logger.info(cm)
         print("Contingency Matrix: ")
         print(cm)
-        self.printContingencyMatrix(cm, predictions, labels)
+        self.printContingencyMatrix(cm, ground_truth_labels, clustered_labels)
 
-        cm, ground_truth, predictions = self.deleteContingencyMatrixColumns(cm, ground_truth, predictions)
+        new_cm, new_clustered_labels = self.matchLabelsInCM(cm, ground_truth_labels, clustered_labels)
+        self.printContingencyMatrix(new_cm, ground_truth_labels, new_clustered_labels, matched="matched")
 
-        mapping = {}
-        for index, predicted in enumerate(sorted(np.unique(predictions))):
-            get_truth_values = []
-            for true in labels:
-                get_truth_values.append(cm[true][index])
-            mapping[str(predicted)] = np.argmax(get_truth_values)
+        diagonal_elements = []
+        for i in range(len(ground_truth_labels)):
+            diagonal_elements.append(new_cm[i][i])
+        sum_diagonal_elements = sum(diagonal_elements)
+        self.logger.info(f"Diagonal_Elements: {diagonal_elements}, Sum: {sum_diagonal_elements}")
+        print(f"Diagonal_Elements: {diagonal_elements}, Sum: {sum_diagonal_elements}")
 
-        self.logger.info(f"Mapping: {mapping}")
-        print(f"Mapping: {mapping}")
+        all_elements = []
+        for row in new_cm:
+            for elem in row:
+                all_elements.append(elem)
+        sum_all_elements = sum(all_elements)
+        self.logger.info(f"All_Elements: {all_elements}, Sum: {sum_all_elements}")
+        print(f"All_Elements: {all_elements}, Sum: {sum_all_elements}")
 
-        predictions_mapping = []
-        for prediction in predictions:
-            predictions_mapping.append(mapping[str(prediction)])
-
-        cm_mapping = confusion_matrix(ground_truth, predictions_mapping, labels=labels)
-        disp = ConfusionMatrixDisplay(confusion_matrix=cm_mapping, display_labels=labels)
-        disp.plot()
-        plt.title("With Cluster Mapping")
-        plt.savefig(f"{self.path}/confusion_matrix.png")
-
-        target_names = []
-        for label in labels:
-            target_names.append(f"cluster_{label}")
-
-        self.logger.info(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
-        print(f"Accuracy: {accuracy_score(ground_truth, predictions_mapping)}")
-        cr = classification_report(ground_truth, predictions_mapping, target_names=target_names)
-        self.logger.info(cr)
-        print(cr)
-
-
-
-
+        accuracy = sum_diagonal_elements / sum_all_elements
+        self.logger.info(f"Accuracy: {accuracy}")
+        print(f"Accuracy: {accuracy}")
