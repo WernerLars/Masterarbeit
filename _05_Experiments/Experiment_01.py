@@ -10,10 +10,6 @@ import logging
 
 
 def main():
-    seed = 0
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
@@ -40,11 +36,17 @@ def main():
         22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat",
     }
     variant_name = "Variant_01_PCA_KMeans"
-    exp_path = "Base_Line_w_pc_0.6/Experiment_01"
+    exp_path = "Experiment_01"
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)
 
     for dataset in datasets:
+
+        seed = 0
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        random.seed(seed)
+
         print(variant_name)
         print(datasets[dataset])
 

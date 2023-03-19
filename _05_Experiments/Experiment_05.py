@@ -10,10 +10,6 @@ import logging
 
 
 def main():
-    seed = 0
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
 
     datasets = {
         1: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat", 0.5],
@@ -21,45 +17,56 @@ def main():
         3: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat", 0.7],
         4: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat", 0.8],
         5: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise025.mat", 0.9],
-        6: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat", 1],
-        7: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise035.mat", 1.2],
+        6: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat", 0.9],
+        7: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise035.mat", 0.9],
         8: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise040.mat", 1.6],
-        9: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat", 0.6],
-        10: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat", 0.6],
-        11: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise015.mat", 0.6],
-        12: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat", 0.6],
-        13: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat", 0.33],
-        14: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise010.mat", 0.35],
-        15: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat", 0.37],
+        9: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat", 0.52],
+        10: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat", 0.57],
+        11: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise015.mat", 0.59],
+        12: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat", 0.8],
+        13: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat", 0.34],
+        14: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise010.mat", 0.36],
+        15: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat", 0.35],
         16: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat", 0.39],
-        17: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat", 0.3],
-        18: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat", 0.33],
-        19: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat", 0.36],
-        20: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat", 0.4],
-        21: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.6],
+        17: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat", 0.37],
+        18: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat", 0.37],
+        19: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat", 0.37],
+        20: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat", 0.7],
+        21: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.56],
         22: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat", 0.6],
     }
 
     variant_name = "Variant_05_Online_Autoencoder_QLearning"
     exp_path = "Experiment_05"
-    if os.path.exists(exp_path) is False:
-        os.mkdir(exp_path)
 
     normalise = False
-    optimising = True
-    templates = True
+    optimising = False
+    templates = False
     noisy = False
 
     if normalise:
         variant_name = f"{variant_name}_norm"
+        exp_path = f"{exp_path}_norm"
     if optimising:
         variant_name = f"{variant_name}_opt"
+        exp_path = f"{exp_path}_opt"
     if templates:
         variant_name = f"{variant_name}_temp"
+        exp_path = f"{exp_path}_temp"
     if noisy:
         variant_name = f"{variant_name}_noisy"
+        exp_path = f"{exp_path}_noisy"
+
+    if os.path.exists(exp_path) is False:
+        os.mkdir(exp_path)
 
     for dataset in datasets:
+
+        seed = 0
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        random.seed(seed)
+
         print(variant_name)
         print(datasets[dataset])
 

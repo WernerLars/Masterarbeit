@@ -10,10 +10,6 @@ import logging
 
 
 def main():
-    seed = 0
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
@@ -41,11 +37,16 @@ def main():
     }
 
     variant_name = "Variant_02_Autoencoder_KMeans"
-    exp_path = "Base_Line_w_pc_0.6/Experiment_02"
+    exp_path = "Experiment_02"
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)
 
     for dataset in datasets:
+
+        seed = 0
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        random.seed(seed)
 
         print(variant_name)
         print(datasets[dataset])

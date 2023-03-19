@@ -10,10 +10,6 @@ import logging
 
 
 def main():
-    seed = 0
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-    random.seed(seed)
 
     datasets = {
         1: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat", 1.5],
@@ -24,8 +20,8 @@ def main():
         6: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat", 1.5],
         7: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise035.mat", 2.2],
         8: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise040.mat", 2.61],
-        9: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat", 0.9],
-        10: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat", 1],
+        9: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat", 0.82],
+        10: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat", 0.82],
         11: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise015.mat", 1],
         12: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat", 1.4],
         13: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat", 0.55],
@@ -46,6 +42,11 @@ def main():
         os.mkdir(exp_path)
 
     for dataset in datasets:
+
+        seed = 0
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        random.seed(seed)
 
         print(variant_name)
         print(datasets[dataset])
