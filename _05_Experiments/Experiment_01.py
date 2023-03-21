@@ -9,8 +9,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main():
-
+def main(main_path="", seed=0):
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
         2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
@@ -36,13 +35,16 @@ def main():
         22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat",
     }
     variant_name = "Variant_01_PCA_KMeans"
-    exp_path = "Experiment_01"
+
+    if seed == 0:
+        exp_path = f"{main_path}Experiment_01"
+    else:
+        exp_path = f"{main_path}Experiment_01_{seed}"
+
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)
 
     for dataset in datasets:
-
-        seed = 0
         torch.manual_seed(seed)
         np.random.seed(seed)
         random.seed(seed)

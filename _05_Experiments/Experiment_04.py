@@ -9,7 +9,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main():
+def main(main_path="", seed=0, pc=""):
 
     datasets = {
         1: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat", 0.9],
@@ -37,13 +37,17 @@ def main():
     }
 
     variant_name = "Variant_04_Offline_Autoencoder_QLearning"
-    exp_path = "Experiment_04"
+
+    if seed == 0:
+        exp_path = f"{main_path}Experiment_04"
+    else:
+        exp_path = f"{main_path}Experiment_04_{seed}"
+
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)
 
     for dataset in datasets:
 
-        seed = 0
         torch.manual_seed(seed)
         np.random.seed(seed)
         random.seed(seed)
@@ -52,7 +56,12 @@ def main():
         print(datasets[dataset])
 
         path = datasets[dataset][0]
-        punishment_coefficient = datasets[dataset][1]
+
+        if pc is not "":
+            punishment_coefficient = pc
+        else:
+            punishment_coefficient = datasets[dataset][1]
+
         dataset_name = path[16:].split("/")
         vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/")
         vis_path = vis.getVisualisationPath()

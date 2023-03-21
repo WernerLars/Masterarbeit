@@ -10,7 +10,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Different_Variant_05"
+        self.experiment_path = "../_05_Experiments/Random_Seed/V4"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -119,8 +119,10 @@ class Tables(object):
         plt.savefig(f"{self.experiment_path}/Boxplot2.png")
 
 
-def main():
+def main(experiment_path=""):
     tables = Tables()
+    if experiment_path is not "":
+        tables.experiment_path = experiment_path
     for (root, dirs, files) in os.walk(tables.experiment_path):
         for file in files:
             if file == tables.filename:

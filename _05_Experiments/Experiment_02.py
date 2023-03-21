@@ -9,7 +9,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main():
+def main(main_path="", seed=0):
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
@@ -37,13 +37,17 @@ def main():
     }
 
     variant_name = "Variant_02_Autoencoder_KMeans"
-    exp_path = "Experiment_02"
+
+    if seed == 0:
+        exp_path = f"{main_path}Experiment_02"
+    else:
+        exp_path = f"{main_path}Experiment_02_{seed}"
+
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)
 
     for dataset in datasets:
 
-        seed = 0
         torch.manual_seed(seed)
         np.random.seed(seed)
         random.seed(seed)
