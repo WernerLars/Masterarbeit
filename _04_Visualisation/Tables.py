@@ -1,6 +1,4 @@
 import os
-import textwrap
-
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -10,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Random_Seed/V4"
+        self.experiment_path = "../_05_Experiments/Base_Line"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -56,11 +54,11 @@ class Tables(object):
             self.punishment_coefficients[variant_name].append(punishment_coefficient)
 
     def printAccuracyTable(self):
-        plt.figure(figsize=(5 + 2 * len(self.variant_names), 6))
-        ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f")
+        plt.figure(figsize=(3+1.12 * len(self.variant_names), 6))
+        ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f", linewidths=0.5)
         for t in ax.texts: t.set_text(t.get_text() + " %")
         s = np.arange(len(self.variant_names)) + 0.5
-        plt.xticks(s, [textwrap.fill(x.replace('_', ' '), width=20) for x in self.variant_names], rotation=0)
+        plt.xticks(s, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
         # df.to_csv(f"{self.experiment_path}/AccuracyTable.csv")
@@ -137,7 +135,11 @@ def main(experiment_path=""):
     tables.printAccuracyGraph()
     tables.printBoxplot1()
     tables.printBoxplot2()
-    tables.df.loc['mean'] = tables.df.mean()
+    tables.df.loc['mean'] = tables.df.mean(axis=0)
+    tables.df['mean'] = tables.df.mean(axis=1)
+    tables.variant_names.append("mean")
+    #tables.df['variance'] = tables.df.var(axis=1)
+    #tables.variant_names.append("variance")
     tables.printAccuracyTable()
 
     pc = pd.DataFrame.from_dict(tables.punishment_coefficients)
