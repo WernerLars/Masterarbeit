@@ -1,5 +1,3 @@
-import numpy as np
-
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
 from _02_Classes_Autoencoder_QLearning.Autoencoder import *
@@ -54,6 +52,9 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
                              normalise=self.normalise,
                              punishment_coefficient=punishment_coefficient)
 
+        self.loss_values = []
+        self.epoch_loss = []
+
         self.preprocessing()
 
     def preprocessing(self):
@@ -81,13 +82,16 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
             self.logger.info(f"Epoch {t + 1}\n-------------------------------")
             print(f"Epoch {t + 1}\n-------------------------------")
             self.train(train_dl)
+            self.vis.printLossCurve(self.epoch_loss, t + 1)
 
+        self.vis.printLossCurve(self.loss_values)
         self.test(test_dl, y_test)
         self.logger.info("Done!")
 
     def train(self, dataloader):
         size = len(dataloader.dataset)
         self.autoencoder.train()
+        self.epoch_loss = []
         for batch, (X, y) in enumerate(dataloader):
 
             # Compute reconstruction error
@@ -101,9 +105,12 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
             # Loss Computation
             if batch % 100 == 0:
-                loss, current = loss.item(), batch * len(X)
+                loss = loss.item()
+                self.epoch_loss.append(loss)
+                current = batch * len(X)
                 self.logger.info(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
                 print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+        self.loss_values.append(sum(self.epoch_loss) / len(dataloader))
 
     def test(self, dataloader, y_test):
         self.ql.reset_spikes_clusters()

@@ -17,7 +17,7 @@ def main():
     else:
         return
 
-    number_of_seeds = 5
+    number_of_seeds = 9
     number_of_variants = 5
     variant_paths = []
     jobs = []

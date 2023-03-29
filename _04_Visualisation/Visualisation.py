@@ -5,7 +5,6 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import sort
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, accuracy_score
 from sklearn.metrics.cluster import contingency_matrix
 
 
@@ -106,7 +105,6 @@ class Visualisation(object):
             else:
                 color = "black"
             plt.text(i, j, label, ha="center", va="center", fontsize=13, color=color)
-        plt.title("Contingency Matrix", fontsize=16)
         plt.xticks(ticks=np.arange(len(predicted_labels)), labels=predicted_labels, fontsize=13)
         plt.yticks(true_labels, fontsize=13)
         cbar = plt.colorbar()
@@ -114,8 +112,10 @@ class Visualisation(object):
         plt.xlabel("Predicted label", fontsize=13)
         plt.ylabel("True label", fontsize=13)
         if matched is None:
+            plt.title("Contingency Matrix", fontsize=16)
             plt.savefig(f"{self.path}/contingency_matrix.png")
         else:
+            plt.title("Matched Contingency Matrix", fontsize=16)
             plt.savefig(f"{self.path}/contingency_matrix_{matched}.png")
 
     def matchLabelsInCM(self, cm, ground_truth_labels, clustered_labels):
@@ -126,11 +126,14 @@ class Visualisation(object):
         matched_labels = []
         converted_cm = [[] for _ in range(number_of_gtl)]
 
+        # Convert Numpy Array into List by appending every element of cm to converted_cm
         for i, row in enumerate(cm):
             for elem in row:
                 converted_cm[i].append(elem)
         print(converted_cm)
 
+        # If Number of Clusters is lower than the number of Ground Truth Labels,
+        # then the Contingency Matrix needs to be filled up to have an n*n array
         if number_of_cl < number_of_gtl:
             for t in range(number_of_gtl - number_of_cl):
                 for i, row in enumerate(converted_cm):
@@ -139,6 +142,8 @@ class Visualisation(object):
         print(converted_cm)
         print(clustered_labels)
 
+        # Deep Copy of cm for later to swap columns (copy_cm rows and columns get set to -1
+        # for finding the best match of labels)
         copy_cm = copy.deepcopy(converted_cm)
         for _ in range(len(ground_truth_labels)):
             max_row_values = []
@@ -151,6 +156,7 @@ class Visualisation(object):
             match_labels[gt_label] = clustered_label
             matched_labels.append(clustered_label)
 
+            # Replacing matched labels column and row values with -1
             for i in range(len(clustered_labels)):
                 copy_cm[gt_label][i] = -1
             for i in range(len(ground_truth_labels)):
@@ -160,21 +166,26 @@ class Visualisation(object):
         print(f"Match_Labels: {match_labels}")
         self.logger.info(f"Match_Labels: {match_labels}")
 
+        # new cm contains swapped columns where diagonal has matched labels
         new_cm = [[] for _ in range(number_of_gtl)]
+        # new_clustered_labels only for the x sequence in visualisation of contingency matrix
         new_clustered_labels = []
 
+        # Adding the best columns to new_cm
         for gt_label in ground_truth_labels:
             matched_clustered_label = match_labels[gt_label]
             for index, row in enumerate(converted_cm):
                 new_cm[index].append(converted_cm[index][matched_clustered_label])
             new_clustered_labels.append(matched_clustered_label)
 
+        # Adding left over columns
         for label in clustered_labels:
             if label not in matched_labels:
                 for index, row in enumerate(converted_cm):
                     new_cm[index].append(converted_cm[index][label])
                 new_clustered_labels.append(label)
 
+        # Convert new_cm to Numpy Array
         new_cm = np.asarray(new_cm)
         self.logger.info("New Contingency Matrix: ")
         self.logger.info(new_cm)
@@ -198,6 +209,7 @@ class Visualisation(object):
         new_cm, new_clustered_labels = self.matchLabelsInCM(cm, ground_truth_labels, clustered_labels)
         self.printContingencyMatrix(new_cm, ground_truth_labels, new_clustered_labels, matched="matched")
 
+        # Sum up all diagonal elements to get all TP and TN
         diagonal_elements = []
         for i in range(len(ground_truth_labels)):
             diagonal_elements.append(new_cm[i][i])
@@ -205,6 +217,7 @@ class Visualisation(object):
         self.logger.info(f"Diagonal_Elements: {diagonal_elements}, Sum: {sum_diagonal_elements}")
         print(f"Diagonal_Elements: {diagonal_elements}, Sum: {sum_diagonal_elements}")
 
+        # Sum up all elements (TP+TN+FP+FN)
         all_elements = []
         for row in new_cm:
             for elem in row:
@@ -213,6 +226,7 @@ class Visualisation(object):
         self.logger.info(f"All_Elements: {all_elements}, Sum: {sum_all_elements}")
         print(f"All_Elements: {all_elements}, Sum: {sum_all_elements}")
 
+        # Compute Accuracy with Formula
         accuracy = sum_diagonal_elements / sum_all_elements
         self.logger.info(f"Accuracy: {accuracy}")
         print(f"Accuracy: {accuracy}")

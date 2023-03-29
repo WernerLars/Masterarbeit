@@ -44,9 +44,9 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    dataset_number = 1
-    variant_number = 2
-    punishment_coefficient = 0.6
+    dataset_number = 7
+    variant_number = 4
+    punishment_coefficient = 1
 
     seed = 0
     torch.manual_seed(seed)
@@ -90,7 +90,7 @@ def main():
     if variant_name == "Variant_01_PCA_KMeans":
         Variant_01_PCA_KMeans(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_02_Autoencoder_KMeans":
-        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger, chooseAutoencoder=3)
+        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger, chooseAutoencoder=2)
     elif variant_name == "Variant_03_PCA_QLearning":
         Variant_03_PCA_QLearning(path, vis, logger, parameter_logger,
                                  punishment_coefficient=punishment_coefficient,
