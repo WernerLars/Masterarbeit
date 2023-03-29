@@ -1,4 +1,3 @@
-import numpy as np
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
 from _02_Classes_Autoencoder_QLearning.Autoencoder import *
@@ -30,9 +29,7 @@ class Variant_02_Autoencoder_KMeans(object):
         self.autoencoder_models = {
             1: ["Autoencoder", Autoencoder(self.input_size, self.number_of_features)],
             2: ["Convolutional Autoencoder", ConvolutionalAutoencoder(self.input_size,
-                                                                      self.number_of_features)],
-            3: ["Convolutional Autoencoder Test", ConvolutionalAutoencoderTest(self.input_size,
-                                                                               self.number_of_features)]
+                                                                      self.number_of_features)]
         }
         self.autoencoder = self.autoencoder_models[self.chooseAutoencoder][1]
         self.parameter_logger.info(f"Chosen Model: {self.autoencoder_models[self.chooseAutoencoder][0]}")

@@ -32,45 +32,18 @@ class ConvolutionalAutoencoder(nn.Module):
         self.input_size = input_size
         self.number_of_features = number_of_features
         self.encoder = nn.Sequential(
-            nn.Conv1d(in_channels=self.input_size, out_channels=round(self.input_size/4),
-                      kernel_size=1),
+            nn.Conv1d(in_channels=1, out_channels=6, kernel_size=6),
             nn.LeakyReLU(),
-            nn.Conv1d(in_channels=round(self.input_size/4), out_channels=self.number_of_features,
-                      kernel_size=1),
-            nn.Flatten()
+            nn.Conv1d(in_channels=6, out_channels=1, kernel_size=6),
+            nn.Flatten(),
+            nn.Linear(37, number_of_features)
         )
         self.decoder = nn.Sequential(
-            nn.ConvTranspose1d(in_channels=self.number_of_features, out_channels=round(self.input_size/4),
-                               kernel_size=1),
+            nn.ConvTranspose1d(in_channels=1, out_channels=6, kernel_size=6),
             nn.LeakyReLU(),
-            nn.ConvTranspose1d(in_channels=round(self.input_size/4), out_channels=self.input_size,
-                               kernel_size=1),
-            nn.Flatten()
-        )
-
-    def forward(self, x):
-        x = x.reshape(1, self.input_size, 1)
-        encoded = self.encoder(x)
-        decoded = self.decoder(encoded.reshape(1, self.number_of_features, 1))
-        return decoded, encoded
-
-
-class ConvolutionalAutoencoderTest(nn.Module):
-    def __init__(self, input_size, number_of_features):
-        super().__init__()
-        self.input_size = input_size
-        self.number_of_features = number_of_features
-        self.encoder = nn.Sequential(
-            nn.Conv1d(in_channels=1, out_channels=1, kernel_size=30),
-            nn.LeakyReLU(),
-            nn.Conv1d(in_channels=1, out_channels=1, kernel_size=17),
-            nn.Flatten()
-        )
-        self.decoder = nn.Sequential(
-            nn.ConvTranspose1d(in_channels=1, out_channels=1, kernel_size=17),
-            nn.LeakyReLU(),
-            nn.ConvTranspose1d(in_channels=1, out_channels=1, kernel_size=30),
-            nn.Flatten()
+            nn.ConvTranspose1d(in_channels=6, out_channels=1, kernel_size=6),
+            nn.Flatten(),
+            nn.Linear(12, input_size)
         )
 
     def forward(self, x):
