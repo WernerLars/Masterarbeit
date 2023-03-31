@@ -64,7 +64,7 @@ def main(main_path="", seed=0, pc=""):
 
         dataset_name = path[16:].split("/")
         vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/")
-        vis_path = vis.getVisualisationPath()
+        vis_path = vis.get_visualisation_path()
 
         formatter = logging.Formatter("%(message)s")
         handler1 = logging.FileHandler(filename=f"{vis_path}/informations.log", mode="w")
@@ -73,7 +73,7 @@ def main(main_path="", seed=0, pc=""):
         logger.setLevel(logging.INFO)
         logger.addHandler(handler1)
 
-        vis.setLogger(logger)
+        vis.set_logger(logger)
 
         handler2 = logging.FileHandler(filename=f"{vis_path}/parameters.log", mode="w")
         handler2.setFormatter(formatter)

@@ -27,7 +27,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
 
         self.dataset = LoadDataset(self.path, self.logger)
-        self.data, self.y_labels = self.dataset.loadData()
+        self.data, self.y_labels = self.dataset.load_data()
         self.input_size = len(self.data.aligned_spikes[0])
         self.parameter_logger.info(f"Input Size: {self.input_size}")
         self.number_of_features = number_of_features
@@ -82,9 +82,9 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
             self.logger.info(f"Epoch {t + 1}\n-------------------------------")
             print(f"Epoch {t + 1}\n-------------------------------")
             self.train(train_dl)
-            self.vis.printLossCurve(self.epoch_loss, t + 1)
+            self.vis.print_loss_curve(self.epoch_loss, t + 1)
 
-        self.vis.printLossCurve(self.loss_values)
+        self.vis.print_loss_curve(self.loss_values)
         self.test(test_dl, y_test)
         self.logger.info("Done!")
 
@@ -137,11 +137,11 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
             # First Two Spikes are just added to FeatureSet to make normalisation work
             with torch.no_grad():
                 if firstTwoSpikes < 2 and self.normalise:
-                    self.ql.addToFeatureSet(encoded_features.numpy()[0])
+                    self.ql.add_to_feature_set(encoded_features.numpy()[0])
                     firstTwoSpikes += 1
                     size -= 1
                 else:
-                    self.ql.dynaQAlgorithm(encoded_features.numpy()[0])
+                    self.ql.dyna_q_algorithm(encoded_features.numpy()[0])
                     self.logger.info(f"Q_Learning: {current:>5d}/{size:>5d}]")
                     print(f"Q_Learning: {current:>5d}/{size:>5d}]")
                     current += 1
@@ -154,10 +154,10 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
                     # Visualisation of Real Spike to Reconstructed Spike on Ground Truth Data
                     if visualise[cluster]:
-                        self.vis.visualisingReconstructedSpike(X.numpy().flatten(),
-                                                               reconstructed_spike.numpy().flatten(),
-                                                               len(X.numpy().flatten()),
-                                                               str(cluster))
+                        self.vis.visualising_reconstructed_spike(X.numpy().flatten(),
+                                                                 reconstructed_spike.numpy().flatten(),
+                                                                 len(X.numpy().flatten()),
+                                                                 str(cluster))
                         visualise[cluster] = False
 
         self.logger.info(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
@@ -165,29 +165,29 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
         self.logger.info(cluster_labels)
         self.logger.info(self.ql.clusters)
-        self.ql.printQTable()
-        self.ql.printModel()
+        self.ql.print_q_table()
+        self.ql.print_model()
 
-        centroids_true = self.vis.getClusterCenters(encoded_features_list, cluster_labels)
-        centroids_qlearning = self.vis.getClusterCenters(encoded_features_list, self.ql.clusters)
+        centroids_true = self.vis.get_cluster_centers(encoded_features_list, cluster_labels)
+        centroids_qlearning = self.vis.get_cluster_centers(encoded_features_list, self.ql.clusters)
 
-        self.vis.visualisingFeatures(encoded_features_X, encoded_features_Y)
+        self.vis.visualising_features(encoded_features_X, encoded_features_Y)
 
-        self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, cluster_labels,
-                                     centroids_true, "true")
-        self.vis.visualisingClusters(encoded_features_X, encoded_features_Y, self.ql.clusters,
-                                     centroids_qlearning, "qlearning")
-        self.vis.printMetrics(cluster_labels, self.ql.clusters)
+        self.vis.visualising_clusters(encoded_features_X, encoded_features_Y, cluster_labels,
+                                      centroids_true, "true")
+        self.vis.visualising_clusters(encoded_features_X, encoded_features_Y, self.ql.clusters,
+                                      centroids_qlearning, "qlearning")
+        self.vis.print_metrics(cluster_labels, self.ql.clusters)
 
         if self.normalise:
-            centroids_qlearning_normalised = self.vis.getClusterCenters(self.ql.spikes, self.ql.clusters)
+            centroids_qlearning_normalised = self.vis.get_cluster_centers(self.ql.spikes, self.ql.clusters)
             x_norm = []
             y_norm = []
             for features_normalised in self.ql.spikes:
                 x_norm.append(features_normalised[0])
                 y_norm.append(features_normalised[1])
-            self.vis.visualisingFeatures(x_norm, y_norm, "_normalised")
-            self.vis.visualisingClusters(x_norm, y_norm, cluster_labels,
-                                         filename="true_normalised")
-            self.vis.visualisingClusters(x_norm, y_norm, self.ql.clusters,
-                                         centroids_qlearning_normalised, "qlearning_normalised")
+            self.vis.visualising_features(x_norm, y_norm, "_normalised")
+            self.vis.visualising_clusters(x_norm, y_norm, cluster_labels,
+                                          filename="true_normalised")
+            self.vis.visualising_clusters(x_norm, y_norm, self.ql.clusters,
+                                          centroids_qlearning_normalised, "qlearning_normalised")

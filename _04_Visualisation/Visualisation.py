@@ -21,19 +21,19 @@ class Visualisation(object):
         self.path = f"{exp_path}{self.dataset_name[1]}/{self.variant_name}/{self.timestamp}"
         os.mkdir(self.path)
 
-    def getVisualisationPath(self):
+    def get_visualisation_path(self):
         return self.path
 
-    def setLogger(self, logger):
+    def set_logger(self, logger):
         self.logger = logger
 
-    def printSpike(self, spike, n_features, color, filename):
+    def print_spike(self, spike, n_features, color, filename):
         plt.figure(figsize=(4, 4))
         t = np.arange(0, n_features, 1)
         plt.plot(t, spike, color=color)
         plt.savefig(f"{self.path}/{filename}.png")
 
-    def visualisingReconstructedSpike(self, original, reconstructed, n_features, cluster):
+    def visualising_reconstructed_spike(self, original, reconstructed, n_features, cluster):
         plt.figure(figsize=(4, 4))
         t = np.arange(0, n_features, 1)
         title = "True Label: " + cluster
@@ -43,7 +43,7 @@ class Visualisation(object):
         plt.title(title)
         plt.savefig(f"{self.path}/reconstructedSpike_cluster_{cluster}.png")
 
-    def getClusterCenters(self, features_list, labels):
+    def get_cluster_centers(self, features_list, labels):
         centroids = []
         unique_cluster = sort(np.unique(labels))
         for cluster in unique_cluster:
@@ -59,12 +59,12 @@ class Visualisation(object):
         self.logger.info(f"Centroids: {centroids}")
         return np.asarray(centroids)
 
-    def visualisingFeatures(self, x, y, filename=""):
+    def visualising_features(self, x, y, filename=""):
         plt.figure(figsize=(8, 8))
         plt.scatter(x, y, color="k")
         plt.savefig(f"{self.path}/clusters_features{filename}.png")
 
-    def visualisingClusters(self, x, y, cluster, centroids=None, filename=""):
+    def visualising_clusters(self, x, y, cluster, centroids=None, filename=""):
         plt.figure(figsize=(8, 8))
         unique_cluster = np.unique(cluster)
         for i in unique_cluster:
@@ -82,7 +82,7 @@ class Visualisation(object):
         plt.legend(loc="upper left")
         plt.savefig(f"{self.path}/clusters_{filename}.png")
 
-    def printLossCurve(self, loss_values, epoch=""):
+    def print_loss_curve(self, loss_values, epoch=""):
         plt.figure(figsize=(6, 4))
         t = np.arange(0, len(loss_values), 1)
         plt.plot(t, loss_values, color="b")
@@ -96,7 +96,7 @@ class Visualisation(object):
             plt.ylabel("Losses")
             plt.savefig(f"{self.path}/lossCurveEpoch{epoch}.png")
 
-    def printContingencyMatrix(self, cm, true_labels, predicted_labels, matched=None):
+    def print_contingency_matrix(self, cm, true_labels, predicted_labels, matched=None):
         plt.figure(figsize=(12, 6))
         plt.imshow(cm, interpolation="nearest")
         for (j, i), label in np.ndenumerate(cm):
@@ -118,7 +118,11 @@ class Visualisation(object):
             plt.title("Matched Contingency Matrix", fontsize=16)
             plt.savefig(f"{self.path}/contingency_matrix_{matched}.png")
 
-    def matchLabelsInCM(self, cm, ground_truth_labels, clustered_labels):
+    def match_labels_in_cm(self, cm, ground_truth_labels, clustered_labels):
+        #
+        #
+        #
+        
         number_of_gtl = len(ground_truth_labels)
         number_of_cl = len(clustered_labels)
 
@@ -195,7 +199,7 @@ class Visualisation(object):
         print(f"New Clustered Label Sequence: {new_clustered_labels}")
         return new_cm, new_clustered_labels
 
-    def printMetrics(self, ground_truth, predictions):
+    def print_metrics(self, ground_truth, predictions):
         ground_truth_labels = sorted(np.unique(ground_truth))
         clustered_labels = sorted(np.unique(predictions))
 
@@ -204,10 +208,10 @@ class Visualisation(object):
         self.logger.info(cm)
         print("Contingency Matrix: ")
         print(cm)
-        self.printContingencyMatrix(cm, ground_truth_labels, clustered_labels)
+        self.print_contingency_matrix(cm, ground_truth_labels, clustered_labels)
 
-        new_cm, new_clustered_labels = self.matchLabelsInCM(cm, ground_truth_labels, clustered_labels)
-        self.printContingencyMatrix(new_cm, ground_truth_labels, new_clustered_labels, matched="matched")
+        new_cm, new_clustered_labels = self.match_labels_in_cm(cm, ground_truth_labels, clustered_labels)
+        self.print_contingency_matrix(new_cm, ground_truth_labels, new_clustered_labels, matched="matched")
 
         # Sum up all diagonal elements to get all TP and TN
         diagonal_elements = []

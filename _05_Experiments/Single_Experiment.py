@@ -44,8 +44,8 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    dataset_number = 7
-    variant_number = 4
+    dataset_number = 1
+    variant_number = 5
     punishment_coefficient = 1
 
     seed = 0
@@ -57,7 +57,7 @@ def main():
     dataset_name = path[16:].split("/")
     variant_name = variants[variant_number]
     vis = Visualisation(variant_name, dataset_name)
-    vis_path = vis.getVisualisationPath()
+    vis_path = vis.get_visualisation_path()
     exp_path = f"Experiment_0{variant_number}"
 
     formatter = logging.Formatter("%(message)s")
@@ -67,7 +67,7 @@ def main():
     logger.setLevel(logging.INFO)
     logger.addHandler(handler1)
 
-    vis.setLogger(logger)
+    vis.set_logger(logger)
 
     handler2 = logging.FileHandler(filename=f"{vis_path}/parameters.log", mode="w")
     handler2.setFormatter(formatter)

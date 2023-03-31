@@ -14,7 +14,7 @@ class Variant_01_PCA_KMeans(object):
         self.parameter_logger.info(f"PCA Components: {self.pca_components}")
 
         self.dataset = LoadDataset(self.path, self.logger)
-        self.dataloader, self.y_labels = self.dataset.loadData()
+        self.dataloader, self.y_labels = self.dataset.load_data()
         self.pca_transformed = []
 
         self.feature_extraction()
@@ -46,10 +46,10 @@ class Variant_01_PCA_KMeans(object):
             x.append(spike[0])
             y.append(spike[1])
 
-        centroids_true = self.vis.getClusterCenters(self.pca_transformed, self.y_labels)
-        centroids_kmeans = self.vis.getClusterCenters(self.pca_transformed, kmeans.labels_)
+        centroids_true = self.vis.get_cluster_centers(self.pca_transformed, self.y_labels)
+        centroids_kmeans = self.vis.get_cluster_centers(self.pca_transformed, kmeans.labels_)
 
-        self.vis.visualisingFeatures(x, y)
-        self.vis.visualisingClusters(x, y, self.y_labels, centroids_true, "true")
-        self.vis.visualisingClusters(x, y, kmeans.labels_, centroids_kmeans, "kmeans")
-        self.vis.printMetrics(self.y_labels, kmeans.labels_)
+        self.vis.visualising_features(x, y)
+        self.vis.visualising_clusters(x, y, self.y_labels, centroids_true, "true")
+        self.vis.visualising_clusters(x, y, kmeans.labels_, centroids_kmeans, "kmeans")
+        self.vis.print_metrics(self.y_labels, kmeans.labels_)

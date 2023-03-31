@@ -45,7 +45,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
 
         self.dataset = LoadDataset(self.path, self.logger)
-        self.data, self.y_labels = self.dataset.loadData()
+        self.data, self.y_labels = self.dataset.load_data()
         self.input_size = len(self.data.aligned_spikes[0])
         self.number_of_features = number_of_features
         self.parameter_logger.info(f"Input Size: {self.input_size}")
@@ -86,7 +86,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.epoch_loss = []
 
         self.preprocessing()
-        self.clusterVisualisation()
+        self.cluster_visualisation()
 
     def preprocessing(self):
 
@@ -105,12 +105,12 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 if t % self.updateFactor == 0 and self.optimising:
                     self.autoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
                     print(f"{t}: Model updated")
-                self.trainAutoencoderWithQLearning(X, y)
+                self.train_autoencoder_with_q_learning(X, y)
                 t += 1
             else:
                 break
             self.loss_values.append(sum(self.epoch_loss) / self.epochs)
-        self.vis.printLossCurve(self.loss_values)
+        self.vis.print_loss_curve(self.loss_values)
 
     def train(self, batch, model):
         model.train()
@@ -132,16 +132,16 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         if self.optimising:
             torch.save(model.state_dict(), f"{self.vis.path}/model.pt")
 
-    def trainAutoencoderWithQLearning(self, X, y):
+    def train_autoencoder_with_q_learning(self, X, y):
         reconstructed_spike, encoded_features = self.autoencoder(X)
         batch = X
         if self.firstTwoSpikes < 2 and self.normalise:
             with torch.no_grad():
-                self.ql.addToFeatureSet(encoded_features.numpy()[0])
+                self.ql.add_to_feature_set(encoded_features.numpy()[0])
                 self.firstTwoSpikes += 1
         else:
             with torch.no_grad():
-                cluster = self.ql.dynaQAlgorithm(encoded_features.numpy()[0])
+                cluster = self.ql.dyna_q_algorithm(encoded_features.numpy()[0])
 
                 self.encoded_features_list.append(encoded_features.numpy()[0])
                 self.encoded_features_X.append(encoded_features.numpy()[0][0])
@@ -150,10 +150,10 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 self.cluster_labels.append(true_label)
 
                 if self.visualise[true_label]:
-                    self.vis.visualisingReconstructedSpike(X.numpy().flatten(),
-                                                           reconstructed_spike.numpy().flatten(),
-                                                           len(X.numpy().flatten()),
-                                                           str(true_label))
+                    self.vis.visualising_reconstructed_spike(X.numpy().flatten(),
+                                                             reconstructed_spike.numpy().flatten(),
+                                                             len(X.numpy().flatten()),
+                                                             str(true_label))
                     self.visualise[true_label] = False
 
         if self.templateMatching:
@@ -174,23 +174,23 @@ class Variant_05_Online_Autoencoder_QLearning(object):
             self.optimisingAutoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
             self.train(batch, self.optimisingAutoencoder)
 
-    def clusterVisualisation(self):
+    def cluster_visualisation(self):
 
         self.logger.info(f"Number of Samples after Autoencoder testing: {len(self.encoded_features_list)}")
         self.logger.info(f"First Spike after testing: {self.encoded_features_list[0]}")
 
         self.logger.info(self.cluster_labels)
         self.logger.info(self.ql.clusters)
-        self.ql.printQTable()
-        self.ql.printModel()
+        self.ql.print_q_table()
+        self.ql.print_model()
 
-        centroids_true = self.vis.getClusterCenters(self.encoded_features_list, self.cluster_labels)
-        centroids_qlearning = self.vis.getClusterCenters(self.encoded_features_list, self.ql.clusters)
+        centroids_true = self.vis.get_cluster_centers(self.encoded_features_list, self.cluster_labels)
+        centroids_qlearning = self.vis.get_cluster_centers(self.encoded_features_list, self.ql.clusters)
 
-        self.vis.visualisingFeatures(self.encoded_features_X, self.encoded_features_Y)
-        self.vis.visualisingClusters(self.encoded_features_X, self.encoded_features_Y, self.cluster_labels,
-                                     centroids_true, "true")
-        self.vis.visualisingClusters(self.encoded_features_X, self.encoded_features_Y, self.ql.clusters,
-                                     centroids_qlearning, "qlearning")
+        self.vis.visualising_features(self.encoded_features_X, self.encoded_features_Y)
+        self.vis.visualising_clusters(self.encoded_features_X, self.encoded_features_Y, self.cluster_labels,
+                                      centroids_true, "true")
+        self.vis.visualising_clusters(self.encoded_features_X, self.encoded_features_Y, self.ql.clusters,
+                                      centroids_qlearning, "qlearning")
 
-        self.vis.printMetrics(self.cluster_labels, self.ql.clusters)
+        self.vis.print_metrics(self.cluster_labels, self.ql.clusters)

@@ -85,7 +85,7 @@ class Q_Learning(object):
         self.spikes = []
         self.clusters = []
 
-    def printQTable(self):
+    def print_q_table(self):
         for state in self.q_table:
             self.q_table[state] = np.round(self.q_table[state], 2)
         df = pd.DataFrame.from_dict(self.q_table, orient="index")
@@ -93,7 +93,7 @@ class Q_Learning(object):
         print(df)
         # print(df.to_latex())
 
-    def printModel(self):
+    def print_model(self):
         for state in self.model:
             for action, _ in enumerate(self.model[state]):
                 self.model[state][action][0] = np.round(self.model[state][action][0], 2)
@@ -121,23 +121,23 @@ class Q_Learning(object):
         self.actions.append(state_length)
         self.randomFeatures[new_key] = [[] for _ in range(self.number_of_features)]
         self.clusters_number += 1
-        self.episode_number = self.computeEpisodeNumber()
+        self.episode_number = self.compute_episode_number()
         self.parameter_logger.info(f"New Episode Number: {self.episode_number}")
 
-    def addToFeatureSet(self, spike):
+    def add_to_feature_set(self, spike):
         for i in range(0, self.number_of_features):
             self.features[i].append(spike[i])
 
-    def normaliseFeatures(self, spike):
+    def normalise_features(self, spike):
         features_normalised = np.zeros(len(spike))
         for i in range(0, self.number_of_features):
             features_normalised[i] = (spike[i]) / (max(self.features[i]) - min(self.features[i]))
         return features_normalised
 
-    def computeEpisodeNumber(self):
+    def compute_episode_number(self):
         return ceil(100 * (self.clusters_number / self.episode_number_coefficient))
 
-    def epsilonGreedy(self, state):
+    def epsilon_greedy_method(self, state):
         q_values = self.q_table[state]
         p = uniform(0, 1)
         if p < self.epsilon:
@@ -145,7 +145,7 @@ class Q_Learning(object):
         else:
             return np.argmax(q_values)
 
-    def selectRandomFeatures(self, action, i):
+    def select_random_features(self, action, i):
         random_indexes = [randint(0, len(self.randomFeatures[f"c{action}"][i]) - 1)
                           for _ in range(0, self.random_features_number)]
         feature_selection = []
@@ -153,17 +153,17 @@ class Q_Learning(object):
             feature_selection.append(self.randomFeatures[f"c{action}"][i][random_indexes[j]])
         return feature_selection
 
-    def computeReward(self, action, features):
+    def compute_reward(self, action, features):
         if action == 0:
             return -(self.punishment_coefficient * self.number_of_features) ** 2
         else:
             feature_sum = 0
             for i in range(0, self.number_of_features):
-                features_selected = self.selectRandomFeatures(action, i)
+                features_selected = self.select_random_features(action, i)
                 feature_sum += (features[i] - np.mean(features_selected)) ** 2
             return -feature_sum
 
-    def addSpike(self, spike, s):
+    def add_spike(self, spike, s):
         max_action = np.argmax(self.q_table[s])
         if max_action == 0:
             self.new_cluster()
@@ -184,10 +184,10 @@ class Q_Learning(object):
                                                                       spike[i])
         return cluster
 
-    def dynaQAlgorithm(self, spike):
+    def dyna_q_algorithm(self, spike):
         if self.normalise:
-            self.addToFeatureSet(spike)
-            features = self.normaliseFeatures(spike)
+            self.add_to_feature_set(spike)
+            features = self.normalise_features(spike)
         else:
             features = spike
         self.reset_q_table()
@@ -197,8 +197,8 @@ class Q_Learning(object):
         state_action_taken = []
 
         while counter <= self.episode_number:
-            a = self.epsilonGreedy(s)
-            r = self.computeReward(a, features)
+            a = self.epsilon_greedy_method(s)
+            r = self.compute_reward(a, features)
             s_new = self.states[a]
             max_action = np.max(self.q_table[s_new])
             value = self.q_table[s][a] + self.alpha * (r + (self.gamma * max_action) - self.q_table[s][a])
@@ -221,15 +221,14 @@ class Q_Learning(object):
             s = s_new
             counter += 1
 
-        cluster = self.addSpike(features, s)
+        cluster = self.add_spike(features, s)
         return cluster
 
-    def printByteCode(self):
-        dis.dis(self.computeReward)
-        #dis.dis(self.dynaQAlgorithm)
-
+    def print_byte_code(self):
+        dis.dis(self.compute_reward)
+        # dis.dis(self.dynaQAlgorithm)
 
 # logger = logging.getLogger("Test Logger")
 # logger.setLevel(logging.INFO)
 # ql = Q_Learning(logger, 2)
-# ql.printByteCode()
+# ql.print_byte_code()

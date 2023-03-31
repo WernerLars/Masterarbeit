@@ -7,7 +7,7 @@ class LoadDataset(object):
         self.path = path
         self.logger = logger
 
-    def loadData(self):
+    def load_data(self):
         loaded_data = load_mat_file(self.path)
 
         data = dict()

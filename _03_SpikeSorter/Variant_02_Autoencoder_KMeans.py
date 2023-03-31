@@ -21,7 +21,7 @@ class Variant_02_Autoencoder_KMeans(object):
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
 
         self.dataset = LoadDataset(self.path, self.logger)
-        self.data, self.y_labels = self.dataset.loadData()
+        self.data, self.y_labels = self.dataset.load_data()
         self.input_size = len(self.data.aligned_spikes[0])
         self.number_of_features = number_of_features
         self.parameter_logger.info(f"Input Size: {self.input_size}")
@@ -55,9 +55,9 @@ class Variant_02_Autoencoder_KMeans(object):
             self.logger.info(f"Epoch {t + 1}\n-------------------------------")
             print(f"Epoch {t + 1}\n-------------------------------")
             self.train(dataloader)
-            self.vis.printLossCurve(self.epoch_loss, t+1)
+            self.vis.print_loss_curve(self.epoch_loss, t + 1)
 
-        self.vis.printLossCurve(self.loss_values)
+        self.vis.print_loss_curve(self.loss_values)
         self.clustering(dataloader, self.y_labels)
         self.logger.info("Done!")
 
@@ -82,7 +82,7 @@ class Variant_02_Autoencoder_KMeans(object):
                 current = batch * len(X)
                 self.logger.info(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
                 print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-        self.loss_values.append(sum(self.epoch_loss)/len(train_dataloader))
+        self.loss_values.append(sum(self.epoch_loss) / len(train_dataloader))
 
     def clustering(self, dataloader, y_test):
         encoded_features_list = []
@@ -113,14 +113,14 @@ class Variant_02_Autoencoder_KMeans(object):
                 cluster_labels.append(cluster)
 
                 if visualise[cluster]:
-                    self.vis.visualisingReconstructedSpike(x_np,
-                                                           reconstructed_spike_np,
-                                                           len(x_np),
-                                                           str(cluster))
-                    self.vis.printSpike(x_np, len(x_np),
-                                        "b", f"real_spike{cluster}")
-                    self.vis.printSpike(reconstructed_spike_np, len(reconstructed_spike_np),
-                                        "r", f"reconstructed_spike{cluster}")
+                    self.vis.visualising_reconstructed_spike(x_np,
+                                                             reconstructed_spike_np,
+                                                             len(x_np),
+                                                             str(cluster))
+                    self.vis.print_spike(x_np, len(x_np),
+                                         "b", f"real_spike{cluster}")
+                    self.vis.print_spike(reconstructed_spike_np, len(reconstructed_spike_np),
+                                         "r", f"reconstructed_spike{cluster}")
                     visualise[cluster] = False
 
         self.logger.info(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
@@ -135,13 +135,13 @@ class Variant_02_Autoencoder_KMeans(object):
             self.logger.info(f"Cluster {n} Occurrences: {(y_test == n).sum()}; "
                              f"KMEANS: {(kmeans.labels_ == n).sum()}")
 
-        centroids_true = self.vis.getClusterCenters(encoded_features_list, cluster_labels)
-        centroids_kmeans = self.vis.getClusterCenters(encoded_features_list, kmeans.labels_)
+        centroids_true = self.vis.get_cluster_centers(encoded_features_list, cluster_labels)
+        centroids_kmeans = self.vis.get_cluster_centers(encoded_features_list, kmeans.labels_)
 
-        self.vis.visualisingFeatures(encoded_features_X, encoded_features_Y)
-        self.vis.visualisingClusters(encoded_features_X, encoded_features_Y,
-                                     cluster_labels, centroids_true, "true")
-        self.vis.visualisingClusters(encoded_features_X, encoded_features_Y,
-                                     kmeans.labels_, centroids_kmeans, "kmeans")
+        self.vis.visualising_features(encoded_features_X, encoded_features_Y)
+        self.vis.visualising_clusters(encoded_features_X, encoded_features_Y,
+                                      cluster_labels, centroids_true, "true")
+        self.vis.visualising_clusters(encoded_features_X, encoded_features_Y,
+                                      kmeans.labels_, centroids_kmeans, "kmeans")
 
-        self.vis.printMetrics(cluster_labels, kmeans.labels_)
+        self.vis.print_metrics(cluster_labels, kmeans.labels_)

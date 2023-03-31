@@ -7,11 +7,11 @@ from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDatase
 class TestSpikeClassToPytorchDataset(TestCase):
 
     def setUp(self):
-        self.path = "../_00_Datasets/03_SimDaten_Quiroga2020/004_C_Difficult1_noise005.mat"
+        self.path = "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat"
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
         self.dataset = LoadDataset(self.path, self.logger)
-        self.dataloader, self.y_labels = self.dataset.loadData()
+        self.dataloader, self.y_labels = self.dataset.load_data()
 
     def test_init(self):
         self.pytorch_dataloader = SpikeClassToPytorchDataset(self.dataloader.aligned_spikes, self.y_labels)

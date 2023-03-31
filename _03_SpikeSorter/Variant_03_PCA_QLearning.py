@@ -21,7 +21,7 @@ class Variant_03_PCA_QLearning(object):
         self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
 
         self.dataset = LoadDataset(self.path, self.logger)
-        self.dataloader, self.y_labels = self.dataset.loadData()
+        self.dataloader, self.y_labels = self.dataset.load_data()
         self.pca_transformed = []
 
         self.ql = Q_Learning(self.parameter_logger, self.pca_components,
@@ -40,7 +40,7 @@ class Variant_03_PCA_QLearning(object):
     def clustering(self):
         if self.normalise:
             for s in range(0, 2):
-                self.ql.addToFeatureSet(self.pca_transformed[s])
+                self.ql.add_to_feature_set(self.pca_transformed[s])
 
         x = []
         y = []
@@ -50,7 +50,7 @@ class Variant_03_PCA_QLearning(object):
 
         for s in range(0, self.q_learning_size):
             features = self.pca_transformed[s]
-            self.ql.dynaQAlgorithm(features)
+            self.ql.dyna_q_algorithm(features)
             self.logger.info(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
             print(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
             x.append(features[0])
@@ -58,16 +58,16 @@ class Variant_03_PCA_QLearning(object):
 
         self.logger.info(self.ql.clusters)
         self.logger.info(self.ql.randomFeatures)
-        self.ql.printQTable()
-        self.ql.printModel()
+        self.ql.print_q_table()
+        self.ql.print_model()
 
-        centroids_true = self.vis.getClusterCenters(self.pca_transformed,
+        centroids_true = self.vis.get_cluster_centers(self.pca_transformed,
                                                     self.y_labels[:self.q_learning_size])
-        centroids_qlearning = self.vis.getClusterCenters(self.pca_transformed, self.ql.clusters)
+        centroids_qlearning = self.vis.get_cluster_centers(self.pca_transformed, self.ql.clusters)
 
-        self.vis.visualisingFeatures(x, y)
-        self.vis.visualisingClusters(x, y, self.y_labels[:self.q_learning_size]
-                                     , centroids_true, "true")
-        self.vis.visualisingClusters(x, y, self.ql.clusters, centroids_qlearning, "qlearning")
+        self.vis.visualising_features(x, y)
+        self.vis.visualising_clusters(x, y, self.y_labels[:self.q_learning_size]
+                                      , centroids_true, "true")
+        self.vis.visualising_clusters(x, y, self.ql.clusters, centroids_qlearning, "qlearning")
 
-        self.vis.printMetrics(self.y_labels[:self.q_learning_size], self.ql.clusters)
+        self.vis.print_metrics(self.y_labels[:self.q_learning_size], self.ql.clusters)

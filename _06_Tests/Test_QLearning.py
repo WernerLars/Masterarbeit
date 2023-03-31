@@ -1,3 +1,4 @@
+import logging
 from unittest import TestCase
 
 from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
@@ -6,7 +7,9 @@ from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
 class TestQ_Learning(TestCase):
 
     def setUp(self):
-        self.ql = Q_Learning()
+        logger = logging.getLogger("Test Logger")
+        logger.setLevel(logging.INFO)
+        self.ql = Q_Learning(number_of_features=2, parameter_logger=logger)
 
     def test_set_q_value(self):
         print(f"Set_Q_Value_Before: {self.ql.q_table}")
@@ -56,7 +59,7 @@ class TestQ_Learning(TestCase):
         self.ql.new_cluster()
 
         self.assertEqual(self.ql.clusters_number, 1)
-        self.assertEqual(self.ql.computeEpisodeNumber(), self.ql.episode_number)
+        self.assertEqual(self.ql.compute_episode_number(), self.ql.episode_number)
         self.assertEqual(len(self.ql.states), 2)
         self.assertEqual(len(self.ql.q_table.keys()), 2)
         self.assertEqual(len(self.ql.q_table["new_cluster"]), 2)
@@ -77,29 +80,29 @@ class TestQ_Learning(TestCase):
 
     def test_normalise_features(self):
         s = [1, 2]
-        self.ql.addToFeatureSet(s)
+        self.ql.add_to_feature_set(s)
         t = [6, 7]
-        self.ql.addToFeatureSet(t)
-        s_normalised = self.ql.normaliseFeatures(s)
+        self.ql.add_to_feature_set(t)
+        s_normalised = self.ql.normalise_features(s)
         print(s)
         print(s_normalised)
 
     def test_compute_episode_number(self):
         print(f"Old_Episode_Number: {self.ql.episode_number}")
         self.ql.new_cluster()
-        self.assertEqual(self.ql.computeEpisodeNumber(), self.ql.episode_number)
+        self.assertEqual(self.ql.compute_episode_number(), self.ql.episode_number)
         print(f"New_Episode_Number: {self.ql.episode_number}")
 
     def test_compute_reward(self):
         s = [1, 2]
-        self.ql.addToFeatureSet(s)
+        self.ql.add_to_feature_set(s)
         t = [6, 7]
-        self.ql.addToFeatureSet(t)
-        s_normalised = self.ql.normaliseFeatures(s)
+        self.ql.add_to_feature_set(t)
+        s_normalised = self.ql.normalise_features(s)
 
-        reward = self.ql.computeReward(0, len(s_normalised), s_normalised)
+        reward = self.ql.compute_reward(0, s_normalised)
         print("New Cluster Reward: ", reward)
 
-        self.ql.addSpike(s_normalised, "new_cluster")
-        reward = self.ql.computeReward(1, len(s_normalised), s_normalised)
+        self.ql.add_spike(s_normalised, "new_cluster")
+        reward = self.ql.compute_reward(1, s_normalised)
         print("Cluster 1 Reward: ", reward)

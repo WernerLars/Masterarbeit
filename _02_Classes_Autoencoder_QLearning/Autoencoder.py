@@ -1,3 +1,5 @@
+import os
+
 import torch
 from torch import nn
 from torchview import draw_graph
@@ -53,7 +55,7 @@ class ConvolutionalAutoencoder(nn.Module):
         return decoded, encoded
 
 
-def printAutoencoderModel():
+def print_autoencoder_model():
     spike = torch.tensor([-2.11647214e-02, -2.00144278e-02, -2.48166304e-02, -2.70972753e-02,
                           -1.11241704e-02, 1.86904987e-02, 3.99716833e-02, 4.40400999e-02,
                           4.38833221e-02, 5.06364129e-02, 6.02243042e-02, 3.59622148e-02,
@@ -68,14 +70,18 @@ def printAutoencoderModel():
                           -6.42747873e-02, -5.93586264e-02, -5.06150772e-02])
     #model_graph = draw_graph(ConvolutionalAutoencoder(len(spike), 2), input_data=spike)
     #model_graph.visual_graph.render(format="png")
-    torch.onnx.export(Autoencoder(len(spike), 2), args=spike, f="autoencoder.onnx",
+    save_path = "Architecture_Files"
+    if os.path.exists(save_path) is False:
+        os.mkdir(save_path)
+
+    torch.onnx.export(Autoencoder(len(spike), 2), args=spike, f=f"{save_path}/autoencoder.onnx",
                       input_names=["Original Spike"],
                       output_names=["Reconstructed Spike", "Features"])
-    torch.onnx.export(ConvolutionalAutoencoder(len(spike), 2), args=spike, f="conv.onnx",
+    torch.onnx.export(ConvolutionalAutoencoder(len(spike), 2), args=spike, f=f"{save_path}/conv.onnx",
                       input_names=["Original Spike"],
                       output_names=["Reconstructed Spike", "Features"])
 
 
-#printAutoencoderModel()
+#print_autoencoder_model()
 
 

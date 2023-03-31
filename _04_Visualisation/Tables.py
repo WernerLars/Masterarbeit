@@ -8,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Base_Line"
+        self.experiment_path = "../_05_Experiments/Random_Seeds/V5"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -18,7 +18,7 @@ class Tables(object):
         self.punishment_coefficients = {}
         self.df = None
 
-    def getInformationFromLog(self, log_path):
+    def get_information_from_log(self, log_path):
         with open(log_path) as log:
             accuracy = 0
             punishment_coefficient = None
@@ -53,7 +53,7 @@ class Tables(object):
             self.accuracys[data_index].append(round(accuracy * 100, 4))
             self.punishment_coefficients[variant_name].append(punishment_coefficient)
 
-    def printAccuracyTable(self):
+    def print_accuracy_table(self):
         plt.figure(figsize=(3+1.12 * len(self.variant_names), 6))
         ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f", linewidths=0.5)
         for t in ax.texts: t.set_text(t.get_text() + " %")
@@ -61,10 +61,8 @@ class Tables(object):
         plt.xticks(s, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
-        # df.to_csv(f"{self.experiment_path}/AccuracyTable.csv")
-        # print(df.to_latex())
 
-    def printAccuracyGraph(self):
+    def print_accuracy_graph(self):
         for i, variant in enumerate(self.variant_names):
             plt.figure(figsize=(10 + 1.7 * len(self.dataset_names), 15))
             graph = self.df[variant]
@@ -80,39 +78,24 @@ class Tables(object):
             plt.tight_layout()
             plt.savefig(f"{self.experiment_path}/AccuracyGraph_{variant}.png")
 
-    def printBoxplot1(self):
+    def print_violent_graph_datasets(self):
         plt.figure(figsize=(10 + 1.7 * len(self.dataset_names), 20))
-        #for i, variant in enumerate(self.variant_names):
-        #    graph = self.df[variant]
-            #plt.scatter(self.dataset_names, graph, label=variant, marker="*", s=500)
-        #for i, dataset in enumerate(self.dataset_names):
-        #    sns.violinplot(data=self.accuracys[i])
-            #t = np.arange(len(self.accuracys[i]))
-            #plt.scatter(t, self.accuracys[i], label=dataset, marker="*", s=500)
-        #sns.violinplot(data=self.df)
         sns.violinplot(data=self.accuracys, cut=0, scale='width')
-
-        #plt.gca().yaxis.set_major_formatter(PercentFormatter(100))
         plt.yticks(fontsize=30)
         plt.xticks(np.arange(len(self.dataset_names)), [x.replace('_', '\n') for x in self.dataset_names],
                    fontsize=30)
-        #plt.legend(loc="lower right", fontsize=23)
         plt.title("Accuracy auf Datensätzen", fontsize=40)
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/Boxplot1.png")
 
-    def printBoxplot2(self):
+    def print_violent_graphs_variants(self):
         plt.figure(figsize=(15 + 1.7 * len(self.variant_names), 20))
         sns.violinplot(data=self.df, cut=0, scale='width')
-        #for i, dataset in enumerate(self.dataset_names):
-        #    t = np.arange(len(self.accuracys[i]))
-        #    plt.scatter(t, self.accuracys[i], label=dataset, marker="*", s=500)
         plt.title(f"Accuracy der Varianten", fontsize=30)
         plt.gca().yaxis.set_major_formatter(PercentFormatter(100))
         plt.yticks(fontsize=23)
         plt.xticks(np.arange(len(self.accuracys[0])), [x.replace('_', '\n') for x in self.variant_names], fontsize=23)
         plt.xlim(-0.5, len(self.variant_names))
-        #plt.legend(loc="center left", fontsize=23, bbox_to_anchor=(1, 0.5))
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/Boxplot2.png")
 
@@ -125,22 +108,23 @@ def main(experiment_path=""):
         for file in files:
             if file == tables.filename:
                 log_path = f"{root}\{file}"
-                tables.getInformationFromLog(log_path)
+                tables.get_information_from_log(log_path)
+
     tables.df = pd.DataFrame(tables.accuracys,
                              index=tables.dataset_names,
                              columns=tables.variant_names)
     print(tables.accuracys)
     print(tables.dataset_names)
     print(tables.variant_names)
-    tables.printAccuracyGraph()
-    tables.printBoxplot1()
-    tables.printBoxplot2()
+    tables.print_accuracy_graph()
+    tables.print_violent_graph_datasets()
+    tables.print_violent_graphs_variants()
     tables.df.loc['mean'] = tables.df.mean(axis=0)
     tables.df['mean'] = tables.df.mean(axis=1)
     tables.variant_names.append("mean")
-    #tables.df['variance'] = tables.df.var(axis=1)
-    #tables.variant_names.append("variance")
-    tables.printAccuracyTable()
+    tables.df['variance'] = tables.df.std(axis=1)
+    tables.variant_names.append("std")
+    tables.print_accuracy_table()
 
     pc = pd.DataFrame.from_dict(tables.punishment_coefficients)
     pc.set_axis(tables.dataset_names, axis='index', inplace=True)
