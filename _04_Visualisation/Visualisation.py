@@ -14,6 +14,8 @@ class Visualisation(object):
         self.dataset_name = dataset_name
         self.logger = None
         self.timestamp = time.strftime("%Y_%m_%d-%H_%M_%S")
+
+        # Creating Path for figures
         if os.path.exists(f"{exp_path}{self.dataset_name[1]}") is False:
             os.mkdir(f"{exp_path}{self.dataset_name[1]}")
         if os.path.exists(f"{exp_path}{self.dataset_name[1]}/{self.variant_name}") is False:
@@ -28,12 +30,20 @@ class Visualisation(object):
         self.logger = logger
 
     def print_spike(self, spike, n_features, color, filename):
+        """
+            creates and saves a figure which shows the graph of a spike
+        """
+
         plt.figure(figsize=(4, 4))
         t = np.arange(0, n_features, 1)
         plt.plot(t, spike, color=color)
         plt.savefig(f"{self.path}/{filename}.png")
 
     def visualising_reconstructed_spike(self, original, reconstructed, n_features, cluster):
+        """
+            creates and saves a figure which shows the graph of a spike and its reconstruction
+        """
+
         plt.figure(figsize=(4, 4))
         t = np.arange(0, n_features, 1)
         title = "True Label: " + cluster
@@ -44,6 +54,14 @@ class Visualisation(object):
         plt.savefig(f"{self.path}/reconstructedSpike_cluster_{cluster}.png")
 
     def get_cluster_centers(self, features_list, labels):
+        """
+            computes cluster centers for x and y dimension of a feature list
+            computation of center by using mean over all x and y values respectively
+                only x and y values of a specific cluster are used
+            :return: centroids as a list (every entry is a list with x and y coordinates
+                     that represents a centroid of a cluster)
+        """
+
         centroids = []
         unique_cluster = sort(np.unique(labels))
         for cluster in unique_cluster:
@@ -60,11 +78,20 @@ class Visualisation(object):
         return np.asarray(centroids)
 
     def visualising_features(self, x, y, filename=""):
+        """
+           creates and saves a figure of the feature space as a scatter plot
+        """
+
         plt.figure(figsize=(8, 8))
         plt.scatter(x, y, color="k")
         plt.savefig(f"{self.path}/clusters_features{filename}.png")
 
     def visualising_clusters(self, x, y, cluster, centroids=None, filename=""):
+        """
+            creates and saves a figure of the clusters in a feature space as scatter plots
+            if centroids are passed they are marked as + for a cluster center
+        """
+
         plt.figure(figsize=(8, 8))
         unique_cluster = np.unique(cluster)
         for i in unique_cluster:
@@ -83,6 +110,10 @@ class Visualisation(object):
         plt.savefig(f"{self.path}/clusters_{filename}.png")
 
     def print_loss_curve(self, loss_values, epoch=""):
+        """
+           creates and saves loss curve figures for a list of loss values
+        """
+
         plt.figure(figsize=(6, 4))
         t = np.arange(0, len(loss_values), 1)
         plt.plot(t, loss_values, color="b")
@@ -97,6 +128,12 @@ class Visualisation(object):
             plt.savefig(f"{self.path}/lossCurveEpoch{epoch}.png")
 
     def print_contingency_matrix(self, cm, true_labels, predicted_labels, matched=None):
+        """
+            creating and saving contingency matrix figure with imshow (cm is numpy array)
+            label color of text is changed from yellow to black if its value is >= 50
+            x-axis are predicted labels, y-axis are true labels
+        """
+
         plt.figure(figsize=(12, 6))
         plt.imshow(cm, interpolation="nearest")
         for (j, i), label in np.ndenumerate(cm):
@@ -119,9 +156,14 @@ class Visualisation(object):
             plt.savefig(f"{self.path}/contingency_matrix_{matched}.png")
 
     def match_labels_in_cm(self, cm, ground_truth_labels, clustered_labels):
-        #
-        #
-        #
+        """
+            match ground truth labels with clustered labels
+                creating deep copy of cm to be able to change values to -1
+                -1 for finding the best match of labels
+            add columns to a new contingency matrix with respect to matched labels
+                first the matched labels, then not matches clusters
+        :return: new contingency matrix, new clustered labels (for printing cm)
+        """
         
         number_of_gtl = len(ground_truth_labels)
         number_of_cl = len(clustered_labels)
@@ -167,12 +209,14 @@ class Visualisation(object):
                 copy_cm[i][clustered_label] = -1
             print(copy_cm)
             self.logger.info(copy_cm)
+
         print(f"Match_Labels: {match_labels}")
         self.logger.info(f"Match_Labels: {match_labels}")
 
         # new cm contains swapped columns where diagonal has matched labels
         new_cm = [[] for _ in range(number_of_gtl)]
-        # new_clustered_labels only for the x sequence in visualisation of contingency matrix
+
+        # new_clustered_labels only for the x-axis sequence in visualisation of contingency matrix
         new_clustered_labels = []
 
         # Adding the best columns to new_cm
@@ -200,9 +244,17 @@ class Visualisation(object):
         return new_cm, new_clustered_labels
 
     def print_metrics(self, ground_truth, predictions):
+        """
+            creates contingency matrices before and after matching labels
+            computes accuracy metric after matching labels with formula
+                accuracy = TP+TN / TP+TN+FP+FN = sum diagonal elements / sum all elements
+        """
+
+        # Lists of sorted unique ground truth and clustered labels
         ground_truth_labels = sorted(np.unique(ground_truth))
         clustered_labels = sorted(np.unique(predictions))
 
+        # Printing Contingency Matrix without matching labels
         cm = contingency_matrix(ground_truth, predictions)
         self.logger.info("Contingency Matrix: ")
         self.logger.info(cm)
@@ -210,7 +262,10 @@ class Visualisation(object):
         print(cm)
         self.print_contingency_matrix(cm, ground_truth_labels, clustered_labels)
 
+        # Matching Labels in Contingency Matrix
         new_cm, new_clustered_labels = self.match_labels_in_cm(cm, ground_truth_labels, clustered_labels)
+
+        # Printing Contingency Matrix with matching labels
         self.print_contingency_matrix(new_cm, ground_truth_labels, new_clustered_labels, matched="matched")
 
         # Sum up all diagonal elements to get all TP and TN
