@@ -1,11 +1,10 @@
 import os
-
 import torch
 from torch import nn
 from torchview import draw_graph
 
 
-# Creating Standard Autoencoder Model for Spike Sorting
+# Creating Standard Autoencoder Model
 class Autoencoder(nn.Module):
     def __init__(self, input_size, number_of_features):
         super().__init__()
@@ -28,7 +27,12 @@ class Autoencoder(nn.Module):
         return decoded, encoded
 
 
+# Creating Convolutional Autoencoder Model
 class ConvolutionalAutoencoder(nn.Module):
+    """
+    Size of Input Dimension in Linear Layers with formula:
+    (Input Size - Kernel Size + 2*P)/S  +  1
+    """
     def __init__(self, input_size, number_of_features):
         super().__init__()
         self.input_size = input_size
@@ -56,6 +60,11 @@ class ConvolutionalAutoencoder(nn.Module):
 
 
 def print_autoencoder_model():
+    """
+    used for visualisation of autoencoder model architecture
+    :return: Graphs and ONNX Files in Architecture_Files Folder
+    """
+
     spike = torch.tensor([-2.11647214e-02, -2.00144278e-02, -2.48166304e-02, -2.70972753e-02,
                           -1.11241704e-02, 1.86904987e-02, 3.99716833e-02, 4.40400999e-02,
                           4.38833221e-02, 5.06364129e-02, 6.02243042e-02, 3.59622148e-02,
@@ -68,12 +77,17 @@ def print_autoencoder_model():
                           1.35048482e-02, -4.41592673e-04, -2.31921908e-02, -4.69576347e-02,
                           -6.03503288e-02, -6.27551095e-02, -6.19812766e-02, -6.37499251e-02,
                           -6.42747873e-02, -5.93586264e-02, -5.06150772e-02])
-    #model_graph = draw_graph(ConvolutionalAutoencoder(len(spike), 2), input_data=spike)
-    #model_graph.visual_graph.render(format="png")
     save_path = "Architecture_Files"
     if os.path.exists(save_path) is False:
         os.mkdir(save_path)
 
+    model_graph = draw_graph(Autoencoder(len(spike), 2), input_data=spike)
+    model_graph.visual_graph.render(directory=save_path, filename="autoencoder", format="png")
+    model_graph = draw_graph(ConvolutionalAutoencoder(len(spike), 2), input_data=spike)
+    model_graph.visual_graph.render(directory=save_path, filename="conv_autoencoder", format="png")
+
+    # ONNX Files can be opened with Netron (https://github.com/lutzroeder/netron)
+    # to get a visualisation of the architecture of the models
     torch.onnx.export(Autoencoder(len(spike), 2), args=spike, f=f"{save_path}/autoencoder.onnx",
                       input_names=["Original Spike"],
                       output_names=["Reconstructed Spike", "Features"])
@@ -81,7 +95,5 @@ def print_autoencoder_model():
                       input_names=["Original Spike"],
                       output_names=["Reconstructed Spike", "Features"])
 
-
-#print_autoencoder_model()
-
-
+# For printing Autoencoder Model Architecture
+# print_autoencoder_model()

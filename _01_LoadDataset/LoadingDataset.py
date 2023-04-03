@@ -8,8 +8,17 @@ class LoadDataset(object):
         self.logger = logger
 
     def load_data(self):
+        """
+        gets loaded data from mat files from load_mat_file method
+        converts data into spike dataclass
+        max alignment of spike frames
+        prints information about data
+        :return: dataloader of spike dataclass and true labels
+        """
+
         loaded_data = load_mat_file(self.path)
 
+        # dictionary for conversion to spike dataclass
         data = dict()
         data['sampling_rate'] = float(1 / loaded_data['samplingInterval'][0][0] * 1000)
         data['raw_data'] = loaded_data['data'][0]
@@ -27,6 +36,7 @@ class LoadDataset(object):
         self.logger.info(f"Number of Spikes: {len(dataloader.cluster)}")
         self.logger.info(f"First aligned Spike Frame: {dataloader.aligned_spikes[0]}")
 
+        # prints number of spikes per cluster
         y_labels = dataloader.cluster
         for i in range(0, max(dataloader.cluster)):
             y_labels[y_labels == i + 1] = i

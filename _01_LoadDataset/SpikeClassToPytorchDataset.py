@@ -11,6 +11,11 @@ class SpikeClassToPytorchDataset(Dataset):
         return len(self.cluster)
 
     def __getitem__(self, idx):
+        """
+        :param idx: position in data (see custom dataloader in pytorch)
+        :return: spike and cluster label
+        """
+
         spike_window = torch.tensor(self.data[idx], dtype=torch.float)
         cluster = self.cluster[idx]
         return spike_window, cluster
