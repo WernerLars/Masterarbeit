@@ -8,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Random_Seeds/V5"
+        self.experiment_path = "../_05_Experiments/Base_Line"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -93,7 +93,7 @@ class Tables(object):
             self.accuracys[data_index].append(round(accuracy * 100, 4))
             self.punishment_coefficients[variant_name].append(punishment_coefficient)
 
-    def print_accuracy_table(self):
+    def print_accuracy_table(self, std):
         """
             creates and saves a figure of a table, which is created with seaborn
             table has variant names on x-axis and dataset names on y-axis and contains
@@ -102,9 +102,15 @@ class Tables(object):
                 standard derivation column
         """
 
-        plt.figure(figsize=(3+1.12 * len(self.variant_names), 6))
+        plt.figure(figsize=(3 + 1.3 * len(self.variant_names), 6))
         ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f", linewidths=0.5)
-        for t in ax.texts: t.set_text(t.get_text() + " %")
+        std_counter = 0
+        for index, t in enumerate(ax.texts):
+            if index % len(self.variant_names) == len(self.variant_names) - 1:
+                t.set_text(t.get_text() + " %: " + str(round(std[std_counter], 1)))
+                std_counter += 1
+            else:
+                t.set_text(t.get_text() + " %")
         s = np.arange(len(self.variant_names)) + 0.5
         plt.xticks(s, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
         plt.tight_layout()
@@ -197,10 +203,10 @@ def main(experiment_path=""):
     # is used to create figures
     tables.df.loc['mean'] = tables.df.mean(axis=0)
     tables.df['mean'] = tables.df.mean(axis=1)
-    tables.variant_names.append("mean")
-    tables.df['variance'] = tables.df.std(axis=1)
-    tables.variant_names.append("std")
-    tables.print_accuracy_table()
+    tables.variant_names.append("mean:std")
+    std = tables.df.std(axis=1)
+    # tables.variant_names.append("std")
+    tables.print_accuracy_table(std)
 
     # Creating a new dataframe for printing a table of punishment coefficients
     # x-axis are variants, y-axis are datasets
