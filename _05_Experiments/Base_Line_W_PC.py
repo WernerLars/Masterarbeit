@@ -10,7 +10,7 @@ from _04_Visualisation import Tables
 
 
 def main():
-    pc = 0.6
+    pc = 0.7
     main_path = f"Base_Line_W_PC_{pc}/"
 
     if os.path.exists(main_path) is False:

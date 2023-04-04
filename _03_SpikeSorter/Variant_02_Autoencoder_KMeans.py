@@ -1,3 +1,5 @@
+from tqdm import tqdm
+
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
 from _02_Classes_Autoencoder_QLearning.Autoencoder import *
@@ -52,20 +54,19 @@ class Variant_02_Autoencoder_KMeans(object):
         self.logger.info(dataloader)
 
         for t in range(self.epochs):
-            self.logger.info(f"Epoch {t + 1}\n-------------------------------")
-            print(f"Epoch {t + 1}\n-------------------------------")
-            self.train(dataloader)
-            self.vis.print_loss_curve(self.epoch_loss, t + 1)
+            self.train(dataloader, t+1)
+            self.logger.info(f"Epoch [{t + 1}/{self.epochs}]: mean_loss={self.loss_values[t]}")
+            self.vis.print_loss_curve(self.epoch_loss, t+1)
 
         self.vis.print_loss_curve(self.loss_values)
         self.clustering(dataloader, self.y_labels)
         self.logger.info("Done!")
 
-    def train(self, train_dataloader):
-        size = len(train_dataloader.dataset)
+    def train(self, train_dataloader, epoch_number):
         self.autoencoder.train()
         self.epoch_loss = []
-        for batch, (X, y) in enumerate(train_dataloader):
+        training_loop = tqdm(enumerate(train_dataloader), total=len(train_dataloader))
+        for batch, (X, y) in training_loop:
 
             # Compute reconstruction error
             reconstructed_spike, encoded_features = self.autoencoder(X)
@@ -76,12 +77,12 @@ class Variant_02_Autoencoder_KMeans(object):
             loss.backward()
             self.optimizer.step()
 
+            # Loss Computation
             if batch % 100 == 0:
                 loss = loss.item()
+                training_loop.set_description(f"Epoch [{epoch_number}/{self.epochs}]")
+                training_loop.set_postfix(loss=loss)
                 self.epoch_loss.append(loss)
-                current = batch * len(X)
-                self.logger.info(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-                print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
         self.loss_values.append(sum(self.epoch_loss) / len(train_dataloader))
 
     def clustering(self, dataloader, y_test):

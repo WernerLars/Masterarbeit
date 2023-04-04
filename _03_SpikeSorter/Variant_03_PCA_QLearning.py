@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from sklearn.decomposition import PCA
@@ -48,11 +49,10 @@ class Variant_03_PCA_QLearning(object):
         if self.q_learning_size is None:
             self.q_learning_size = len(self.pca_transformed)
 
-        for s in range(0, self.q_learning_size):
-            features = self.pca_transformed[s]
+        q_learning_loop = tqdm(enumerate(self.pca_transformed[:self.q_learning_size]), total=self.q_learning_size)
+        q_learning_loop.set_description(f"Q_Learning")
+        for s, features in q_learning_loop:
             self.ql.dyna_q_algorithm(features)
-            self.logger.info(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
-            print(f"Q_Learning: {s:>5d}/{self.q_learning_size:>5d}]")
             x.append(features[0])
             y.append(features[1])
 
@@ -62,7 +62,7 @@ class Variant_03_PCA_QLearning(object):
         self.ql.print_model()
 
         centroids_true = self.vis.get_cluster_centers(self.pca_transformed,
-                                                    self.y_labels[:self.q_learning_size])
+                                                      self.y_labels[:self.q_learning_size])
         centroids_qlearning = self.vis.get_cluster_centers(self.pca_transformed, self.ql.clusters)
 
         self.vis.visualising_features(x, y)

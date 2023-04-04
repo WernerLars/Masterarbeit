@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from numpy.random import uniform
 
 from _01_LoadDataset.LoadingDataset import LoadDataset
@@ -90,26 +91,42 @@ class Variant_05_Online_Autoencoder_QLearning(object):
 
     def preprocessing(self):
 
-        data = SpikeClassToPytorchDataset(self.data.aligned_spikes, self.y_labels)
-        dataloader = DataLoader(data, batch_size=self.batch_size)
+        training_data = SpikeClassToPytorchDataset(self.data.aligned_spikes[:self.maxAutoencoderTraining],
+                                                   self.y_labels[:self.maxAutoencoderTraining])
+        training_dataloader = DataLoader(training_data, batch_size=self.batch_size)
+        q_learning_data = SpikeClassToPytorchDataset(
+            self.data.aligned_spikes[self.maxAutoencoderTraining:self.maxTraining],
+            self.y_labels[self.maxAutoencoderTraining:self.maxTraining])
+        q_learning_dataloader = DataLoader(q_learning_data, batch_size=self.batch_size)
 
-        for t, (X, y) in enumerate(dataloader):
-            self.logger.info(f"Spike: {t}\n-------------------------------")
-            print(f"Spike: {t}\n-------------------------------")
+        training_loop = tqdm(enumerate(training_dataloader), total=self.maxAutoencoderTraining)
+        for t, (X, y) in training_loop:
             self.epoch_loss = []
-            if t < self.maxAutoencoderTraining:
-                for _ in range(self.epochs):
-                    self.train(X, self.autoencoder)
-                t += 1
-            elif t < self.maxTraining:
-                if t % self.updateFactor == 0 and self.optimising:
-                    self.autoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
-                    print(f"{t}: Model updated")
-                self.train_autoencoder_with_q_learning(X, y)
-                t += 1
-            else:
-                break
+            training_loop.set_description(f"Autoencoder_Training")
+            for _ in range(self.epochs):
+                self.train(X, self.autoencoder)
             self.loss_values.append(sum(self.epoch_loss) / self.epochs)
+            training_loop.set_postfix(loss=self.loss_values[t])
+            self.logger.info(
+                f"Online_Training [{t + 1}/{self.maxAutoencoderTraining}]: mean_loss={self.loss_values[t]}")
+
+        q_learning_loop = tqdm(enumerate(q_learning_dataloader),
+                               total=self.maxTraining-self.maxAutoencoderTraining)
+        for t, (X, y) in q_learning_loop:
+
+            self.epoch_loss = []
+            if t % self.updateFactor == 0 and self.optimising:
+                self.autoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
+
+            q_learning_loop.set_description(f"Q_Learning")
+            self.train_autoencoder_with_q_learning(X, y)
+
+            if self.optimising:
+                self.loss_values.append(sum(self.epoch_loss) / self.epochs)
+                training_loop.set_postfix(loss=self.loss_values[t])
+                self.logger.info(f"Q_Learning [{t + 1}/{self.maxTraining - self.maxAutoencoderTraining}]: "
+                                 f"mean_loss={self.loss_values[t]}")
+
         self.vis.print_loss_curve(self.loss_values)
 
     def train(self, batch, model):
@@ -127,8 +144,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
             # Loss Computation
             loss = loss.item()
             self.epoch_loss.append(loss)
-            self.logger.info(f"loss: {loss:>7f}")
-            print(f"loss: {loss:>7f}")
+
         if self.optimising:
             torch.save(model.state_dict(), f"{self.vis.path}/model.pt")
 

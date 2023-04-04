@@ -1,3 +1,5 @@
+from tqdm import tqdm
+
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from _01_LoadDataset.SpikeClassToPytorchDataset import SpikeClassToPytorchDataset
 from _02_Classes_Autoencoder_QLearning.Autoencoder import *
@@ -79,20 +81,19 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.logger.info(test_dl)
 
         for t in range(self.epochs):
-            self.logger.info(f"Epoch {t + 1}\n-------------------------------")
-            print(f"Epoch {t + 1}\n-------------------------------")
-            self.train(train_dl)
-            self.vis.print_loss_curve(self.epoch_loss, t + 1)
+            self.train(train_dl, t+1)
+            self.logger.info(f"Epoch [{t + 1}/{self.epochs}]: mean_loss={self.loss_values[t]}")
+            self.vis.print_loss_curve(self.epoch_loss, t+1)
 
         self.vis.print_loss_curve(self.loss_values)
         self.test(test_dl, y_test)
         self.logger.info("Done!")
 
-    def train(self, dataloader):
-        size = len(dataloader.dataset)
+    def train(self, dataloader, epoch_number):
         self.autoencoder.train()
         self.epoch_loss = []
-        for batch, (X, y) in enumerate(dataloader):
+        training_loop = tqdm(enumerate(dataloader), total=len(dataloader))
+        for batch, (X, y) in training_loop:
 
             # Compute reconstruction error
             reconstructed_spike, encoded_features = self.autoencoder(X)
@@ -106,10 +107,9 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
             # Loss Computation
             if batch % 100 == 0:
                 loss = loss.item()
+                training_loop.set_description(f"Epoch [{epoch_number}/{self.epochs}]")
+                training_loop.set_postfix(loss=loss)
                 self.epoch_loss.append(loss)
-                current = batch * len(X)
-                self.logger.info(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-                print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
         self.loss_values.append(sum(self.epoch_loss) / len(dataloader))
 
     def test(self, dataloader, y_test):
@@ -128,23 +128,19 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
             visualise.append(True)
 
         firstTwoSpikes = 0
-        current = 1
-        size = len(y_test)
 
-        for _, (X, y) in enumerate(dataloader):
+        q_learning_loop = tqdm(enumerate(dataloader), total=len(dataloader))
+        q_learning_loop.set_description(f"Q_Learning")
+        for batch, (X, y) in q_learning_loop:
             reconstructed_spike, encoded_features = self.autoencoder(X)
 
-            # First Two Spikes are just added to FeatureSet to make normalisation work
             with torch.no_grad():
+                # If Normalisation then first two Spikes are added to FeatureSet to make normalisation work
                 if firstTwoSpikes < 2 and self.normalise:
                     self.ql.add_to_feature_set(encoded_features.numpy()[0])
                     firstTwoSpikes += 1
-                    size -= 1
                 else:
                     self.ql.dyna_q_algorithm(encoded_features.numpy()[0])
-                    self.logger.info(f"Q_Learning: {current:>5d}/{size:>5d}]")
-                    print(f"Q_Learning: {current:>5d}/{size:>5d}]")
-                    current += 1
 
                     encoded_features_list.append(encoded_features.numpy()[0])
                     encoded_features_X.append(encoded_features.numpy()[0][0])
