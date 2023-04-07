@@ -119,8 +119,7 @@ class Q_Learning(object):
             self.q_table[state] = np.round(self.q_table[state], 2)
         df = pd.DataFrame.from_dict(self.q_table, orient="index")
         self.parameter_logger.info(df)
-        print(df)
-        # print(df.to_latex())
+        self.parameter_logger.info(df.to_latex())
 
     def print_model(self):
         """
@@ -132,8 +131,7 @@ class Q_Learning(object):
                 self.model[state][action][0] = np.round(self.model[state][action][0], 2)
         df = pd.DataFrame.from_dict(self.model, orient="index")
         self.parameter_logger.info(df)
-        print(df)
-        # print(df.to_latex())
+        self.parameter_logger.info(df.to_latex())
 
     def new_cluster(self):
         """

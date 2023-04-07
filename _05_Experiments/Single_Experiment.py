@@ -11,7 +11,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main():
+def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False):
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
         2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
@@ -44,9 +44,9 @@ def main():
         5: "Variant_05_Online_Autoencoder_QLearning"
     }
 
-    dataset_number = 1
-    variant_number = 5
-    punishment_coefficient = 1
+    dataset_number = dataset
+    variant_number = variant
+    punishment_coefficient = pc
 
     seed = 0
     torch.manual_seed(seed)
@@ -56,7 +56,7 @@ def main():
     path = datasets[dataset_number]
     dataset_name = path[16:].split("/")
     variant_name = variants[variant_number]
-    vis = Visualisation(variant_name, dataset_name)
+    vis = Visualisation(variant_name, dataset_name, exp_path=main_path)
     vis_path = vis.get_visualisation_path()
     exp_path = f"Experiment_0{variant_number}"
 
@@ -90,17 +90,20 @@ def main():
     if variant_name == "Variant_01_PCA_KMeans":
         Variant_01_PCA_KMeans(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_02_Autoencoder_KMeans":
-        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger, chooseAutoencoder=2)
+        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger, chooseAutoencoder=1,
+                                      disable_tqdm=disable_tqdm)
     elif variant_name == "Variant_03_PCA_QLearning":
         Variant_03_PCA_QLearning(path, vis, logger, parameter_logger,
                                  punishment_coefficient=punishment_coefficient,
-                                 q_learning_size=300, normalise=False)
+                                 q_learning_size=300, normalise=False, disable_tqdm=disable_tqdm)
     elif variant_name == "Variant_04_Offline_Autoencoder_QLearning":
         Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger,
-                                                 punishment_coefficient=punishment_coefficient)
+                                                 punishment_coefficient=punishment_coefficient,
+                                                 disable_tqdm=disable_tqdm)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning":
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
-                                                punishment_coefficient=punishment_coefficient)
+                                                punishment_coefficient=punishment_coefficient,
+                                                disable_tqdm=disable_tqdm)
 
 
 if __name__ == '__main__':

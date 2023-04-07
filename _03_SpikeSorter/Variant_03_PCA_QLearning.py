@@ -1,4 +1,3 @@
-import numpy as np
 from tqdm import tqdm
 
 from _01_LoadDataset.LoadingDataset import LoadDataset
@@ -9,7 +8,8 @@ from _02_Classes_Autoencoder_QLearning.QLearning import Q_Learning
 class Variant_03_PCA_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False,
                  pca_components=2, q_learning_size=None,
-                 punishment_coefficient=0.6):
+                 punishment_coefficient=0.6,
+                 disable_tqdm=False):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -20,6 +20,7 @@ class Variant_03_PCA_QLearning(object):
         self.q_learning_size = q_learning_size
         self.parameter_logger.info(f"Q Learning Size: {q_learning_size}")
         self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
+        self.disable_tqdm = disable_tqdm
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.dataloader, self.y_labels = self.dataset.load_data()
@@ -49,7 +50,8 @@ class Variant_03_PCA_QLearning(object):
         if self.q_learning_size is None:
             self.q_learning_size = len(self.pca_transformed)
 
-        q_learning_loop = tqdm(enumerate(self.pca_transformed[:self.q_learning_size]), total=self.q_learning_size)
+        q_learning_loop = tqdm(enumerate(self.pca_transformed[:self.q_learning_size]), total=self.q_learning_size,
+                               disable=self.disable_tqdm)
         q_learning_loop.set_description(f"Q_Learning")
         for s, features in q_learning_loop:
             self.ql.dyna_q_algorithm(features)

@@ -11,7 +11,8 @@ from sklearn.cluster import KMeans
 
 class Variant_02_Autoencoder_KMeans(object):
     def __init__(self, path, vis, logger, parameter_logger,
-                 chooseAutoencoder=1, epochs=8, batch_size=1, number_of_features=2):
+                 chooseAutoencoder=1, epochs=8, batch_size=1, number_of_features=2,
+                 disable_tqdm=False):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -21,6 +22,7 @@ class Variant_02_Autoencoder_KMeans(object):
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
+        self.disable_tqdm=disable_tqdm
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.load_data()
@@ -60,12 +62,11 @@ class Variant_02_Autoencoder_KMeans(object):
 
         self.vis.print_loss_curve(self.loss_values)
         self.clustering(dataloader, self.y_labels)
-        self.logger.info("Done!")
 
     def train(self, train_dataloader, epoch_number):
         self.autoencoder.train()
         self.epoch_loss = []
-        training_loop = tqdm(enumerate(train_dataloader), total=len(train_dataloader))
+        training_loop = tqdm(enumerate(train_dataloader), total=len(train_dataloader), disable=self.disable_tqdm)
         for batch, (X, y) in training_loop:
 
             # Compute reconstruction error

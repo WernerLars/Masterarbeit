@@ -52,9 +52,6 @@ def main(main_path="", seed=0, pc=""):
         np.random.seed(seed)
         random.seed(seed)
 
-        print(variant_name)
-        print(datasets[dataset])
-
         path = datasets[dataset][0]
 
         if pc is not "":

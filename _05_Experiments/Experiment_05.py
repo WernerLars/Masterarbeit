@@ -65,9 +65,6 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
         np.random.seed(seed)
         random.seed(seed)
 
-        print(variant_name)
-        print(datasets[dataset])
-
         path = datasets[dataset][0]
 
         if pc is not "":
@@ -109,9 +106,10 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
 
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                 punishment_coefficient=punishment_coefficient,
-                                                normalise=normalise,
-                                                templateMatching=templates,
                                                 optimising=optimising,
+                                                templateMatching=templates,
+                                                noisyBatch=noisy,
+                                                normalise=normalise
                                                 )
 
         handler1.close()

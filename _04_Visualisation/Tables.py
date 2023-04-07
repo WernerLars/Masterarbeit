@@ -8,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Base_Line"
+        self.experiment_path = "../_05_Experiments/"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -49,7 +49,6 @@ class Tables(object):
                         # if new experiment path a counter is incremented and name is added
                         self.experiment_counter += 1
                         self.experiment_names.append(split[1])
-                        print(self.experiment_names)
 
                 # Extract Accuracy Value
                 elif line.startswith("Accuracy:"):
@@ -72,7 +71,6 @@ class Tables(object):
 
                         # Initialise new variant key in punishment coefficient dictionary
                         self.punishment_coefficients[variant_name] = []
-                        print(self.variant_names)
 
                 # Extract Dataset Name
                 elif line.startswith("Dataset_Path:"):
@@ -115,6 +113,7 @@ class Tables(object):
         plt.xticks(s, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
+        plt.close()
 
     def print_accuracy_graph(self):
         """
@@ -137,6 +136,7 @@ class Tables(object):
             plt.title(f"Mean Accuracy Graph of {variant}: {np.mean(graph).round(2)}%", fontsize=30)
             plt.tight_layout()
             plt.savefig(f"{self.experiment_path}/AccuracyGraph_{variant}.png")
+            plt.close()
 
     def print_violent_graph_datasets(self):
         """
@@ -147,11 +147,12 @@ class Tables(object):
         plt.figure(figsize=(10 + 1.7 * len(self.dataset_names), 20))
         sns.violinplot(data=self.accuracys, cut=0, scale='width')
         plt.yticks(fontsize=30)
-        plt.xticks(np.arange(len(self.dataset_names)), [x.replace('_', '\n') for x in self.dataset_names],
+        plt.xticks(np.arange(len(self.dataset_names)), [x.replace('_', '\n')[1:] for x in self.dataset_names],
                    fontsize=30)
         plt.title("Accuracy auf Datensätzen", fontsize=40)
         plt.tight_layout()
-        plt.savefig(f"{self.experiment_path}/Boxplot1.png")
+        plt.savefig(f"{self.experiment_path}/Violent_Plot_Datasets.png")
+        plt.close()
 
     def print_violent_graphs_variants(self):
         """
@@ -167,7 +168,8 @@ class Tables(object):
         plt.xticks(np.arange(len(self.accuracys[0])), [x.replace('_', '\n') for x in self.variant_names], fontsize=23)
         plt.xlim(-0.5, len(self.variant_names))
         plt.tight_layout()
-        plt.savefig(f"{self.experiment_path}/Boxplot2.png")
+        plt.savefig(f"{self.experiment_path}/Violent_Plot_Variants.png")
+        plt.close()
 
 
 def main(experiment_path=""):
@@ -189,10 +191,6 @@ def main(experiment_path=""):
                              index=tables.dataset_names,
                              columns=tables.variant_names)
 
-    print(tables.accuracys)
-    print(tables.dataset_names)
-    print(tables.variant_names)
-
     # Printing Graphs for the experiments
     tables.print_accuracy_graph()
     tables.print_violent_graph_datasets()
@@ -205,7 +203,6 @@ def main(experiment_path=""):
     tables.df['mean'] = tables.df.mean(axis=1)
     tables.variant_names.append("mean:std")
     std = tables.df.std(axis=1)
-    # tables.variant_names.append("std")
     tables.print_accuracy_table(std)
 
     # Creating a new dataframe for printing a table of punishment coefficients

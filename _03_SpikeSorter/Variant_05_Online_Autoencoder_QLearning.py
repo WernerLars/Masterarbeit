@@ -17,7 +17,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                  chooseAutoencoder=1, epochs=8, batch_size=1,
                  maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
-                 punishment_coefficient=0.6):
+                 punishment_coefficient=0.6,
+                 disable_tqdm=False):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -44,6 +45,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         self.maxTraining = maxTraining
         self.parameter_logger.info(f"maximal Spikes for Training: {self.maxTraining}")
         self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
+        self.disable_tqdm = disable_tqdm
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.load_data()
@@ -99,7 +101,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
             self.y_labels[self.maxAutoencoderTraining:self.maxTraining])
         q_learning_dataloader = DataLoader(q_learning_data, batch_size=self.batch_size)
 
-        training_loop = tqdm(enumerate(training_dataloader), total=self.maxAutoencoderTraining)
+        training_loop = tqdm(enumerate(training_dataloader), total=self.maxAutoencoderTraining,
+                             disable=self.disable_tqdm)
         for t, (X, y) in training_loop:
             self.epoch_loss = []
             training_loop.set_description(f"Autoencoder_Training")
@@ -111,7 +114,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
                 f"Online_Training [{t + 1}/{self.maxAutoencoderTraining}]: mean_loss={self.loss_values[t]}")
 
         q_learning_loop = tqdm(enumerate(q_learning_dataloader),
-                               total=self.maxTraining-self.maxAutoencoderTraining)
+                               total=self.maxTraining-self.maxAutoencoderTraining, disable=self.disable_tqdm)
         for t, (X, y) in q_learning_loop:
 
             self.epoch_loss = []

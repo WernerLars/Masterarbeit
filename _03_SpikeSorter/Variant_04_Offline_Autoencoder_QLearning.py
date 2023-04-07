@@ -13,7 +13,8 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False,
                  chooseAutoencoder=1, split_ratio=0.9, epochs=8, batch_size=1,
                  number_of_features=2,
-                 punishment_coefficient=0.6):
+                 punishment_coefficient=0.6,
+                 disable_tqdm=False):
         self.path = path
         self.vis = vis
         self.logger = logger
@@ -27,6 +28,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
         self.logger.info(f"Punishment_Coefficient: {punishment_coefficient}")
+        self.disable_tqdm = disable_tqdm
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.load_data()
@@ -87,12 +89,11 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
         self.vis.print_loss_curve(self.loss_values)
         self.test(test_dl, y_test)
-        self.logger.info("Done!")
 
     def train(self, dataloader, epoch_number):
         self.autoencoder.train()
         self.epoch_loss = []
-        training_loop = tqdm(enumerate(dataloader), total=len(dataloader))
+        training_loop = tqdm(enumerate(dataloader), total=len(dataloader), disable=self.disable_tqdm)
         for batch, (X, y) in training_loop:
 
             # Compute reconstruction error
@@ -129,7 +130,7 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
         firstTwoSpikes = 0
 
-        q_learning_loop = tqdm(enumerate(dataloader), total=len(dataloader))
+        q_learning_loop = tqdm(enumerate(dataloader), total=len(dataloader), disable=self.disable_tqdm)
         q_learning_loop.set_description(f"Q_Learning")
         for batch, (X, y) in q_learning_loop:
             reconstructed_spike, encoded_features = self.autoencoder(X)

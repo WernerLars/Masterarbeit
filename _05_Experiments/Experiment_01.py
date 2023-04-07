@@ -49,9 +49,6 @@ def main(main_path="", seed=0):
         np.random.seed(seed)
         random.seed(seed)
 
-        print(variant_name)
-        print(datasets[dataset])
-
         path = datasets[dataset]
         dataset_name = path[16:].split("/")
         vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/")

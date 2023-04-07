@@ -38,6 +38,7 @@ class Visualisation(object):
         t = np.arange(0, n_features, 1)
         plt.plot(t, spike, color=color)
         plt.savefig(f"{self.path}/{filename}.png")
+        plt.close()
 
     def visualising_reconstructed_spike(self, original, reconstructed, n_features, cluster):
         """
@@ -52,6 +53,7 @@ class Visualisation(object):
         plt.legend(loc="upper left")
         plt.title(title)
         plt.savefig(f"{self.path}/reconstructedSpike_cluster_{cluster}.png")
+        plt.close()
 
     def get_cluster_centers(self, features_list, labels):
         """
@@ -85,6 +87,7 @@ class Visualisation(object):
         plt.figure(figsize=(8, 8))
         plt.scatter(x, y, color="k")
         plt.savefig(f"{self.path}/clusters_features{filename}.png")
+        plt.close()
 
     def visualising_clusters(self, x, y, cluster, centroids=None, filename=""):
         """
@@ -108,6 +111,7 @@ class Visualisation(object):
             plt.scatter(centroids[:, 0], centroids[:, 1], s=80, color='k', marker='+')
         plt.legend(loc="upper left")
         plt.savefig(f"{self.path}/clusters_{filename}.png")
+        plt.close()
 
     def print_loss_curve(self, loss_values, epoch=""):
         """
@@ -126,6 +130,7 @@ class Visualisation(object):
             plt.xlabel("Each 100 Spikes")
             plt.ylabel("Losses")
             plt.savefig(f"{self.path}/lossCurveEpoch{epoch}.png")
+        plt.close()
 
     def print_contingency_matrix(self, cm, true_labels, predicted_labels, matched=None):
         """
@@ -154,6 +159,7 @@ class Visualisation(object):
         else:
             plt.title("Matched Contingency Matrix", fontsize=16)
             plt.savefig(f"{self.path}/contingency_matrix_{matched}.png")
+        plt.close()
 
     def match_labels_in_cm(self, cm, ground_truth_labels, clustered_labels):
         """
@@ -176,7 +182,7 @@ class Visualisation(object):
         for i, row in enumerate(cm):
             for elem in row:
                 converted_cm[i].append(elem)
-        print(converted_cm)
+        self.logger.info(converted_cm)
 
         # If Number of Clusters is lower than the number of Ground Truth Labels,
         # then the Contingency Matrix needs to be filled up to have an n*n array
@@ -185,8 +191,8 @@ class Visualisation(object):
                 for i, row in enumerate(converted_cm):
                     converted_cm[i].append(0)
                 clustered_labels.append(number_of_cl+t)
-        print(converted_cm)
-        print(clustered_labels)
+        self.logger.info(converted_cm)
+        self.logger.info(clustered_labels)
 
         # Deep Copy of cm for later to swap columns (copy_cm rows and columns get set to -1
         # for finding the best match of labels)
@@ -207,10 +213,8 @@ class Visualisation(object):
                 copy_cm[gt_label][i] = -1
             for i in range(len(ground_truth_labels)):
                 copy_cm[i][clustered_label] = -1
-            print(copy_cm)
             self.logger.info(copy_cm)
 
-        print(f"Match_Labels: {match_labels}")
         self.logger.info(f"Match_Labels: {match_labels}")
 
         # new cm contains swapped columns where diagonal has matched labels
@@ -237,10 +241,7 @@ class Visualisation(object):
         new_cm = np.asarray(new_cm)
         self.logger.info("New Contingency Matrix: ")
         self.logger.info(new_cm)
-        print(f"New Contingency Matrix: ")
-        print(new_cm)
         self.logger.info(f"New Clustered Label Sequence: {new_clustered_labels}")
-        print(f"New Clustered Label Sequence: {new_clustered_labels}")
         return new_cm, new_clustered_labels
 
     def print_metrics(self, ground_truth, predictions):
@@ -258,8 +259,6 @@ class Visualisation(object):
         cm = contingency_matrix(ground_truth, predictions)
         self.logger.info("Contingency Matrix: ")
         self.logger.info(cm)
-        print("Contingency Matrix: ")
-        print(cm)
         self.print_contingency_matrix(cm, ground_truth_labels, clustered_labels)
 
         # Matching Labels in Contingency Matrix
@@ -274,7 +273,6 @@ class Visualisation(object):
             diagonal_elements.append(new_cm[i][i])
         sum_diagonal_elements = sum(diagonal_elements)
         self.logger.info(f"Diagonal_Elements: {diagonal_elements}, Sum: {sum_diagonal_elements}")
-        print(f"Diagonal_Elements: {diagonal_elements}, Sum: {sum_diagonal_elements}")
 
         # Sum up all elements (TP+TN+FP+FN)
         all_elements = []
@@ -283,9 +281,7 @@ class Visualisation(object):
                 all_elements.append(elem)
         sum_all_elements = sum(all_elements)
         self.logger.info(f"All_Elements: {all_elements}, Sum: {sum_all_elements}")
-        print(f"All_Elements: {all_elements}, Sum: {sum_all_elements}")
 
         # Compute Accuracy with Formula
         accuracy = sum_diagonal_elements / sum_all_elements
         self.logger.info(f"Accuracy: {accuracy}")
-        print(f"Accuracy: {accuracy}")
