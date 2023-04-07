@@ -1,0 +1,49 @@
+Seed: 0
+Experiment_path: Experiment_03
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise010.mat']
+Variant_name: Variant_03_PCA_QLearning
+Visualisation_Path: Grid_Search_PC//V3/C_Difficult2_noise010.mat/Variant_03_PCA_QLearning/2023_04_07-20_45_30
+PCA Components: 2
+Q Learning Size: 300
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 1.3000000000000003
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+                 0      1     2
+new_cluster -14.57 -17.74 -8.05
+c1          -14.57 -16.72 -7.99
+c2          -14.57 -15.18 -7.92
+\begin{tabular}{lrrr}
+\toprule
+{} &      0 &      1 &     2 \\
+\midrule
+new\_cluster & -14.57 & -17.74 & -8.05 \\
+c1          & -14.57 & -16.72 & -7.99 \\
+c2          & -14.57 & -15.18 & -7.92 \\
+\bottomrule
+\end{tabular}
+
+                                0            1            2
+new_cluster  [-6.76, new_cluster]  [-9.98, c1]  [-0.31, c2]
+c1           [-6.76, new_cluster]  [-8.96, c1]  [-0.23, c2]
+c2           [-6.76, new_cluster]  [-7.42, c1]  [-0.17, c2]
+\begin{tabular}{llll}
+\toprule
+{} &                     0 &            1 &            2 \\
+\midrule
+new\_cluster &  [-6.76, new\_cluster] &  [-9.98, c1] &  [-0.31, c2] \\
+c1          &  [-6.76, new\_cluster] &  [-8.96, c1] &  [-0.23, c2] \\
+c2          &  [-6.76, new\_cluster] &  [-7.42, c1] &  [-0.17, c2] \\
+\bottomrule
+\end{tabular}
+

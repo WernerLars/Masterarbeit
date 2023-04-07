@@ -58,7 +58,7 @@ class Tables(object):
                 # Extract Punishment Coefficient
                 elif line.startswith("Punishment_Coefficient:"):
                     split = line.split(":")
-                    punishment_coefficient = float(split[1][:-1])
+                    punishment_coefficient = round(float(split[1][:-1]), 1)
 
                 # Extract Variant Name
                 elif line.startswith("Variant_name:"):

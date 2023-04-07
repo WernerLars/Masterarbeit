@@ -28,13 +28,13 @@ def main():
             os.mkdir(variant_path)
 
     for d_index in tqdm(range(1, number_of_datasets + 1), position=0, desc="Datasets"):
-        for v_index in tqdm(range(3, number_of_variants*2), position=1, desc="Variants"):
+        for v_index in tqdm(range(0, number_of_variants), position=1, desc="Variants"):
             jobs = []
             for pc in np.arange(0.2, 1.401, 0.1):
-                p = Process(target=Single_Experiment.main, args=(variant_paths[0], d_index, v_index, pc, True))
+                p = Process(target=Single_Experiment.main, args=(variant_paths[v_index], d_index, v_index+3, pc, True))
                 p.start()
                 jobs.append(p)
-                time.sleep(1)
+                time.sleep(3)
 
             for job in jobs:
                 job.join()
