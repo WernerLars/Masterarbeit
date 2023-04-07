@@ -1,0 +1,96 @@
+Seed: 3
+Experiment_path: Random_Seeds_DV5//V5_3/Experiment_05_3_opt_temp_noisy
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise015.mat']
+Variant_name: Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy
+Visualisation_Path: Random_Seeds_DV5//V5_3/Experiment_05_3_opt_temp_noisy/C_Difficult2_noise015.mat/Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy/2023_04_05-09_47_04
+Normalisation: False
+Template Matching: True
+Optimising Autoencoder: True
+Update Factor: 100
+Noisy Batches: True
+Noisy Factor: 0.1
+Epochs: 8
+Batch Size: 1
+maximal Spikes for Autoencoder Training : 700
+maximal Spikes for Training: 1000
+Input Size: 47
+Chosen Model: Autoencoder
+Autoencoder(
+  (encoder): Sequential(
+    (0): Linear(in_features=47, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=2, bias=True)
+  )
+  (decoder): Sequential(
+    (0): Linear(in_features=2, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=47, bias=True)
+  )
+)
+MSELoss()
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.001
+    maximize: False
+    weight_decay: 0
+)
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.37
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+New Episode Number: 358
+New Episode Number: 429
+New Episode Number: 500
+New Episode Number: 572
+New Episode Number: 643
+New Episode Number: 715
+New Episode Number: 786
+               0     1     2     3     4   ...    7     8     9     10    11
+new_cluster -1.05 -1.55 -4.90 -0.52 -5.66  ... -0.52 -2.43 -0.85 -5.61 -1.05
+c1          -1.05 -1.39 -5.26 -0.45 -5.93  ... -0.59 -2.67 -0.82 -5.61 -1.05
+c2          -1.05 -1.55 -4.79 -0.45 -5.56  ... -0.57 -2.54 -0.84 -5.73 -1.05
+c3          -1.05 -1.44 -4.72 -0.39 -5.56  ... -0.57 -2.63 -0.97 -5.85 -1.05
+c4          -1.05 -1.49 -4.78 -0.46 -5.68  ... -0.54 -2.55 -0.93 -5.77 -1.05
+c5          -1.05 -1.58 -4.77 -0.43 -5.66  ... -0.56 -2.37 -0.94 -5.62 -1.05
+c6          -1.04 -1.66 -4.62 -0.43 -5.52  ... -0.66 -2.64 -0.98 -5.57 -1.05
+c7          -1.05 -1.68 -5.20 -0.42 -5.67  ... -0.59 -2.32 -0.76 -5.72 -1.05
+c8          -1.05 -1.54 -5.24 -0.42 -5.74  ... -0.58 -2.30 -0.95 -5.63 -1.05
+c9          -1.05 -1.66 -4.99 -0.41 -5.65  ... -0.56 -2.51 -0.82 -5.70 -1.05
+c10         -1.05 -1.52 -5.07 -0.42 -5.62  ... -0.51 -2.40 -0.85  0.00  0.00
+c11         -1.05 -1.75 -5.22 -0.47 -5.30  ... -0.53 -2.27 -0.88  0.00  0.00
+
+[12 rows x 12 columns]
+                               0            1   ...            10            11
+new_cluster  [-0.55, new_cluster]  [-1.06, c1]  ...  [-5.61, c10]  [-1.05, c11]
+c1           [-0.55, new_cluster]  [-0.94, c1]  ...  [-5.61, c10]  [-1.05, c11]
+c2           [-0.55, new_cluster]  [-1.11, c1]  ...  [-5.73, c10]  [-1.05, c11]
+c3           [-0.55, new_cluster]  [-0.99, c1]  ...  [-5.85, c10]  [-1.05, c11]
+c4           [-0.55, new_cluster]  [-1.05, c1]  ...  [-5.77, c10]  [-1.05, c11]
+c5           [-0.55, new_cluster]   [-1.1, c1]  ...  [-5.62, c10]  [-1.05, c11]
+c6           [-0.55, new_cluster]  [-1.23, c1]  ...  [-5.57, c10]  [-1.05, c11]
+c7           [-0.55, new_cluster]  [-1.26, c1]  ...  [-5.72, c10]  [-1.05, c11]
+c8           [-0.55, new_cluster]  [-1.06, c1]  ...  [-5.63, c10]  [-1.05, c11]
+c9           [-0.55, new_cluster]  [-1.23, c1]  ...   [-5.7, c10]  [-1.05, c11]
+c10          [-0.55, new_cluster]  [-1.08, c1]  ...         [0, ]         [0, ]
+c11          [-0.55, new_cluster]  [-1.26, c1]  ...         [0, ]         [0, ]
+
+[12 rows x 12 columns]

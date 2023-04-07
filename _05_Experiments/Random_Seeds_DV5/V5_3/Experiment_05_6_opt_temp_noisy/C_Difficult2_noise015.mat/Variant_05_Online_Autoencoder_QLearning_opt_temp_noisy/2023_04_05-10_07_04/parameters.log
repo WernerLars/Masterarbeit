@@ -1,0 +1,219 @@
+Seed: 6
+Experiment_path: Random_Seeds_DV5//V5_3/Experiment_05_6_opt_temp_noisy
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise015.mat']
+Variant_name: Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy
+Visualisation_Path: Random_Seeds_DV5//V5_3/Experiment_05_6_opt_temp_noisy/C_Difficult2_noise015.mat/Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy/2023_04_05-10_07_04
+Normalisation: False
+Template Matching: True
+Optimising Autoencoder: True
+Update Factor: 100
+Noisy Batches: True
+Noisy Factor: 0.1
+Epochs: 8
+Batch Size: 1
+maximal Spikes for Autoencoder Training : 700
+maximal Spikes for Training: 1000
+Input Size: 47
+Chosen Model: Autoencoder
+Autoencoder(
+  (encoder): Sequential(
+    (0): Linear(in_features=47, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=2, bias=True)
+  )
+  (decoder): Sequential(
+    (0): Linear(in_features=2, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=47, bias=True)
+  )
+)
+MSELoss()
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.001
+    maximize: False
+    weight_decay: 0
+)
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.37
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+New Episode Number: 358
+New Episode Number: 429
+New Episode Number: 500
+New Episode Number: 572
+New Episode Number: 643
+New Episode Number: 715
+New Episode Number: 786
+New Episode Number: 858
+New Episode Number: 929
+New Episode Number: 1000
+New Episode Number: 1072
+New Episode Number: 1143
+New Episode Number: 1215
+New Episode Number: 1286
+New Episode Number: 1358
+New Episode Number: 1429
+New Episode Number: 1501
+New Episode Number: 1572
+New Episode Number: 1643
+New Episode Number: 1715
+New Episode Number: 1786
+New Episode Number: 1858
+New Episode Number: 1929
+New Episode Number: 2000
+New Episode Number: 2072
+New Episode Number: 2143
+New Episode Number: 2215
+New Episode Number: 2286
+New Episode Number: 2358
+New Episode Number: 2429
+New Episode Number: 2500
+New Episode Number: 2572
+New Episode Number: 2643
+New Episode Number: 2715
+New Episode Number: 2786
+New Episode Number: 2858
+New Episode Number: 2929
+New Episode Number: 3001
+New Episode Number: 3072
+New Episode Number: 3143
+New Episode Number: 3215
+New Episode Number: 3286
+New Episode Number: 3358
+New Episode Number: 3429
+New Episode Number: 3500
+New Episode Number: 3572
+New Episode Number: 3643
+New Episode Number: 3715
+               0     1      2     3      4   ...    48     49     50     51    52
+new_cluster -3.92 -5.17 -19.39 -4.44 -28.21  ... -4.18 -18.05 -78.99 -55.20 -3.78
+c1          -4.11 -5.94 -19.51 -4.00 -27.84  ... -4.27 -18.63 -78.99 -55.20 -4.01
+c2          -4.10 -5.24 -18.57 -4.24 -28.42  ... -1.71 -18.39 -78.99 -55.20 -3.98
+c3          -4.10 -4.58 -19.44 -4.66 -26.92  ... -4.22 -18.73 -78.99 -55.20 -3.76
+c4          -4.10 -5.05 -19.81 -4.36 -28.75  ... -4.25 -19.28 -78.99 -55.20 -3.77
+c5          -3.91 -5.47 -19.36 -3.90 -28.39  ... -4.14 -18.92 -78.99 -55.20 -3.98
+c6          -4.11 -4.76 -19.22 -4.20 -27.50  ... -4.20 -18.20 -78.99 -55.20 -4.01
+c7          -3.93 -5.42 -19.72 -4.74 -28.21  ... -4.20 -15.86 -78.99 -55.20 -3.79
+c8          -3.85 -5.14 -19.69 -4.55 -28.14  ... -4.14 -15.97 -78.99 -55.20 -4.00
+c9          -3.31 -5.89 -19.43 -3.87 -27.85  ... -2.93 -18.53 -78.99 -55.20 -3.78
+c10         -4.10 -4.68 -20.28 -4.44 -27.62  ... -4.22 -16.68 -78.99 -55.20 -3.94
+c11         -4.05 -5.63 -19.33 -4.32 -26.83  ... -4.25 -15.62 -78.99 -55.20 -3.78
+c12         -3.95 -5.50 -19.14 -4.35 -27.72  ... -4.17 -18.72 -78.99 -55.20 -4.02
+c13         -4.22 -5.56 -20.33 -4.57 -27.38  ... -4.25 -18.57 -78.99 -55.11 -4.01
+c14         -3.29 -5.36 -19.02 -4.31 -27.63  ... -4.23 -16.91 -78.99 -55.20 -4.03
+c15         -4.10 -5.43 -19.19 -4.14 -27.40  ... -4.11 -18.84 -78.99 -55.20 -4.02
+c16         -4.04 -5.38 -18.76 -4.56 -27.91  ... -4.18 -18.32 -78.99   0.00  0.00
+c17         -4.09 -5.36 -20.11 -4.25 -27.11  ... -4.22 -18.49 -78.99 -55.20 -3.78
+c18         -3.82 -4.97 -19.64 -4.04 -27.65  ... -4.24 -18.66 -78.99 -55.20 -4.01
+c19         -4.04 -5.59 -20.08 -4.22 -27.49  ... -4.21 -18.97 -78.99 -55.20 -3.94
+c20         -3.90 -5.10 -19.54 -5.16 -27.95  ... -4.21 -15.50 -78.99 -55.20 -4.00
+c21         -4.20 -5.66 -19.25 -4.65 -27.40  ... -4.14 -15.61 -78.99 -55.20 -3.50
+c22         -4.21 -5.38 -19.73 -4.94 -28.81  ... -4.14 -18.98 -78.99 -55.20 -3.72
+c23         -3.61 -5.12 -20.18 -4.43 -27.43  ... -4.06 -18.45 -78.99 -55.20 -3.73
+c24         -3.99 -5.21 -20.15 -4.76 -27.91  ... -3.97 -16.79 -78.99 -55.20 -1.71
+c25         -4.02 -5.45 -18.54 -4.11 -26.63  ... -4.10 -18.83 -78.99 -55.20 -4.01
+c26         -3.81 -5.58 -19.33 -4.22 -27.59  ... -4.23 -17.45 -78.99 -55.20 -3.79
+c27         -4.08 -5.26 -19.46 -4.32 -27.14  ... -4.18 -16.22 -78.99 -55.20  0.00
+c28         -4.10 -5.39 -20.34 -3.95 -28.04  ... -4.21 -18.62 -78.99 -55.20 -3.98
+c29         -3.85 -5.23 -18.31 -4.00 -27.84  ... -4.20 -17.15 -78.99 -55.20 -3.98
+c30         -3.96 -5.07 -19.35 -4.39 -27.67  ... -4.25 -18.69 -78.99 -55.20 -3.98
+c31         -3.87 -4.26 -19.32 -4.25 -27.18  ... -4.28 -18.48 -78.99 -55.20 -3.68
+c32         -3.92 -5.47 -19.06 -4.92 -28.07  ... -4.23 -18.74 -78.99 -55.20 -3.67
+c33         -4.10 -5.19 -19.65 -4.68 -27.50  ... -4.23 -18.94 -78.99 -55.20 -3.98
+c34         -3.57 -2.86 -18.96 -4.12 -28.15  ... -4.27 -18.86 -78.99 -55.20 -3.84
+c35         -3.87 -5.17 -19.10 -4.32 -26.93  ... -4.11 -18.45 -78.99 -55.20 -4.03
+c36         -4.23 -5.22 -18.92 -4.47 -25.94  ... -4.19 -19.26 -78.99 -55.20 -3.76
+c37         -3.98 -5.18 -19.33 -3.80 -27.08  ... -4.23 -19.22 -78.99 -55.20 -3.75
+c38         -4.07 -5.29 -20.14 -4.04 -25.74  ... -4.10 -15.84 -78.99 -55.11 -3.74
+c39         -4.22 -5.39 -20.29 -4.55 -28.15  ... -4.22 -18.38 -78.36 -55.20 -3.98
+c40         -3.93 -5.54 -19.91 -4.42 -27.76  ... -4.21 -18.85 -78.97 -55.20 -3.93
+c41         -4.08 -5.02 -18.50 -4.55 -27.15  ... -4.23 -18.97 -78.99 -55.20 -3.95
+c42         -4.22 -5.25 -19.11 -4.12 -27.37  ... -4.21 -18.72 -78.99 -55.20 -3.79
+c43         -4.11 -4.23 -20.09 -4.06 -28.17  ... -3.70 -18.84 -78.99 -55.20 -4.01
+c44         -4.08 -5.11 -19.69 -4.27 -28.53  ... -4.23 -18.65 -78.97 -55.19 -3.97
+c45         -4.04 -5.16 -19.53 -4.68 -28.35  ... -4.15 -16.78 -78.87 -55.20 -3.96
+c46         -4.08 -5.05 -19.57 -4.06 -27.23  ... -4.26 -18.92 -78.87 -55.20 -3.99
+c47         -4.08 -5.72 -19.98 -4.49 -27.52  ... -4.13 -16.55 -78.99 -55.19 -4.01
+c48         -4.07 -5.46 -19.41 -4.24 -27.89  ... -4.25 -18.43 -78.99 -55.19 -3.97
+c49         -3.89 -4.41 -19.93 -4.54 -26.95  ... -4.23 -19.19 -78.97 -55.11 -4.02
+c50         -4.08 -4.67 -20.08 -4.07 -27.39  ... -4.17 -18.85 -78.99 -55.11  0.00
+c51         -3.91 -5.00 -18.91 -4.35 -27.38  ... -4.05 -19.15   0.00   0.00  0.00
+c52         -4.08 -4.83 -19.39 -4.46 -27.60  ... -4.24 -15.75 -78.99 -55.11 -4.00
+
+[53 rows x 53 columns]
+                               0            1   ...            51           52
+new_cluster  [-0.55, new_cluster]  [-2.49, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c1           [-0.55, new_cluster]  [-2.99, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c2           [-0.55, new_cluster]  [-2.44, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c3           [-0.55, new_cluster]   [-2.4, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c4           [-0.55, new_cluster]  [-2.24, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c5           [-0.55, new_cluster]  [-2.68, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c6           [-0.55, new_cluster]  [-2.02, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c7           [-0.55, new_cluster]  [-2.68, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c8           [-0.55, new_cluster]  [-2.35, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c9           [-0.55, new_cluster]   [-3.1, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c10          [-0.55, new_cluster]  [-2.41, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c11          [-0.55, new_cluster]  [-2.68, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c12          [-0.55, new_cluster]   [-2.8, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c13          [-0.55, new_cluster]  [-2.76, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c14          [-0.55, new_cluster]  [-2.68, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c15          [-0.55, new_cluster]  [-2.63, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c16          [-0.55, new_cluster]  [-2.54, c1]  ...         [0, ]        [0, ]
+c17          [-0.55, new_cluster]  [-2.56, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c18          [-0.55, new_cluster]  [-2.25, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c19          [-0.55, new_cluster]  [-2.79, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c20          [-0.55, new_cluster]   [-2.3, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c21          [-0.55, new_cluster]  [-2.86, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c22          [-0.55, new_cluster]  [-2.58, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c23          [-0.55, new_cluster]  [-2.32, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c24          [-0.55, new_cluster]  [-3.07, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c25          [-0.55, new_cluster]  [-2.55, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c26          [-0.55, new_cluster]  [-2.78, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c27          [-0.55, new_cluster]  [-2.46, c1]  ...  [-55.2, c51]        [0, ]
+c28          [-0.55, new_cluster]  [-2.59, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c29          [-0.55, new_cluster]  [-2.43, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c30          [-0.55, new_cluster]   [-2.3, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c31          [-0.55, new_cluster]  [-2.65, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c32          [-0.55, new_cluster]  [-2.67, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c33          [-0.55, new_cluster]   [-2.4, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c34          [-0.55, new_cluster]  [-2.52, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c35          [-0.55, new_cluster]  [-2.38, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c36          [-0.55, new_cluster]  [-2.53, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c37          [-0.55, new_cluster]  [-2.39, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c38          [-0.55, new_cluster]  [-2.51, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c39          [-0.55, new_cluster]  [-2.64, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c40          [-0.55, new_cluster]  [-2.76, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c41          [-0.55, new_cluster]  [-2.53, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c42          [-0.55, new_cluster]   [-2.5, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c43          [-0.55, new_cluster]  [-2.61, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c44          [-0.55, new_cluster]  [-2.31, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c45          [-0.55, new_cluster]  [-2.37, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c46          [-0.55, new_cluster]  [-2.26, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c47          [-0.55, new_cluster]  [-2.77, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c48          [-0.55, new_cluster]  [-2.66, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c49          [-0.55, new_cluster]  [-2.13, c1]  ...  [-55.2, c51]  [-0.4, c52]
+c50          [-0.55, new_cluster]  [-2.21, c1]  ...  [-55.2, c51]        [0, ]
+c51          [-0.55, new_cluster]  [-2.25, c1]  ...         [0, ]        [0, ]
+c52          [-0.55, new_cluster]  [-2.03, c1]  ...  [-55.2, c51]  [-0.4, c52]
+
+[53 rows x 53 columns]

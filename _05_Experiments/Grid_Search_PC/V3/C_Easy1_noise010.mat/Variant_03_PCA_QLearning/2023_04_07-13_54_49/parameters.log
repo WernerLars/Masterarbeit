@@ -1,0 +1,72 @@
+Seed: 0
+Experiment_path: Experiment_03
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy1_noise010.mat']
+Variant_name: Variant_03_PCA_QLearning
+Visualisation_Path: Grid_Search_PC//V3/C_Easy1_noise010.mat/Variant_03_PCA_QLearning/2023_04_07-13_54_49
+PCA Components: 2
+Q Learning Size: 300
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.4000000000000001
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+New Episode Number: 358
+New Episode Number: 429
+New Episode Number: 500
+New Episode Number: 572
+New Episode Number: 643
+New Episode Number: 715
+New Episode Number: 786
+New Episode Number: 858
+New Episode Number: 929
+New Episode Number: 1000
+New Episode Number: 1072
+               0     1      2      3      4   ...     11     12     13    14     15
+new_cluster -1.58 -0.98 -16.45 -16.70 -25.41  ... -11.60 -12.63 -16.02 -2.15 -35.18
+c1          -1.60 -0.98 -16.95 -15.81 -25.11  ... -11.79 -12.62 -16.02 -2.45 -35.18
+c2          -1.58 -0.96 -17.48 -16.62 -25.24  ... -11.98 -12.64 -16.02 -2.11 -35.18
+c3          -1.58 -0.99 -17.07 -16.41 -25.80  ... -12.29 -12.68 -16.02 -2.16 -35.18
+c4          -1.59 -0.98 -16.64 -15.91 -25.53  ... -12.04 -12.64 -16.02 -2.26 -35.18
+c5          -1.62 -1.00 -16.72 -16.05 -26.26  ... -12.77 -12.65 -16.02 -2.35 -35.18
+c6          -1.60 -0.97 -17.25 -16.11 -25.27  ... -12.45 -12.67 -16.02 -2.18 -35.18
+c7          -1.59 -0.97 -16.65 -16.39 -25.41  ... -12.51 -12.66 -16.02 -1.94 -35.18
+c8          -1.56 -0.97 -16.98 -15.79 -24.99  ... -13.19 -12.61 -16.02 -2.42 -35.18
+c9          -1.59 -1.02 -17.10 -16.24 -25.25  ... -12.04 -12.68 -16.02 -2.15 -35.18
+c10         -1.56 -0.97 -16.52 -16.27 -25.21  ... -12.28 -12.63 -16.02 -1.97 -35.18
+c11         -1.56 -0.97 -17.04 -16.32 -24.95  ... -12.56 -12.63 -16.02 -2.29   0.00
+c12         -1.59 -1.00 -16.68 -16.08 -25.48  ... -12.12 -12.62 -16.02 -2.09 -35.18
+c13         -1.56 -0.97 -17.09 -16.64 -24.92  ... -12.39 -12.64 -16.02 -1.98   0.00
+c14         -1.59 -0.97 -17.56 -16.15 -25.83  ... -12.63 -12.65   0.00  0.00 -35.18
+c15         -1.59 -0.99 -16.71 -16.22 -24.92  ... -12.28 -12.68   0.00  0.00   0.00
+
+[16 rows x 16 columns]
+                               0            1   ...            14             15
+new_cluster  [-0.64, new_cluster]  [-0.02, c1]  ...  [-2.15, c14]  [-35.18, c15]
+c1           [-0.64, new_cluster]  [-0.03, c1]  ...  [-2.45, c14]  [-35.18, c15]
+c2           [-0.64, new_cluster]  [-0.01, c1]  ...  [-2.11, c14]  [-35.18, c15]
+c3           [-0.64, new_cluster]  [-0.05, c1]  ...  [-2.16, c14]  [-35.18, c15]
+c4           [-0.64, new_cluster]  [-0.03, c1]  ...  [-2.26, c14]  [-35.18, c15]
+c5           [-0.64, new_cluster]  [-0.04, c1]  ...  [-2.35, c14]  [-35.18, c15]
+c6           [-0.64, new_cluster]  [-0.02, c1]  ...  [-2.18, c14]  [-35.18, c15]
+c7           [-0.64, new_cluster]  [-0.04, c1]  ...  [-1.94, c14]  [-35.18, c15]
+c8           [-0.64, new_cluster]  [-0.02, c1]  ...  [-2.42, c14]  [-35.18, c15]
+c9           [-0.64, new_cluster]  [-0.06, c1]  ...  [-2.15, c14]  [-35.18, c15]
+c10          [-0.64, new_cluster]  [-0.01, c1]  ...  [-1.97, c14]  [-35.18, c15]
+c11          [-0.64, new_cluster]  [-0.02, c1]  ...  [-2.29, c14]          [0, ]
+c12          [-0.64, new_cluster]  [-0.05, c1]  ...  [-2.09, c14]  [-35.18, c15]
+c13          [-0.64, new_cluster]  [-0.02, c1]  ...  [-1.98, c14]          [0, ]
+c14          [-0.64, new_cluster]  [-0.02, c1]  ...         [0, ]  [-35.18, c15]
+c15          [-0.64, new_cluster]  [-0.05, c1]  ...         [0, ]          [0, ]
+
+[16 rows x 16 columns]

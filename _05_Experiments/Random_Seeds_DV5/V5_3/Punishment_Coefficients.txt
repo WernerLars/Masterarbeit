@@ -1,0 +1,28 @@
+\begin{tabular}{ll}
+\toprule
+{} & Online\_Autoencoder\_QLearning\_opt\_temp\_noisy \\
+\midrule
+C\_Burst\_Easy2\_noise015 &                                      0.56\textbackslash n \\
+C\_Difficult1\_noise005  &                                      0.34\textbackslash n \\
+C\_Difficult1\_noise010  &                                      0.36\textbackslash n \\
+C\_Difficult1\_noise015  &                                      0.35\textbackslash n \\
+C\_Difficult1\_noise020  &                                      0.39\textbackslash n \\
+C\_Difficult2\_noise005  &                                      0.37\textbackslash n \\
+C\_Difficult2\_noise010  &                                      0.37\textbackslash n \\
+C\_Difficult2\_noise015  &                                      0.37\textbackslash n \\
+C\_Difficult2\_noise020  &                                       0.7\textbackslash n \\
+C\_Drift\_Easy2\_noise015 &                                       0.6\textbackslash n \\
+C\_Easy1\_noise005       &                                       0.5\textbackslash n \\
+C\_Easy1\_noise010       &                                       0.6\textbackslash n \\
+C\_Easy1\_noise015       &                                       0.7\textbackslash n \\
+C\_Easy1\_noise020       &                                       0.8\textbackslash n \\
+C\_Easy1\_noise025       &                                       0.9\textbackslash n \\
+C\_Easy1\_noise030       &                                       0.9\textbackslash n \\
+C\_Easy1\_noise035       &                                       0.9\textbackslash n \\
+C\_Easy1\_noise040       &                                       1.6\textbackslash n \\
+C\_Easy2\_noise005       &                                      0.52\textbackslash n \\
+C\_Easy2\_noise010       &                                      0.57\textbackslash n \\
+C\_Easy2\_noise015       &                                      0.59\textbackslash n \\
+C\_Easy2\_noise020       &                                       0.8\textbackslash n \\
+\bottomrule
+\end{tabular}

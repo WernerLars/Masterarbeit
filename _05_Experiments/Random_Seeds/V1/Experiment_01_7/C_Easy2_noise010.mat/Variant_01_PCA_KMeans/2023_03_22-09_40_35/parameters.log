@@ -1,0 +1,8 @@
+Seed: 7
+Experiment_path: Random_Seeds//V1/Experiment_01_7
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy2_noise010.mat']
+Variant_name: Variant_01_PCA_KMeans
+Visualisation_Path: Random_Seeds//V1/Experiment_01_7/C_Easy2_noise010.mat/Variant_01_PCA_KMeans/2023_03_22-09_40_35
+PCA Components: 2
+K-Means Number of Clusters: 3

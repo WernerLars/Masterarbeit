@@ -1,0 +1,62 @@
+Seed: 1
+Experiment_path: Random_Seeds//V4/Experiment_04_1
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise015.mat']
+Variant_name: Variant_04_Offline_Autoencoder_QLearning
+Visualisation_Path: Random_Seeds//V4/Experiment_04_1/C_Difficult2_noise015.mat/Variant_04_Offline_Autoencoder_QLearning/2023_03_22-10_15_02
+Split Ratio: 0.9
+Epochs: 8
+Batch Size: 1
+Input Size: 47
+Number of Features: 2
+Chosen Model: Autoencoder
+Autoencoder(
+  (encoder): Sequential(
+    (0): Linear(in_features=47, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=2, bias=True)
+  )
+  (decoder): Sequential(
+    (0): Linear(in_features=2, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=47, bias=True)
+  )
+)
+MSELoss()
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.001
+    maximize: False
+    weight_decay: 0
+)
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.54
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+               0     1     2     3
+new_cluster -2.3 -1.17 -4.04 -1.77
+c1          -2.3 -1.17 -3.99 -1.74
+c2          -2.3 -1.15 -4.15 -1.74
+c3          -2.3 -1.17 -4.06 -1.67
+                                0            1            2            3
+new_cluster  [-1.17, new_cluster]   [-0.0, c1]  [-2.91, c2]  [-0.64, c3]
+c1           [-1.17, new_cluster]  [-0.03, c1]  [-2.88, c2]  [-0.61, c3]
+c2           [-1.17, new_cluster]  [-0.02, c1]  [-3.03, c2]   [-0.6, c3]
+c3           [-1.17, new_cluster]  [-0.03, c1]  [-2.94, c2]  [-0.51, c3]

@@ -1,0 +1,46 @@
+Seed: 8
+Experiment_path: Random_Seeds//V3/Experiment_03_8
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise010.mat']
+Variant_name: Variant_03_PCA_QLearning
+Visualisation_Path: Random_Seeds//V3/Experiment_03_8/C_Difficult2_noise010.mat/Variant_03_PCA_QLearning/2023_03_22-09_58_38
+PCA Components: 2
+Q Learning Size: 300
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.79
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+New Episode Number: 358
+New Episode Number: 429
+New Episode Number: 500
+                0      1     2      3      4      5      6      7
+new_cluster -8.15 -14.77 -5.83 -12.54 -16.66 -10.04 -25.34 -26.02
+c1          -8.52 -14.33 -6.06 -12.80 -16.96 -10.23 -26.84 -26.10
+c2          -8.15 -14.54 -6.06 -12.88 -17.06 -10.00 -24.89 -26.06
+c3          -8.19 -13.56 -5.98 -12.24 -16.69 -10.07 -25.14 -26.05
+c4          -8.16 -14.74 -5.92 -13.09 -17.15 -10.40 -26.95 -26.02
+c5          -8.19 -14.51 -6.01 -13.11 -16.75 -10.27 -24.71 -26.03
+c6          -8.16 -14.55 -5.96 -12.84 -17.46 -10.17 -25.56 -26.03
+c7          -8.38 -14.74 -6.16 -12.63 -16.98 -10.01 -26.21 -26.03
+                               0            1  ...             6             7
+new_cluster  [-2.5, new_cluster]  [-8.77, c1]  ...  [-19.63, c6]  [-20.09, c7]
+c1           [-2.5, new_cluster]  [-8.49, c1]  ...  [-20.86, c6]  [-20.09, c7]
+c2           [-2.5, new_cluster]   [-8.7, c1]  ...  [-19.17, c6]  [-20.09, c7]
+c3           [-2.5, new_cluster]  [-7.72, c1]  ...  [-19.39, c6]  [-20.09, c7]
+c4           [-2.5, new_cluster]  [-8.91, c1]  ...  [-20.98, c6]  [-20.09, c7]
+c5           [-2.5, new_cluster]  [-8.65, c1]  ...  [-18.96, c6]  [-20.09, c7]
+c6           [-2.5, new_cluster]  [-8.71, c1]  ...  [-19.79, c6]  [-20.09, c7]
+c7           [-2.5, new_cluster]   [-8.9, c1]  ...  [-20.39, c6]  [-20.09, c7]
+
+[8 rows x 8 columns]

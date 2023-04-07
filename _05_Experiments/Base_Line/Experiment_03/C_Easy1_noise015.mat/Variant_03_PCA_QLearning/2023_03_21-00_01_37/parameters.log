@@ -1,0 +1,32 @@
+Seed: 0
+Experiment_path: Base_Line/Experiment_03
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy1_noise015.mat']
+Variant_name: Variant_03_PCA_QLearning
+Visualisation_Path: Base_Line/Experiment_03/C_Easy1_noise015.mat/Variant_03_PCA_QLearning/2023_03_21-00_01_37
+PCA Components: 2
+Q Learning Size: 300
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 1.5
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+                 0      1      2      3
+new_cluster -36.30 -58.51 -48.25 -28.14
+c1          -36.30 -60.60 -47.92 -28.28
+c2          -36.29 -61.16 -47.18 -28.16
+c3          -36.30 -60.28 -48.25 -28.30
+                               0             1             2            3
+new_cluster  [-9.0, new_cluster]  [-31.16, c1]  [-20.85, c2]  [-0.69, c3]
+c1           [-9.0, new_cluster]  [-33.17, c1]  [-20.59, c2]  [-0.83, c3]
+c2           [-9.0, new_cluster]  [-33.73, c1]  [-19.87, c2]  [-0.68, c3]
+c3           [-9.0, new_cluster]  [-32.87, c1]  [-20.93, c2]  [-0.77, c3]

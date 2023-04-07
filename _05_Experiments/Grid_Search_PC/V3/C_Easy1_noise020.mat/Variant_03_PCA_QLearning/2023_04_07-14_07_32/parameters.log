@@ -1,0 +1,46 @@
+Seed: 0
+Experiment_path: Experiment_03
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy1_noise020.mat']
+Variant_name: Variant_03_PCA_QLearning
+Visualisation_Path: Grid_Search_PC//V3/C_Easy1_noise020.mat/Variant_03_PCA_QLearning/2023_04_07-14_07_32
+PCA Components: 2
+Q Learning Size: 300
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.8000000000000003
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+New Episode Number: 358
+New Episode Number: 429
+New Episode Number: 500
+                0      1     2     3      4      5      6      7
+new_cluster -4.46 -16.98 -1.97 -2.66 -25.41 -16.84 -34.12 -16.28
+c1          -4.46 -18.27 -2.08 -2.96 -25.21 -16.37 -34.12 -15.39
+c2          -4.43 -18.10 -2.17 -2.97 -27.14 -16.10 -34.12 -14.21
+c3          -4.43 -16.95 -1.98 -3.04 -26.75 -15.98 -34.12 -14.55
+c4          -4.47 -18.47 -1.94 -3.39 -25.71 -15.65 -34.12 -15.26
+c5          -4.42 -16.88 -2.04 -2.87 -27.39 -16.08 -34.12 -16.00
+c6          -4.43 -17.22 -1.93 -3.23 -26.12 -16.55   0.00   0.00
+c7          -4.47 -17.95 -1.90 -2.96 -27.37 -16.38   0.00   0.00
+                                0             1  ...             6             7
+new_cluster  [-2.56, new_cluster]  [-15.02, c1]  ...  [-34.12, c6]  [-16.28, c7]
+c1           [-2.56, new_cluster]  [-16.26, c1]  ...  [-34.12, c6]  [-15.39, c7]
+c2           [-2.56, new_cluster]  [-16.09, c1]  ...  [-34.12, c6]  [-14.21, c7]
+c3           [-2.56, new_cluster]  [-14.99, c1]  ...  [-34.12, c6]  [-14.55, c7]
+c4           [-2.56, new_cluster]  [-16.52, c1]  ...  [-34.12, c6]  [-15.26, c7]
+c5           [-2.56, new_cluster]  [-14.87, c1]  ...  [-34.12, c6]   [-16.0, c7]
+c6           [-2.56, new_cluster]  [-15.23, c1]  ...         [0, ]         [0, ]
+c7           [-2.56, new_cluster]  [-15.95, c1]  ...         [0, ]         [0, ]
+
+[8 rows x 8 columns]

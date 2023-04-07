@@ -1,0 +1,72 @@
+Seed: 0
+Experiment_path: Base_Line/Experiment_05
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy2_noise020.mat']
+Variant_name: Variant_05_Online_Autoencoder_QLearning
+Visualisation_Path: Base_Line/Experiment_05/C_Easy2_noise020.mat/Variant_05_Online_Autoencoder_QLearning/2023_03_21-00_06_43
+Normalisation: False
+Template Matching: False
+Optimising Autoencoder: False
+Noisy Batches: False
+Noisy Factor: 0.1
+Epochs: 8
+Batch Size: 1
+maximal Spikes for Autoencoder Training : 700
+maximal Spikes for Training: 1000
+Input Size: 47
+Chosen Model: Autoencoder
+Autoencoder(
+  (encoder): Sequential(
+    (0): Linear(in_features=47, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=2, bias=True)
+  )
+  (decoder): Sequential(
+    (0): Linear(in_features=2, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=47, bias=True)
+  )
+)
+MSELoss()
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.001
+    maximize: False
+    weight_decay: 0
+)
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.8
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+                 0      1      2      3      4
+new_cluster -17.89 -16.06 -20.28 -15.88 -21.60
+c1          -17.88 -16.13 -20.01 -16.02 -21.65
+c2          -17.80 -16.22 -20.01 -16.00 -21.59
+c3          -17.94 -16.21 -20.25 -16.01 -22.15
+c4          -17.80 -15.56 -20.54 -15.68 -21.74
+                                0            1  ...            3            4
+new_cluster  [-2.56, new_cluster]  [-0.77, c1]  ...  [-0.38, c3]  [-6.51, c4]
+c1           [-2.56, new_cluster]  [-0.75, c1]  ...  [-0.51, c3]  [-6.56, c4]
+c2           [-2.56, new_cluster]  [-0.74, c1]  ...  [-0.48, c3]  [-6.49, c4]
+c3           [-2.56, new_cluster]  [-0.68, c1]  ...  [-0.51, c3]  [-7.06, c4]
+c4           [-2.56, new_cluster]  [-0.34, c1]  ...   [-0.6, c3]  [-6.65, c4]
+
+[5 rows x 5 columns]
