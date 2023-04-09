@@ -1,0 +1,52 @@
+Experiment_path: Base_Line_W_PC//1.2/Experiment_01
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise020.mat']
+Variant_name: Variant_01_PCA_KMeans
+Visualisation_Path: Base_Line_W_PC//1.2/Experiment_01/C_Difficult2_noise020.mat/Variant_01_PCA_KMeans/2023_04_09-19_53_23
+<_01_LoadDataset.ExternCode.spike_class.spike_dataclass object at 0x0000021BD847F518>
+Sampling rate: 24000.0
+Raw: [-0.05920843 -0.02398302  0.01513494 ...  0.2971695   0.32984394
+  0.35872829]
+Times: [    337    1080    1305 ... 1438651 1438787 1439662]
+Cluster: [2 1 1 ... 2 1 3]
+Number of different clusters:  3
+Number of Spikes: 3493
+First aligned Spike Frame: [ 0.50880334  0.56984686  0.60721022  0.60769692  0.58122704  0.55003969
+  0.51479324  0.46436685  0.40848987  0.36206071  0.31750134  0.26828304
+  0.23270096  0.2305818   0.25904633  0.30599383  0.36680145  0.45670025
+  0.60261795  0.8012213   1.02149976  1.23478943  1.38977263  1.39868415
+  1.211664    0.88028336  0.50425138  0.15449729 -0.12937778 -0.32272009
+ -0.40685817 -0.38921932 -0.31829776 -0.24412685 -0.18860857 -0.1442941
+ -0.0976923  -0.0504865  -0.01384986  0.00955437  0.03047694  0.05600466
+  0.07308225  0.06101434  0.01148826 -0.0607151  -0.13636803]
+Cluster 0, Occurrences: 1151
+Cluster 1, Occurrences: 1195
+Cluster 2, Occurrences: 1147
+Number of Samples after PCA: 3493
+First Spike Frame after PCA: [1.76329169 1.2595489 ]
+Number of Clusters: 3
+[1 0 0 ... 1 0 2]
+Cluster 0: Occurrences: 1151 KMEANS: 1122
+Cluster 1: Occurrences: 1195 KMEANS: 1189
+Cluster 2: Occurrences: 1147 KMEANS: 1182
+Centroids: [[-1.4316382582274232, -0.21845899088943363], [1.8404993110172387, -0.13175245250850595], [-0.4808901843468486, 0.35648690432554725]]
+Centroids: [[-1.3132735061634262, -0.5663542273317236], [1.8668684185121511, -0.13447040053567785], [-0.6313144464429638, 0.6728720383275083]]
+Contingency Matrix: 
+[[ 857    2  292]
+ [   8 1178    9]
+ [ 257    9  881]]
+[[857, 2, 292], [8, 1178, 9], [257, 9, 881]]
+[[857, 2, 292], [8, 1178, 9], [257, 9, 881]]
+[0, 1, 2]
+[[857, -1, 292], [-1, -1, -1], [257, -1, 881]]
+[[857, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+Match_Labels: {1: 1, 2: 2, 0: 0}
+New Contingency Matrix: 
+[[ 857    2  292]
+ [   8 1178    9]
+ [ 257    9  881]]
+New Clustered Label Sequence: [0, 1, 2]
+Diagonal_Elements: [857, 1178, 881], Sum: 2916
+All_Elements: [857, 2, 292, 8, 1178, 9, 257, 9, 881], Sum: 3493
+Accuracy: 0.8348124821070713

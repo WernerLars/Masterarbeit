@@ -1,0 +1,28 @@
+\begin{tabular}{llllll}
+\toprule
+{} & PCA\_KMeans & Autoencoder\_KMeans & PCA\_QLearning & Offline\_Autoencoder\_QLearning & Online\_Autoencoder\_QLearning \\
+\midrule
+C\_Burst\_Easy2\_noise015 &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult1\_noise005  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult1\_noise010  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult1\_noise015  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult1\_noise020  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult2\_noise005  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult2\_noise010  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult2\_noise015  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Difficult2\_noise020  &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Drift\_Easy2\_noise015 &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise005       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise010       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise015       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise020       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise025       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise030       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise035       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy1\_noise040       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy2\_noise005       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy2\_noise010       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy2\_noise015       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+C\_Easy2\_noise020       &       None &               None &         0.6\textbackslash n &                         0.6\textbackslash n &                        0.6\textbackslash n \\
+\bottomrule
+\end{tabular}
