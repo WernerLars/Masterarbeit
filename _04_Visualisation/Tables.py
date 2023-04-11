@@ -8,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/"
+        self.experiment_path = "../_05_Experiments/Base_Line"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -209,7 +209,7 @@ def main(experiment_path=""):
     # x-axis are variants, y-axis are datasets
     pc = pd.DataFrame.from_dict(tables.punishment_coefficients)
     pc.set_axis(tables.dataset_names, axis='index', inplace=True)
-    pc.to_latex(f"{tables.experiment_path}/Punishment_Coefficients.txt")
+    pc.to_latex(f"{tables.experiment_path}/Punishment_Coefficients.txt", escape=False)
 
 
 if __name__ == '__main__':
