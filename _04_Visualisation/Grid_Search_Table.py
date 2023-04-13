@@ -48,7 +48,6 @@ class Tables(object):
                         # if new experiment path a counter is incremented and name is added
                         self.experiment_counter += 1
                         self.experiment_names.append(split[1])
-                        # print(self.experiment_names)
 
                 # Extract Accuracy Value
                 elif line.startswith("Accuracy:"):
@@ -68,8 +67,6 @@ class Tables(object):
                     # Check if experiment and variant combination is not in variant name list
                     if f"{self.experiment_counter}_{variant_name}" not in self.variant_names:
                         self.variant_names.append(f"{self.experiment_counter}_{variant_name}")
-
-                        # print(self.variant_names)
 
                 # Extract Dataset Name
                 elif line.startswith("Dataset_Path:"):
@@ -134,17 +131,13 @@ def main(experiment_path=""):
 
     tables.print_accuracy_table()
 
+    # Creating a new dataframe for printing a table of punishment coefficients
+    # x-axis is variant, y-axis are datasets
     best_pc = pd.DataFrame(tables.df.idxmax(axis=1),
                            index=tables.dataset_names,
                            columns=["best_pc"])
 
     best_pc.to_latex(f"{tables.experiment_path}/Best_Punishment_Coefficients.txt")
-
-    # Creating a new dataframe for printing a table of punishment coefficients
-    # x-axis are variants, y-axis are datasets
-    # pc = pd.DataFrame.from_dict(tables.punishment_coefficients)
-    # pc.set_axis(tables.dataset_names, axis='index', inplace=True)
-    # pc.to_latex(f"{tables.experiment_path}/Punishment_Coefficients.txt")
 
 
 if __name__ == '__main__':

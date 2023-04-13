@@ -91,7 +91,7 @@ class Tables(object):
             self.accuracys[data_index].append(round(accuracy * 100, 4))
             self.punishment_coefficients[variant_name].append(punishment_coefficient)
 
-    def print_accuracy_table(self, std):
+    def print_accuracy_table(self, random_seeds=False, std=None):
         """
             creates and saves a figure of a table, which is created with seaborn
             table has variant names on x-axis and dataset names on y-axis and contains
@@ -104,7 +104,7 @@ class Tables(object):
         ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f", linewidths=0.5)
         std_counter = 0
         for index, t in enumerate(ax.texts):
-            if index % len(self.variant_names) == len(self.variant_names) - 1:
+            if index % len(self.variant_names) == len(self.variant_names) - 1 and random_seeds:
                 t.set_text(t.get_text() + " %: " + str(round(std[std_counter], 1)))
                 std_counter += 1
             else:
@@ -172,7 +172,7 @@ class Tables(object):
         plt.close()
 
 
-def main(experiment_path=""):
+def main(experiment_path="", random_seeds=False):
     tables = Tables()
 
     # setting a custom experiment path
@@ -199,11 +199,14 @@ def main(experiment_path=""):
     # Adding mean and variance to dataframe
     # this is after above functions because dataframe
     # is used to create figures
-    tables.df.loc['mean'] = tables.df.mean(axis=0)
-    tables.df['mean'] = tables.df.mean(axis=1)
-    tables.variant_names.append("mean:std")
-    std = tables.df.std(axis=1)
-    tables.print_accuracy_table(std)
+    if random_seeds:
+        tables.df.loc['mean'] = tables.df.mean(axis=0)
+        tables.df['mean'] = tables.df.mean(axis=1)
+        tables.variant_names.append("mean:std")
+        std = tables.df.std(axis=1)
+        tables.print_accuracy_table(random_seeds, std)
+    else:
+        tables.print_accuracy_table()
 
     # Creating a new dataframe for printing a table of punishment coefficients
     # x-axis are variants, y-axis are datasets

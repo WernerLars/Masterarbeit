@@ -1,9 +1,5 @@
 import os
 
-import Experiment_01
-import Experiment_02
-import Experiment_03
-import Experiment_04
 import Experiment_05
 from multiprocessing import Process
 from _04_Visualisation import Tables
@@ -44,7 +40,7 @@ def main():
         job.join()
 
     for i in range(number_of_variants):
-        Tables.main(experiment_path=variant_paths[i])
+        Tables.main(experiment_path=variant_paths[i], random_seeds=True)
 
 
 if __name__ == '__main__':

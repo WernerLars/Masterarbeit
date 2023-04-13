@@ -1,28 +1,28 @@
 \begin{tabular}{llllll}
 \toprule
-{} & PCA\_KMeans & Autoencoder\_KMeans & PCA\_QLearning & Offline\_Autoencoder\_QLearning & Online\_Autoencoder\_QLearning \\
+{} & PCA_KMeans & Autoencoder_KMeans & PCA_QLearning & Offline_Autoencoder_QLearning & Online_Autoencoder_QLearning \\
 \midrule
-C\_Burst\_Easy2\_noise015 &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult1\_noise005  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult1\_noise010  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult1\_noise015  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult1\_noise020  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult2\_noise005  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult2\_noise010  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult2\_noise015  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Difficult2\_noise020  &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Drift\_Easy2\_noise015 &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise005       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise010       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise015       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise020       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise025       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise030       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise035       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy1\_noise040       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy2\_noise005       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy2\_noise010       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy2\_noise015       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
-C\_Easy2\_noise020       &       None &               None &         0.2\textbackslash n &                         0.2\textbackslash n &                        0.2\textbackslash n \\
+C_Burst_Easy2_noise015 &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult1_noise005  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult1_noise010  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult1_noise015  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult1_noise020  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult2_noise005  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult2_noise010  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult2_noise015  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Difficult2_noise020  &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Drift_Easy2_noise015 &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise005       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise010       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise015       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise020       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise025       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise030       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise035       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy1_noise040       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy2_noise005       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy2_noise010       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy2_noise015       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
+C_Easy2_noise020       &       None &               None &         0.2\n &                         0.2\n &                        0.2\n \\
 \bottomrule
 \end{tabular}
