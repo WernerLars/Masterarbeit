@@ -1,0 +1,54 @@
+Seed: 8
+Experiment_path: Random_Seeds//V3/Experiment_03_8
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy2_noise010.mat']
+Variant_name: Variant_03_PCA_QLearning
+Visualisation_Path: Random_Seeds//V3/Experiment_03_8/C_Easy2_noise010.mat/Variant_03_PCA_QLearning/2023_04_15-13_01_50
+PCA Components: 2
+Q Learning Size: 300
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.8
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+                0     1     2      3
+new_cluster -3.65 -9.34 -1.12 -13.07
+c1          -3.65 -9.71 -1.12 -12.07
+c2          -3.67 -9.66 -1.12 -11.90
+c3          -3.65 -8.09 -1.11   0.00
+\begin{tabular}{lrrrr}
+\toprule
+{} &     0 &     1 &     2 &      3 \\
+\midrule
+new\_cluster & -3.65 & -9.34 & -1.12 & -13.07 \\
+c1          & -3.65 & -9.71 & -1.12 & -12.07 \\
+c2          & -3.67 & -9.66 & -1.12 & -11.90 \\
+c3          & -3.65 & -8.09 & -1.11 &   0.00 \\
+\bottomrule
+\end{tabular}
+
+                                0            1            2             3
+new_cluster  [-2.56, new_cluster]  [-8.25, c1]  [-0.03, c2]  [-13.07, c3]
+c1           [-2.56, new_cluster]  [-8.62, c1]  [-0.02, c2]  [-12.07, c3]
+c2           [-2.56, new_cluster]  [-8.57, c1]  [-0.04, c2]   [-11.9, c3]
+c3           [-2.56, new_cluster]  [-6.99, c1]  [-0.02, c2]         [0, ]
+\begin{tabular}{lllll}
+\toprule
+{} &                     0 &            1 &            2 &             3 \\
+\midrule
+new\_cluster &  [-2.56, new\_cluster] &  [-8.25, c1] &  [-0.03, c2] &  [-13.07, c3] \\
+c1          &  [-2.56, new\_cluster] &  [-8.62, c1] &  [-0.02, c2] &  [-12.07, c3] \\
+c2          &  [-2.56, new\_cluster] &  [-8.57, c1] &  [-0.04, c2] &   [-11.9, c3] \\
+c3          &  [-2.56, new\_cluster] &  [-6.99, c1] &  [-0.02, c2] &         [0, ] \\
+\bottomrule
+\end{tabular}
+

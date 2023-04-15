@@ -8,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Base_Line"
+        self.experiment_path = "../_05_Experiments/Random_Seeds/V5"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -104,13 +104,15 @@ class Tables(object):
         ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f", linewidths=0.5)
         std_counter = 0
         for index, t in enumerate(ax.texts):
-            if index % len(self.variant_names) == len(self.variant_names) - 1 and random_seeds:
+            if (index % len(self.variant_names) == len(self.variant_names) - 1) and random_seeds:
                 t.set_text(t.get_text() + " %: " + str(round(std[std_counter], 1)))
                 std_counter += 1
             else:
                 t.set_text(t.get_text() + " %")
         s = np.arange(len(self.variant_names)) + 0.5
         plt.xticks(s, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
+        if not random_seeds:
+            plt.title(f"Mean Accuracy: {round(self.df.loc['mean'].mean(), 2)} %")
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
         plt.close()
@@ -206,6 +208,7 @@ def main(experiment_path="", random_seeds=False):
         std = tables.df.std(axis=1)
         tables.print_accuracy_table(random_seeds, std)
     else:
+        tables.df.loc['mean'] = tables.df.mean(axis=0)
         tables.print_accuracy_table()
 
     # Creating a new dataframe for printing a table of punishment coefficients
