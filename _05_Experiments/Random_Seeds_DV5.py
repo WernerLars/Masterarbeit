@@ -26,13 +26,13 @@ def main():
 
     for i in range(number_of_seeds):
 
-        p1 = Process(target=Experiment_05.main, args=(variant_paths[0], i, "", True, False, False))
+        p1 = Process(target=Experiment_05.main, args=(variant_paths[0], i, "", True, False, False, False, True))
         p1.start()
         jobs.append(p1)
-        p2 = Process(target=Experiment_05.main, args=(variant_paths[1], i, "", True, True, False))
+        p2 = Process(target=Experiment_05.main, args=(variant_paths[1], i, "", True, True, False, False, True))
         p2.start()
         jobs.append(p2)
-        p3 = Process(target=Experiment_05.main, args=(variant_paths[2], i, "", True, True, True))
+        p3 = Process(target=Experiment_05.main, args=(variant_paths[2], i, "", True, True, True, False, True))
         p3.start()
         jobs.append(p3)
 

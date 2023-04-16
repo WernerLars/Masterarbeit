@@ -1,28 +1,28 @@
 \begin{tabular}{ll}
 \toprule
-{} & Offline\_Autoencoder\_QLearning \\
+{} & Offline_Autoencoder_QLearning \\
 \midrule
-C\_Burst\_Easy2\_noise015 &                        0.62\textbackslash n \\
-C\_Difficult1\_noise005  &                        0.32\textbackslash n \\
-C\_Difficult1\_noise010  &                        0.32\textbackslash n \\
-C\_Difficult1\_noise015  &                        0.38\textbackslash n \\
-C\_Difficult1\_noise020  &                        0.37\textbackslash n \\
-C\_Difficult2\_noise005  &                        0.37\textbackslash n \\
-C\_Difficult2\_noise010  &                        0.37\textbackslash n \\
-C\_Difficult2\_noise015  &                        0.54\textbackslash n \\
-C\_Difficult2\_noise020  &                         0.7\textbackslash n \\
-C\_Drift\_Easy2\_noise015 &                        0.62\textbackslash n \\
-C\_Easy1\_noise005       &                         0.9\textbackslash n \\
-C\_Easy1\_noise010       &                         0.9\textbackslash n \\
-C\_Easy1\_noise015       &                        0.92\textbackslash n \\
-C\_Easy1\_noise020       &                        0.94\textbackslash n \\
-C\_Easy1\_noise025       &                        0.96\textbackslash n \\
-C\_Easy1\_noise030       &                        0.98\textbackslash n \\
-C\_Easy1\_noise035       &                           1\textbackslash n \\
-C\_Easy1\_noise040       &                        1.26\textbackslash n \\
-C\_Easy2\_noise005       &                         0.5\textbackslash n \\
-C\_Easy2\_noise010       &                        0.52\textbackslash n \\
-C\_Easy2\_noise015       &                        0.54\textbackslash n \\
-C\_Easy2\_noise020       &                        0.58\textbackslash n \\
+C_Burst_Easy2_noise015 &                        0.62\n \\
+C_Difficult1_noise005  &                        0.32\n \\
+C_Difficult1_noise010  &                        0.32\n \\
+C_Difficult1_noise015  &                        0.38\n \\
+C_Difficult1_noise020  &                        0.37\n \\
+C_Difficult2_noise005  &                        0.37\n \\
+C_Difficult2_noise010  &                        0.37\n \\
+C_Difficult2_noise015  &                        0.54\n \\
+C_Difficult2_noise020  &                         0.7\n \\
+C_Drift_Easy2_noise015 &                        0.62\n \\
+C_Easy1_noise005       &                         0.9\n \\
+C_Easy1_noise010       &                         0.9\n \\
+C_Easy1_noise015       &                        0.92\n \\
+C_Easy1_noise020       &                        0.94\n \\
+C_Easy1_noise025       &                        0.96\n \\
+C_Easy1_noise030       &                        0.98\n \\
+C_Easy1_noise035       &                           1\n \\
+C_Easy1_noise040       &                        1.26\n \\
+C_Easy2_noise005       &                         0.5\n \\
+C_Easy2_noise010       &                        0.52\n \\
+C_Easy2_noise015       &                        0.54\n \\
+C_Easy2_noise020       &                        0.58\n \\
 \bottomrule
 \end{tabular}

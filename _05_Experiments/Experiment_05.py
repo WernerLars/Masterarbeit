@@ -9,7 +9,8 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=False, normalise=False):
+def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=False, normalise=False,
+         random_seeds=False):
 
     datasets = {
         1:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.5],
@@ -38,7 +39,7 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
 
     variant_name = "Variant_05_Online_Autoencoder_QLearning"
 
-    if seed == 0:
+    if seed == 0 and not random_seeds:
         exp_path = f"{main_path}Experiment_05"
     else:
         exp_path = f"{main_path}Experiment_05_{seed}"

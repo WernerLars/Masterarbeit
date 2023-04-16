@@ -1,0 +1,102 @@
+Seed: 8
+Experiment_path: Random_Seeds_DV5//V5_3/Experiment_05_8_opt_temp_noisy
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise015.mat']
+Variant_name: Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy
+Visualisation_Path: Random_Seeds_DV5//V5_3/Experiment_05_8_opt_temp_noisy/C_Difficult2_noise015.mat/Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy/2023_04_16-16_21_17
+Normalisation: False
+Template Matching: True
+Optimising Autoencoder: True
+Update Factor: 100
+Noisy Batches: True
+Noisy Factor: 0.1
+Epochs: 8
+Batch Size: 1
+maximal Spikes for Autoencoder Training : 700
+maximal Spikes for Training: 1000
+Input Size: 47
+Chosen Model: Autoencoder
+Autoencoder(
+  (encoder): Sequential(
+    (0): Linear(in_features=47, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=2, bias=True)
+  )
+  (decoder): Sequential(
+    (0): Linear(in_features=2, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=47, bias=True)
+  )
+)
+MSELoss()
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.001
+    maximize: False
+    weight_decay: 0
+)
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.5
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+New Episode Number: 358
+                0     1     2     3     4     5
+new_cluster -4.09 -3.13 -3.15 -5.08 -7.45 -4.83
+c1          -4.06 -3.23 -3.12 -4.97 -7.32 -4.82
+c2          -4.06 -3.22 -3.10 -5.16 -7.49 -4.81
+c3          -4.07 -3.25 -3.18 -4.98 -7.78 -4.81
+c4          -4.10 -3.23 -3.15 -4.96 -7.61 -4.80
+c5          -4.05 -3.23 -3.09 -5.01 -7.85 -4.82
+\begin{tabular}{lrrrrrr}
+\toprule
+{} &     0 &     1 &     2 &     3 &     4 &     5 \\
+\midrule
+new\_cluster & -4.09 & -3.13 & -3.15 & -5.08 & -7.45 & -4.83 \\
+c1          & -4.06 & -3.23 & -3.12 & -4.97 & -7.32 & -4.82 \\
+c2          & -4.06 & -3.22 & -3.10 & -5.16 & -7.49 & -4.81 \\
+c3          & -4.07 & -3.25 & -3.18 & -4.98 & -7.78 & -4.81 \\
+c4          & -4.10 & -3.23 & -3.15 & -4.96 & -7.61 & -4.80 \\
+c5          & -4.05 & -3.23 & -3.09 & -5.01 & -7.85 & -4.82 \\
+\bottomrule
+\end{tabular}
+
+                               0            1  ...            4            5
+new_cluster  [-1.0, new_cluster]  [-0.09, c1]  ...  [-4.39, c4]  [-1.81, c5]
+c1           [-1.0, new_cluster]  [-0.18, c1]  ...  [-4.25, c4]  [-1.81, c5]
+c2           [-1.0, new_cluster]  [-0.16, c1]  ...  [-4.25, c4]  [-1.81, c5]
+c3           [-1.0, new_cluster]   [-0.2, c1]  ...  [-4.71, c4]  [-1.81, c5]
+c4           [-1.0, new_cluster]  [-0.12, c1]  ...  [-4.47, c4]  [-1.81, c5]
+c5           [-1.0, new_cluster]  [-0.12, c1]  ...   [-4.6, c4]  [-1.81, c5]
+
+[6 rows x 6 columns]
+\begin{tabular}{lllllll}
+\toprule
+{} &                    0 &            1 &            2 &            3 &            4 &            5 \\
+\midrule
+new\_cluster &  [-1.0, new\_cluster] &  [-0.09, c1] &  [-0.13, c2] &  [-1.99, c3] &  [-4.39, c4] &  [-1.81, c5] \\
+c1          &  [-1.0, new\_cluster] &  [-0.18, c1] &   [-0.1, c2] &  [-1.86, c3] &  [-4.25, c4] &  [-1.81, c5] \\
+c2          &  [-1.0, new\_cluster] &  [-0.16, c1] &  [-0.08, c2] &  [-2.07, c3] &  [-4.25, c4] &  [-1.81, c5] \\
+c3          &  [-1.0, new\_cluster] &   [-0.2, c1] &  [-0.15, c2] &   [-1.9, c3] &  [-4.71, c4] &  [-1.81, c5] \\
+c4          &  [-1.0, new\_cluster] &  [-0.12, c1] &   [-0.1, c2] &  [-1.72, c3] &  [-4.47, c4] &  [-1.81, c5] \\
+c5          &  [-1.0, new\_cluster] &  [-0.12, c1] &  [-0.08, c2] &  [-1.92, c3] &   [-4.6, c4] &  [-1.81, c5] \\
+\bottomrule
+\end{tabular}
+

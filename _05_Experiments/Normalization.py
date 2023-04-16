@@ -1,10 +1,6 @@
 import os
 
-import Experiment_01
-import Experiment_02
-import Experiment_03
 import Experiment_04
-import Experiment_05
 from multiprocessing import Process
 from _04_Visualisation import Tables
 

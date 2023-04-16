@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/"
+        self.experiment_path = "../_05_Experiments/Grid_Search_PC/V4"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -95,10 +95,21 @@ class Tables(object):
                 accuracy values of variant dataset punishment coefficient combination
         """
 
-        plt.figure(figsize=(3 + 1.3 * len(self.punishment_coefficients), 6))
-        ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f", linewidths=0.5)
+        plt.figure(figsize=(0.85 * len(self.punishment_coefficients), 7))
+        ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".1f", linewidths=0.5)
         for t in ax.texts:
             t.set_text(t.get_text() + " %")
+
+        y_names = [x.replace('_', ' ') for x in self.df.index]
+        y_names = [x.replace('C', '') for x in y_names]
+        y_names = [x.replace('Difficult', 'D') for x in y_names]
+        y_names = [x.replace('Easy', 'E') for x in y_names]
+        y_names = [x.replace('noise', '') for x in y_names]
+        y_names = [x.replace('Burst', 'B') for x in y_names]
+        y_names = [x.replace('Drift', 'D') for x in y_names]
+        s = np.arange(len(self.dataset_names)) + 0.5
+        plt.yticks(s, y_names)
+
         s = np.arange(len(self.punishment_coefficients)) + 0.5
         plt.xticks(s, self.punishment_coefficients, rotation=0)
         plt.tight_layout()
@@ -124,10 +135,6 @@ def main(experiment_path=""):
     tables.df = pd.DataFrame(tables.accuracys,
                              index=tables.dataset_names,
                              columns=tables.punishment_coefficients)
-
-    print(tables.accuracys)
-    print(tables.dataset_names)
-    print(tables.punishment_coefficients)
 
     tables.print_accuracy_table()
 

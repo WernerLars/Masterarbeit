@@ -8,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/Random_Seeds/V5"
+        self.experiment_path = "../_05_Experiments/Base_Line_W_PC/0.6"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -88,7 +88,7 @@ class Tables(object):
             # After scanning all lines of log file:
             #   adding found accuracy in percent to accuracy list
             #   adding found punishment coefficient to pc list (if not None is added)
-            self.accuracys[data_index].append(round(accuracy * 100, 4))
+            self.accuracys[data_index].append(round(accuracy * 100, 3))
             self.punishment_coefficients[variant_name].append(punishment_coefficient)
 
     def print_accuracy_table(self, random_seeds=False, std=None):
@@ -100,8 +100,11 @@ class Tables(object):
                 standard derivation column
         """
 
-        plt.figure(figsize=(3 + 1.3 * len(self.variant_names), 6))
-        ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".2f", linewidths=0.5)
+        if random_seeds:
+            plt.figure(figsize=(1.3 * len(self.variant_names), 7))
+        else:
+            plt.figure(figsize=(2 + 1.4 * len(self.variant_names), 6))
+        ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".1f", linewidths=0.5)
         std_counter = 0
         for index, t in enumerate(ax.texts):
             if (index % len(self.variant_names) == len(self.variant_names) - 1) and random_seeds:
@@ -109,9 +112,26 @@ class Tables(object):
                 std_counter += 1
             else:
                 t.set_text(t.get_text() + " %")
-        s = np.arange(len(self.variant_names)) + 0.5
-        plt.xticks(s, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
-        if not random_seeds:
+
+        y_names = [x.replace('_', ' ') for x in self.df.index]
+        y_names = [x.replace('C', '') for x in y_names]
+        y_names = [x.replace('Difficult', 'D') for x in y_names]
+        y_names = [x.replace('Easy', 'E') for x in y_names]
+        y_names = [x.replace('noise', '') for x in y_names]
+        y_names = [x.replace('Burst', 'B') for x in y_names]
+        y_names = [x.replace('Drift', 'D') for x in y_names]
+        s = np.arange(len(self.dataset_names)+1) + 0.5
+        plt.yticks(s, y_names)
+
+        s = np.arange(len(self.variant_names))
+        if random_seeds:
+            x_names = [str(x) for x in np.arange(len(self.variant_names)-1)]
+            x_names.append("mean:std")
+            plt.xticks(s+0.5, x_names, rotation=0)
+            plt.title(f"Random Seeds von {self.variant_names[0][2:]}")
+        else:
+            s = np.arange(len(self.variant_names))
+            plt.xticks(s+0.5, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
             plt.title(f"Mean Accuracy: {round(self.df.loc['mean'].mean(), 2)} %")
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
@@ -146,28 +166,40 @@ class Tables(object):
             x-axis are datasets and y-axis are accuracy values
         """
 
-        plt.figure(figsize=(10 + 1.7 * len(self.dataset_names), 20))
+        plt.figure(figsize=(8 + 1 * len(self.dataset_names), 20))
         sns.violinplot(data=self.accuracys, cut=0, scale='width')
         plt.yticks(fontsize=30)
-        plt.xticks(np.arange(len(self.dataset_names)), [x.replace('_', '\n')[1:] for x in self.dataset_names],
+        x_names = [x.replace('_', '\n')[1:] for x in self.dataset_names]
+        x_names = [x.replace('Difficult', 'D') for x in x_names]
+        x_names = [x.replace('Easy', 'E') for x in x_names]
+        x_names = [x.replace('noise', '') for x in x_names]
+        x_names = [x.replace('Burst', 'B') for x in x_names]
+        x_names = [x.replace('Drift', 'D') for x in x_names]
+
+        plt.xticks(np.arange(len(self.dataset_names)), x_names,
                    fontsize=30)
         plt.title("Accuracy auf Datensätzen", fontsize=40)
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/Violent_Plot_Datasets.png")
         plt.close()
 
-    def print_violent_graphs_variants(self):
+    def print_violent_graphs_variants(self, random_seeds=False):
         """
             creates a violent graph, which represents accuracy over variants
             x-axis are variants and y-axis are accuracy values
         """
 
-        plt.figure(figsize=(15 + 1.7 * len(self.variant_names), 20))
+        plt.figure(figsize=(10 + 1.1 * len(self.variant_names), 9))
         sns.violinplot(data=self.df, cut=0, scale='width')
         plt.title(f"Accuracy der Varianten", fontsize=30)
         plt.gca().yaxis.set_major_formatter(PercentFormatter(100))
         plt.yticks(fontsize=23)
-        plt.xticks(np.arange(len(self.accuracys[0])), [x.replace('_', '\n') for x in self.variant_names], fontsize=23)
+
+        s = np.arange(len(self.accuracys[0]))
+        if random_seeds:
+            plt.xticks(s, s, fontsize=23)
+        else:
+            plt.xticks(s, [x.replace('_', '\n') for x in self.variant_names], fontsize=23)
         plt.xlim(-0.5, len(self.variant_names))
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/Violent_Plot_Variants.png")
@@ -196,7 +228,7 @@ def main(experiment_path="", random_seeds=False):
     # Printing Graphs for the experiments
     tables.print_accuracy_graph()
     tables.print_violent_graph_datasets()
-    tables.print_violent_graphs_variants()
+    tables.print_violent_graphs_variants(random_seeds)
 
     # Adding mean and variance to dataframe
     # this is after above functions because dataframe
