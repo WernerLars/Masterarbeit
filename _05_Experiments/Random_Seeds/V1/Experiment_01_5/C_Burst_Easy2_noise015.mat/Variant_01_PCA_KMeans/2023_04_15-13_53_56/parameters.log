@@ -1,8 +1,0 @@
-Seed: 5
-Experiment_path: Random_Seeds//V1/Experiment_01_5
-Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat
-Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Burst_Easy2_noise015.mat']
-Variant_name: Variant_01_PCA_KMeans
-Visualisation_Path: Random_Seeds//V1/Experiment_01_5/C_Burst_Easy2_noise015.mat/Variant_01_PCA_KMeans/2023_04_15-13_53_56
-PCA Components: 2
-K-Means Number of Clusters: 3

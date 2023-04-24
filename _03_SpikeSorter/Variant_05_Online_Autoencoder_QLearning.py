@@ -13,7 +13,7 @@ from torch import nn
 
 class Variant_05_Online_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False, templateMatching=False, optimising=False,
-                 noisyBatch=False, updateFactor=100, noiseFactor=0.1,
+                 noisyBatch=False, updateFactor=1, noiseFactor=0.1,
                  chooseAutoencoder=1, epochs=8, batch_size=1,
                  maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
@@ -136,6 +136,7 @@ class Variant_05_Online_Autoencoder_QLearning(object):
         model.train()
         for X in batch:
             # Compute reconstruction error
+            X = torch.reshape(X, (1, self.input_size))
             reconstructed_spike, encoded_features = model(X)
             loss = self.loss_function(reconstructed_spike, X)
 
@@ -191,7 +192,8 @@ class Variant_05_Online_Autoencoder_QLearning(object):
 
         if self.optimising:
             self.optimisingAutoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
-            self.train(batch, self.optimisingAutoencoder)
+            for _ in range(self.epochs):
+                self.train(batch, self.optimisingAutoencoder)
 
     def cluster_visualisation(self):
 

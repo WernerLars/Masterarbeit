@@ -12,7 +12,7 @@ class SpikeClassToPytorchDataset(Dataset):
 
     def __getitem__(self, idx):
         """
-        :param idx: position in data (see custom dataloader in pytorch)
+        :param idx: position in data (see custom dataset in pytorch)
         :return: spike and cluster label
         """
 

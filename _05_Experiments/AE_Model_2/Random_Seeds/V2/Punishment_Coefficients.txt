@@ -1,0 +1,28 @@
+\begin{tabular}{ll}
+\toprule
+{} & Autoencoder_KMeans \\
+\midrule
+C_Burst_Easy2_noise015 &               None \\
+C_Difficult1_noise005  &               None \\
+C_Difficult1_noise010  &               None \\
+C_Difficult1_noise015  &               None \\
+C_Difficult1_noise020  &               None \\
+C_Difficult2_noise005  &               None \\
+C_Difficult2_noise010  &               None \\
+C_Difficult2_noise015  &               None \\
+C_Difficult2_noise020  &               None \\
+C_Drift_Easy2_noise015 &               None \\
+C_Easy1_noise005       &               None \\
+C_Easy1_noise010       &               None \\
+C_Easy1_noise015       &               None \\
+C_Easy1_noise020       &               None \\
+C_Easy1_noise025       &               None \\
+C_Easy1_noise030       &               None \\
+C_Easy1_noise035       &               None \\
+C_Easy1_noise040       &               None \\
+C_Easy2_noise005       &               None \\
+C_Easy2_noise010       &               None \\
+C_Easy2_noise015       &               None \\
+C_Easy2_noise020       &               None \\
+\bottomrule
+\end{tabular}

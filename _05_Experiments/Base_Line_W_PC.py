@@ -10,7 +10,12 @@ from _04_Visualisation import Tables
 
 
 def main():
-    main_path = f"Base_Line_W_PC/"
+    chooseAutoencoder = 1
+    autoencoder_path = f"AE_Model_{chooseAutoencoder}"
+    if os.path.exists(autoencoder_path) is False:
+        os.mkdir(autoencoder_path)
+
+    main_path = f"{autoencoder_path}/Base_Line_W_PC/"
 
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
@@ -30,16 +35,17 @@ def main():
         p1 = Process(target=Experiment_01.main, args=(variant_path,))
         p1.start()
         jobs.append(p1)
-        p2 = Process(target=Experiment_02.main, args=(variant_path,))
+        p2 = Process(target=Experiment_02.main, args=(variant_path, 0, chooseAutoencoder))
         p2.start()
         jobs.append(p2)
         p3 = Process(target=Experiment_03.main, args=(variant_path, 0, pc))
         p3.start()
         jobs.append(p3)
-        p4 = Process(target=Experiment_04.main, args=(variant_path, 0, pc))
+        p4 = Process(target=Experiment_04.main, args=(variant_path, 0, pc, False, chooseAutoencoder))
         p4.start()
         jobs.append(p4)
-        p5 = Process(target=Experiment_05.main, args=(variant_path, 0, pc))
+        p5 = Process(target=Experiment_05.main,
+                     args=(variant_path, 0, pc, False, False, False, False, False, chooseAutoencoder))
         p5.start()
         jobs.append(p5)
 

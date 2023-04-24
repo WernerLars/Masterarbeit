@@ -1,0 +1,62 @@
+Experiment_path: AE_Model_2/Random_Seeds//V2/Experiment_02_9
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy2_noise020.mat']
+Variant_name: Variant_02_Autoencoder_KMeans
+Visualisation_Path: Random_Seeds//V2/Experiment_02_9/C_Easy2_noise020.mat/Variant_02_Autoencoder_KMeans/2023_04_20-20_18_43
+<_01_LoadDataset.ExternCode.spike_class.spike_dataclass object at 0x0000021A917A0C88>
+Sampling rate: 24000.0
+Raw: [ 0.06217714  0.08667759  0.11027728 ... -0.20242181 -0.23729255
+ -0.22686598]
+Times: [    275    1209    1637 ... 1439335 1439493 1439555]
+Cluster: [3 1 3 ... 1 3 3]
+Number of different clusters:  3
+Number of Spikes: 3526
+First aligned Spike Frame: [ 0.1985413   0.13105152  0.07019694  0.01293704 -0.04549478 -0.09355401
+ -0.10898392 -0.08319484 -0.04338644 -0.02286395 -0.01669682  0.03736978
+  0.228401    0.55158241  0.86822633  1.017223    0.95590368  0.7885242
+  0.62729572  0.50651951  0.42415885  0.36744116  0.32697735  0.30083782
+  0.28884086  0.28564604  0.27020338  0.23197964  0.18793799  0.15404375
+  0.12614683  0.08867524  0.0478996   0.02814512  0.02523451  0.01117923
+ -0.03609381 -0.11393271 -0.18622402 -0.21752562 -0.20411432 -0.1633565
+ -0.106174   -0.0312361   0.06793406  0.17242405  0.24704307]
+Cluster 0, Occurrences: 1186
+Cluster 1, Occurrences: 1188
+Cluster 2, Occurrences: 1152
+<torch.utils.data.dataloader.DataLoader object at 0x0000021A8DFFD470>
+Epoch [1/8]: mean_loss=0.0005101518535387496
+Epoch [2/8]: mean_loss=0.00032514496376263575
+Epoch [3/8]: mean_loss=0.00032585297718589206
+Epoch [4/8]: mean_loss=0.0003239837110885675
+Epoch [5/8]: mean_loss=0.0003227870298578059
+Epoch [6/8]: mean_loss=0.0003238121499014269
+Epoch [7/8]: mean_loss=0.000330294060990451
+Epoch [8/8]: mean_loss=0.0003280356429703217
+Number of Clusters: 3
+Number of Samples after Autoencoder testing: 3526
+First Spike after testing: [-0.02678481  2.4588394 ]
+[2 0 2 ... 0 2 2]
+[1 2 1 ... 2 1 1]
+Cluster 0 Occurrences: 1186; KMEANS: 1187
+Cluster 1 Occurrences: 1188; KMEANS: 1133
+Cluster 2 Occurrences: 1152; KMEANS: 1206
+Centroids: [[-2.303075, -0.6591135], [-1.3029794, 0.06835522], [0.44733608, 2.7519846]]
+Centroids: [[-1.2278951, 0.127116], [0.47229198, 2.7781475], [-2.3562608, -0.6871843]]
+Contingency Matrix: 
+[[ 108    0 1078]
+ [1060    1  127]
+ [  19 1132    1]]
+[[108, 0, 1078], [1060, 1, 127], [19, 1132, 1]]
+[[108, 0, 1078], [1060, 1, 127], [19, 1132, 1]]
+[0, 1, 2]
+[[108, -1, 1078], [1060, -1, 127], [-1, -1, -1]]
+[[-1, -1, -1], [1060, -1, -1], [-1, -1, -1]]
+[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+Match_Labels: {2: 1, 0: 2, 1: 0}
+New Contingency Matrix: 
+[[1078  108    0]
+ [ 127 1060    1]
+ [   1   19 1132]]
+New Clustered Label Sequence: [2, 0, 1]
+Diagonal_Elements: [1078, 1060, 1132], Sum: 3270
+All_Elements: [1078, 108, 0, 127, 1060, 1, 1, 19, 1132], Sum: 3526
+Accuracy: 0.9273964832671583

@@ -6,14 +6,19 @@ from _04_Visualisation import Tables
 
 
 def main():
-    main_path = "Random_Seeds_DV5/"
+    chooseAutoencoder = 1
+    autoencoder_path = f"AE_Model_{chooseAutoencoder}"
+    if os.path.exists(autoencoder_path) is False:
+        os.mkdir(autoencoder_path)
+
+    main_path = f"{autoencoder_path}/Random_Seeds_DV5/"
 
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
         return
 
-    number_of_seeds = 9
+    number_of_seeds = 10
     number_of_variants = 3
     variant_paths = []
     jobs = []
@@ -26,13 +31,16 @@ def main():
 
     for i in range(number_of_seeds):
 
-        p1 = Process(target=Experiment_05.main, args=(variant_paths[0], i, "", True, False, False, False, True))
+        p1 = Process(target=Experiment_05.main,
+                     args=(variant_paths[0], i, "", True, False, False, False, True, chooseAutoencoder))
         p1.start()
         jobs.append(p1)
-        p2 = Process(target=Experiment_05.main, args=(variant_paths[1], i, "", True, True, False, False, True))
+        p2 = Process(target=Experiment_05.main,
+                     args=(variant_paths[1], i, "", True, True, False, False, True, chooseAutoencoder))
         p2.start()
         jobs.append(p2)
-        p3 = Process(target=Experiment_05.main, args=(variant_paths[2], i, "", True, True, True, False, True))
+        p3 = Process(target=Experiment_05.main,
+                     args=(variant_paths[2], i, "", True, True, True, False, True, chooseAutoencoder))
         p3.start()
         jobs.append(p3)
 

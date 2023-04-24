@@ -11,31 +11,33 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False):
+def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAutoencoder=1):
+
     datasets = {
-        1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
-        2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
-        3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat",
-        4: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat",
-        5: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise025.mat",
-        6: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat",
-        7: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise035.mat",
-        8: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise040.mat",
-        9: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat",
-        10: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat",
-        11: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise015.mat",
-        12: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",
-        13: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat",
-        14: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise010.mat",
-        15: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat",
-        16: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat",
-        17: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat",
-        18: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat",
-        19: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat",
-        20: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat",
-        21: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",
-        22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat",
+        1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",
+        2: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat",
+        3: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise010.mat",
+        4: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat",
+        5: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat",
+        6: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat",
+        7: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat",
+        8: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat",
+        9: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat",
+        10: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat",
+        11: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",
+        12: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",
+        13: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat",
+        14: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat",
+        15: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise025.mat",
+        16: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat",
+        17: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise035.mat",
+        18: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise040.mat",
+        19: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat",
+        20: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat",
+        21: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise015.mat",
+        22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",
     }
+
     variants = {
         1: "Variant_01_PCA_KMeans",
         2: "Variant_02_Autoencoder_KMeans",
@@ -90,20 +92,30 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False):
     if variant_name == "Variant_01_PCA_KMeans":
         Variant_01_PCA_KMeans(path, vis, logger, parameter_logger)
     elif variant_name == "Variant_02_Autoencoder_KMeans":
-        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger, chooseAutoencoder=1,
-                                      disable_tqdm=disable_tqdm)
+        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger,
+                                      disable_tqdm=disable_tqdm,
+                                      chooseAutoencoder=chooseAutoencoder)
     elif variant_name == "Variant_03_PCA_QLearning":
         Variant_03_PCA_QLearning(path, vis, logger, parameter_logger,
                                  punishment_coefficient=punishment_coefficient,
-                                 q_learning_size=300, normalise=False, disable_tqdm=disable_tqdm)
+                                 q_learning_size=300,
+                                 normalise=False,
+                                 disable_tqdm=disable_tqdm)
     elif variant_name == "Variant_04_Offline_Autoencoder_QLearning":
         Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                  punishment_coefficient=punishment_coefficient,
-                                                 disable_tqdm=disable_tqdm)
+                                                 normalise=False,
+                                                 disable_tqdm=disable_tqdm,
+                                                 chooseAutoencoder=chooseAutoencoder)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning":
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                 punishment_coefficient=punishment_coefficient,
-                                                disable_tqdm=disable_tqdm)
+                                                optimising=False,
+                                                templateMatching=False,
+                                                noisyBatch=False,
+                                                normalise=False,
+                                                disable_tqdm=disable_tqdm,
+                                                chooseAutoencoder=chooseAutoencoder)
 
 
 if __name__ == '__main__':

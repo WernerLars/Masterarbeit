@@ -1,0 +1,28 @@
+\begin{tabular}{llllll}
+\toprule
+{} & PCA_KMeans & Autoencoder_KMeans & PCA_QLearning & Offline_Autoencoder_QLearning & Online_Autoencoder_QLearning \\
+\midrule
+C_Burst_Easy2_noise015 &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult1_noise005  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult1_noise010  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult1_noise015  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult1_noise020  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult2_noise005  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult2_noise010  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult2_noise015  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Difficult2_noise020  &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Drift_Easy2_noise015 &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise005       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise010       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise015       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise020       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise025       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise030       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise035       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy1_noise040       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy2_noise005       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy2_noise010       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy2_noise015       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+C_Easy2_noise020       &       None &               None &         0.4\n &                         0.4\n &                        0.4\n \\
+\bottomrule
+\end{tabular}

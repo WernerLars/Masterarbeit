@@ -6,20 +6,29 @@ from _04_Visualisation import Tables
 
 
 def main():
-    main_path = "Different_Variant_5/"
+    chooseAutoencoder = 1
+    autoencoder_path = f"AE_Model_{chooseAutoencoder}"
+    if os.path.exists(autoencoder_path) is False:
+        os.mkdir(autoencoder_path)
+
+    main_path = f"{autoencoder_path}/Different_Variant_5/"
 
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
         return
 
-    p1 = Process(target=Experiment_05.main, args=(main_path, 0, "", False, False, False))
+    p1 = Process(target=Experiment_05.main,
+                 args=(main_path, 0, "", False, False, False, False, False, chooseAutoencoder))
     p1.start()
-    p2 = Process(target=Experiment_05.main, args=(main_path, 0, "", True, False, False))
+    p2 = Process(target=Experiment_05.main,
+                 args=(main_path, 0, "", True, False, False, False, False, chooseAutoencoder))
     p2.start()
-    p3 = Process(target=Experiment_05.main, args=(main_path, 0, "", True, True, False))
+    p3 = Process(target=Experiment_05.main,
+                 args=(main_path, 0, "", True, True, False, False, False, chooseAutoencoder))
     p3.start()
-    p4 = Process(target=Experiment_05.main, args=(main_path, 0, "", True, True, True))
+    p4 = Process(target=Experiment_05.main,
+                 args=(main_path, 0, "", True, True, True, False, False, chooseAutoencoder))
     p4.start()
 
     p1.join()

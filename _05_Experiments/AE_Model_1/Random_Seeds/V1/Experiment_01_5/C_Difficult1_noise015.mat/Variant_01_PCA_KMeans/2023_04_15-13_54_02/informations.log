@@ -1,0 +1,52 @@
+Experiment_path: AE_Model_1/Random_Seeds//V1/Experiment_01_5
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult1_noise015.mat']
+Variant_name: Variant_01_PCA_KMeans
+Visualisation_Path: Random_Seeds//V1/Experiment_01_5/C_Difficult1_noise015.mat/Variant_01_PCA_KMeans/2023_04_15-13_54_02
+<_01_LoadDataset.ExternCode.spike_class.spike_dataclass object at 0x000001F2E0DADCF8>
+Sampling rate: 24000.0
+Raw: [ 0.04887081  0.02693095 -0.0154249  ... -0.09301659 -0.11629005
+ -0.14613101]
+Times: [    340     491     641 ... 1439047 1439065 1439816]
+Cluster: [1 1 1 ... 3 2 2]
+Number of different clusters:  3
+Number of Spikes: 3472
+First aligned Spike Frame: [ 0.12751554  0.12305882  0.10482977  0.09479529  0.10214978  0.11675932
+  0.11777927  0.09307299  0.04670706 -0.00574343 -0.06143573 -0.14637617
+ -0.20942665 -0.00208103  0.52241508  0.81651544  0.46446121 -0.19226425
+ -0.60927882 -0.6713583  -0.57871227 -0.49011309 -0.4269388  -0.3668903
+ -0.30523219 -0.24747124 -0.19738203 -0.15189972 -0.10449507 -0.05533325
+ -0.01452429  0.01008816  0.02570853  0.04365027  0.06334113  0.07980397
+  0.08484457  0.07688513  0.06142919  0.04320028  0.02240626  0.00477291
+ -0.00393242 -0.00135684  0.00575182  0.0026944  -0.01541647]
+Cluster 0, Occurrences: 1159
+Cluster 1, Occurrences: 1172
+Cluster 2, Occurrences: 1141
+Number of Samples after PCA: 3472
+First Spike Frame after PCA: [-0.7555753  -0.80890365]
+Number of Clusters: 3
+[0 0 0 ... 1 0 0]
+Cluster 0: Occurrences: 1159 KMEANS: 1143
+Cluster 1: Occurrences: 1172 KMEANS: 1255
+Cluster 2: Occurrences: 1141 KMEANS: 1074
+Centroids: [[-0.380845270415006, -0.4015379622139892], [-0.3509501743791386, 0.32875477675336895], [0.7473385388109937, 0.07018571415517964]]
+Centroids: [[-0.35871496746646875, -0.5372099227158169], [0.856820315420385, 0.08944573264772705], [-0.6194583687508453, 0.46720348900491265]]
+Contingency Matrix: 
+[[790 129 240]
+ [234 210 728]
+ [119 916 106]]
+[[790, 129, 240], [234, 210, 728], [119, 916, 106]]
+[[790, 129, 240], [234, 210, 728], [119, 916, 106]]
+[0, 1, 2]
+[[790, -1, 240], [234, -1, 728], [-1, -1, -1]]
+[[-1, -1, -1], [-1, -1, 728], [-1, -1, -1]]
+[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+Match_Labels: {2: 1, 0: 0, 1: 2}
+New Contingency Matrix: 
+[[790 240 129]
+ [234 728 210]
+ [119 106 916]]
+New Clustered Label Sequence: [0, 2, 1]
+Diagonal_Elements: [790, 728, 916], Sum: 2434
+All_Elements: [790, 240, 129, 234, 728, 210, 119, 106, 916], Sum: 3472
+Accuracy: 0.701036866359447

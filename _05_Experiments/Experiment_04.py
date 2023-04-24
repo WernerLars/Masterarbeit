@@ -9,31 +9,31 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", seed=0, pc="", normalise=False):
+def main(main_path="", seed=0, pc="", normalise=False, chooseAutoencoder=1):
 
     datasets = {
-        1:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.7],
-        2:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat",  0.4],
-        3:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise010.mat",  0.3],
-        4:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat",  0.4],
-        5:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat",  0.5],
-        6:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat",  0.4],
-        7:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat",  0.4],
-        8:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat",  0.6],
-        9:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat",  0.9],
-        10: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat", 0.6],
-        11: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",       0.8],
-        12: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",       0.9],
-        13: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat",       0.9],
-        14: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat",       1.3],
-        15: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise025.mat",       1.1],
-        16: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat",       0.8],
-        17: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise035.mat",       1.0],
-        18: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise040.mat",       1.4],
-        19: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat",       0.4],
-        20: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat",       0.6],
-        21: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise015.mat",       0.5],
-        22: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",       0.6],
+        1:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.7, 1.0],
+        2:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise005.mat",  0.4, 0.3],
+        3:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise010.mat",  0.3, 0.5],
+        4:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise015.mat",  0.4, 0.4],
+        5:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult1_noise020.mat",  0.5, 0.6],
+        6:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat",  0.4, 0.5],
+        7:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise010.mat",  0.4, 0.6],
+        8:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise015.mat",  0.6, 0.8],
+        9:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat",  0.9, 1.3],
+        10: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Drift_Easy2_noise015.mat", 0.6, 0.9],
+        11: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise005.mat",       0.8, 1.2],
+        12: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise010.mat",       0.9, 1.3],
+        13: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise015.mat",       0.9, 1.4],
+        14: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat",       1.3, 1.5],
+        15: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise025.mat",       1.1, 1.4],
+        16: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise030.mat",       0.8, 1.5],
+        17: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise035.mat",       1.0, 1.5],
+        18: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise040.mat",       1.4, 1.4],
+        19: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat",       0.4, 0.7],
+        20: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat",       0.6, 0.9],
+        21: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise015.mat",       0.5, 0.7],
+        22: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",       0.6, 1.5],
     }
 
     variant_name = "Variant_04_Offline_Autoencoder_QLearning"
@@ -57,7 +57,7 @@ def main(main_path="", seed=0, pc="", normalise=False):
         if pc is not "":
             punishment_coefficient = pc
         else:
-            punishment_coefficient = datasets[dataset][1]
+            punishment_coefficient = datasets[dataset][chooseAutoencoder]
 
         dataset_name = path[16:].split("/")
         vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/")
@@ -92,7 +92,8 @@ def main(main_path="", seed=0, pc="", normalise=False):
 
         Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                  punishment_coefficient=punishment_coefficient,
-                                                 normalise=normalise
+                                                 normalise=normalise,
+                                                 chooseAutoencoder=chooseAutoencoder
                                                  )
 
         handler1.close()
