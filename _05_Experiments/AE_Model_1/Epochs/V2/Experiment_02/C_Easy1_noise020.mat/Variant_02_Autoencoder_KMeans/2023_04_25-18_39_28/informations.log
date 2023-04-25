@@ -1,0 +1,74 @@
+Experiment_path: AE_Model_1/Epochs//V2/Experiment_02
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy1_noise020.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy1_noise020.mat']
+Variant_name: Variant_02_Autoencoder_KMeans
+Visualisation_Path: AE_Model_1/Epochs//V2/Experiment_02/C_Easy1_noise020.mat/Variant_02_Autoencoder_KMeans/2023_04_25-18_39_28
+<_01_LoadDataset.ExternCode.spike_class.spike_dataclass object at 0x000002BEFBE255F8>
+Sampling rate: 24000.0
+Raw: [-0.20218342 -0.1653919  -0.13236941 ...  0.26695674  0.20113134
+  0.13708332]
+Times: [    553     927    1270 ... 1437880 1438309 1439004]
+Cluster: [1 2 2 ... 2 2 3]
+Number of different clusters:  3
+Number of Spikes: 3474
+First aligned Spike Frame: [-0.02428298 -0.07468906 -0.10332709 -0.10788142 -0.10649267 -0.11021489
+ -0.10987225 -0.08885562 -0.04921868 -0.01240992  0.01146155  0.01660937
+  0.02581569  0.2202783   0.78693477  1.36742658  1.33473907  0.72217426
+  0.12183007 -0.12754948 -0.13495181 -0.08662948 -0.04057795  0.00340961
+  0.02448001  0.00850378 -0.01157346  0.00458874  0.04572819  0.06172643
+  0.0301382  -0.01498516 -0.0270755  -0.00657047  0.0093092   0.00369654
+ -0.00788818 -0.00582791  0.0080957   0.01954062  0.01611345 -0.00497206
+ -0.0357219  -0.0657767  -0.0887014  -0.1049796  -0.12649457]
+Cluster 0, Occurrences: 1198
+Cluster 1, Occurrences: 1128
+Cluster 2, Occurrences: 1148
+<torch.utils.data.dataloader.DataLoader object at 0x000002BEFBF66DD8>
+Epoch [1/20]: mean_loss=0.0007190885098418355
+Epoch [2/20]: mean_loss=0.0005013350915822169
+Epoch [3/20]: mean_loss=0.00045871681270495733
+Epoch [4/20]: mean_loss=0.00044530898945971197
+Epoch [5/20]: mean_loss=0.0004395192532457527
+Epoch [6/20]: mean_loss=0.00043621017513437453
+Epoch [7/20]: mean_loss=0.00043430683247543437
+Epoch [8/20]: mean_loss=0.0004352986132731435
+Epoch [9/20]: mean_loss=0.00043605032490076314
+Epoch [10/20]: mean_loss=0.0004387200310307292
+Epoch [11/20]: mean_loss=0.0004353473581176382
+Epoch [12/20]: mean_loss=0.00043721063674851676
+Epoch [13/20]: mean_loss=0.0004378059414088314
+Epoch [14/20]: mean_loss=0.0004360341758102127
+Epoch [15/20]: mean_loss=0.0004336770304098562
+Epoch [16/20]: mean_loss=0.00043299199386500356
+Epoch [17/20]: mean_loss=0.0004307866959993995
+Epoch [18/20]: mean_loss=0.00043269774338222986
+Epoch [19/20]: mean_loss=0.00043411364081322667
+Epoch [20/20]: mean_loss=0.00042845110157499315
+Number of Clusters: 3
+Number of Samples after Autoencoder testing: 3474
+First Spike after testing: [-0.5996367  1.1218199]
+[0 1 1 ... 1 1 2]
+[0 1 1 ... 1 1 2]
+Cluster 0 Occurrences: 1198; KMEANS: 1179
+Cluster 1 Occurrences: 1128; KMEANS: 1112
+Cluster 2 Occurrences: 1148; KMEANS: 1183
+Centroids: [[-0.53570455, 0.6764342], [-0.014660327, -2.2893567], [1.2892498, 0.5221163]]
+Centroids: [[-0.56575096, 0.68202436], [-0.0218545, -2.3175325], [1.2790112, 0.50748336]]
+Contingency Matrix: 
+[[1172    0   26]
+ [   6 1112   10]
+ [   1    0 1147]]
+[[1172, 0, 26], [6, 1112, 10], [1, 0, 1147]]
+[[1172, 0, 26], [6, 1112, 10], [1, 0, 1147]]
+[0, 1, 2]
+[[-1, -1, -1], [-1, 1112, 10], [-1, 0, 1147]]
+[[-1, -1, -1], [-1, 1112, -1], [-1, -1, -1]]
+[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+Match_Labels: {0: 0, 2: 2, 1: 1}
+New Contingency Matrix: 
+[[1172    0   26]
+ [   6 1112   10]
+ [   1    0 1147]]
+New Clustered Label Sequence: [0, 1, 2]
+Diagonal_Elements: [1172, 1112, 1147], Sum: 3431
+All_Elements: [1172, 0, 26, 6, 1112, 10, 1, 0, 1147], Sum: 3474
+Accuracy: 0.98762233736327

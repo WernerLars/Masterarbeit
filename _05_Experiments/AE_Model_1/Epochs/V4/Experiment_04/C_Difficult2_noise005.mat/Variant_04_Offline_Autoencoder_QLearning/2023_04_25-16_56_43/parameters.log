@@ -1,0 +1,111 @@
+Seed: 0
+Experiment_path: AE_Model_1/Epochs//V4/Experiment_04
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise005.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise005.mat']
+Variant_name: Variant_04_Offline_Autoencoder_QLearning
+Visualisation_Path: AE_Model_1/Epochs//V4/Experiment_04/C_Difficult2_noise005.mat/Variant_04_Offline_Autoencoder_QLearning/2023_04_25-16_56_43
+Split Ratio: 0.9
+Epochs: 16
+Batch Size: 1
+Input Size: 47
+Number of Features: 2
+Chosen Model: Autoencoder
+Autoencoder(
+  (encoder): Sequential(
+    (0): Linear(in_features=47, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=2, bias=True)
+  )
+  (decoder): Sequential(
+    (0): Linear(in_features=2, out_features=12, bias=True)
+    (1): LeakyReLU(negative_slope=0.01)
+    (2): Linear(in_features=12, out_features=47, bias=True)
+  )
+)
+MSELoss()
+Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.001
+    maximize: False
+    weight_decay: 0
+)
+---Q Learning Parameters---
+Normalisation: False
+Punishment Coefficient: 0.4
+Alpha: 0.8
+Epsilon: 0.01
+Gamma: 0.97
+Initial Episode Number: 0
+Episode Number Coefficient: 1.4
+Number of Random Features: 20
+Planning Number: 20
+Max Random Features: 60
+New Episode Number: 72
+New Episode Number: 143
+New Episode Number: 215
+New Episode Number: 286
+New Episode Number: 358
+New Episode Number: 429
+New Episode Number: 500
+New Episode Number: 572
+                0     1     2     3     4     5     6     7     8
+new_cluster -1.97 -1.97 -8.31 -1.36 -4.09 -5.23 -1.95 -2.30 -4.68
+c1          -1.97 -2.06 -8.78 -1.35 -3.96 -5.36 -2.03 -2.34 -4.68
+c2          -1.97 -1.95 -8.13 -1.36 -4.07 -5.36 -2.24 -2.29 -4.68
+c3          -1.97 -2.02 -7.85 -1.35 -4.13 -5.38 -2.05 -2.31 -4.68
+c4          -1.97 -1.98 -8.31 -1.35 -4.03 -5.36 -2.12 -2.19 -4.68
+c5          -1.97 -1.95 -8.18 -1.36 -4.09 -5.27 -2.03 -2.46 -4.68
+c6          -1.97 -1.99 -8.75 -1.34 -4.16 -5.36 -2.03 -2.39 -4.68
+c7          -1.99 -2.01 -8.15 -1.37 -4.06 -5.27 -2.20 -2.39 -4.68
+c8          -1.97 -1.97 -8.49 -1.35 -4.09 -5.28 -1.97 -2.36  0.00
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+{} &     0 &     1 &     2 &     3 &     4 &     5 &     6 &     7 &     8 \\
+\midrule
+new\_cluster & -1.97 & -1.97 & -8.31 & -1.36 & -4.09 & -5.23 & -1.95 & -2.30 & -4.68 \\
+c1          & -1.97 & -2.06 & -8.78 & -1.35 & -3.96 & -5.36 & -2.03 & -2.34 & -4.68 \\
+c2          & -1.97 & -1.95 & -8.13 & -1.36 & -4.07 & -5.36 & -2.24 & -2.29 & -4.68 \\
+c3          & -1.97 & -2.02 & -7.85 & -1.35 & -4.13 & -5.38 & -2.05 & -2.31 & -4.68 \\
+c4          & -1.97 & -1.98 & -8.31 & -1.35 & -4.03 & -5.36 & -2.12 & -2.19 & -4.68 \\
+c5          & -1.97 & -1.95 & -8.18 & -1.36 & -4.09 & -5.27 & -2.03 & -2.46 & -4.68 \\
+c6          & -1.97 & -1.99 & -8.75 & -1.34 & -4.16 & -5.36 & -2.03 & -2.39 & -4.68 \\
+c7          & -1.99 & -2.01 & -8.15 & -1.37 & -4.06 & -5.27 & -2.20 & -2.39 & -4.68 \\
+c8          & -1.97 & -1.97 & -8.49 & -1.35 & -4.09 & -5.28 & -1.97 & -2.36 &  0.00 \\
+\bottomrule
+\end{tabular}
+
+                                0            1  ...            7            8
+new_cluster  [-0.64, new_cluster]  [-0.65, c1]  ...  [-0.98, c7]  [-4.68, c8]
+c1           [-0.64, new_cluster]  [-0.74, c1]  ...   [-1.0, c7]  [-4.68, c8]
+c2           [-0.64, new_cluster]  [-0.64, c1]  ...  [-0.97, c7]  [-4.68, c8]
+c3           [-0.64, new_cluster]  [-0.69, c1]  ...  [-0.98, c7]  [-4.68, c8]
+c4           [-0.64, new_cluster]  [-0.65, c1]  ...  [-0.87, c7]  [-4.68, c8]
+c5           [-0.64, new_cluster]  [-0.64, c1]  ...  [-1.13, c7]  [-4.68, c8]
+c6           [-0.64, new_cluster]  [-0.68, c1]  ...  [-1.06, c7]  [-4.68, c8]
+c7           [-0.64, new_cluster]  [-0.67, c1]  ...  [-1.06, c7]  [-4.68, c8]
+c8           [-0.64, new_cluster]  [-0.65, c1]  ...  [-1.02, c7]        [0, ]
+
+[9 rows x 9 columns]
+\begin{tabular}{llllllllll}
+\toprule
+{} &                     0 &            1 &            2 &            3 &            4 &            5 &            6 &            7 &            8 \\
+\midrule
+new\_cluster &  [-0.64, new\_cluster] &  [-0.65, c1] &  [-6.99, c2] &  [-0.05, c3] &  [-2.78, c4] &  [-3.91, c5] &  [-0.63, c6] &  [-0.98, c7] &  [-4.68, c8] \\
+c1          &  [-0.64, new\_cluster] &  [-0.74, c1] &  [-7.44, c2] &  [-0.04, c3] &  [-2.65, c4] &  [-4.04, c5] &  [-0.71, c6] &   [-1.0, c7] &  [-4.68, c8] \\
+c2          &  [-0.64, new\_cluster] &  [-0.64, c1] &  [-6.81, c2] &  [-0.05, c3] &  [-2.76, c4] &  [-4.02, c5] &  [-0.94, c6] &  [-0.97, c7] &  [-4.68, c8] \\
+c3          &  [-0.64, new\_cluster] &  [-0.69, c1] &  [-6.53, c2] &  [-0.04, c3] &  [-2.82, c4] &  [-4.06, c5] &  [-0.75, c6] &  [-0.98, c7] &  [-4.68, c8] \\
+c4          &  [-0.64, new\_cluster] &  [-0.65, c1] &  [-6.99, c2] &  [-0.04, c3] &  [-2.72, c4] &  [-4.04, c5] &  [-0.82, c6] &  [-0.87, c7] &  [-4.68, c8] \\
+c5          &  [-0.64, new\_cluster] &  [-0.64, c1] &  [-6.86, c2] &  [-0.04, c3] &  [-2.78, c4] &  [-3.95, c5] &  [-0.72, c6] &  [-1.13, c7] &  [-4.68, c8] \\
+c6          &  [-0.64, new\_cluster] &  [-0.68, c1] &  [-7.41, c2] &  [-0.03, c3] &  [-2.85, c4] &  [-4.04, c5] &  [-0.73, c6] &  [-1.06, c7] &  [-4.68, c8] \\
+c7          &  [-0.64, new\_cluster] &  [-0.67, c1] &  [-6.83, c2] &  [-0.05, c3] &  [-2.73, c4] &  [-3.95, c5] &  [-0.89, c6] &  [-1.06, c7] &  [-4.68, c8] \\
+c8          &  [-0.64, new\_cluster] &  [-0.65, c1] &  [-7.16, c2] &  [-0.04, c3] &  [-2.78, c4] &  [-3.95, c5] &  [-0.67, c6] &  [-1.02, c7] &        [0, ] \\
+\bottomrule
+\end{tabular}
+

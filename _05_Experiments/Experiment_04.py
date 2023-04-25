@@ -9,7 +9,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", seed=0, pc="", normalise=False, chooseAutoencoder=1):
+def main(main_path="", seed=0, pc="", normalise=False, chooseAutoencoder=1, epochs=8):
 
     datasets = {
         1:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.7, 1.0],
@@ -93,8 +93,8 @@ def main(main_path="", seed=0, pc="", normalise=False, chooseAutoencoder=1):
         Variant_04_Offline_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                  punishment_coefficient=punishment_coefficient,
                                                  normalise=normalise,
-                                                 chooseAutoencoder=chooseAutoencoder
-                                                 )
+                                                 chooseAutoencoder=chooseAutoencoder,
+                                                 epochs=epochs)
 
         handler1.close()
         handler2.close()

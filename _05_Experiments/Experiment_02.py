@@ -9,7 +9,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", seed=0, chooseAutoencoder=1):
+def main(main_path="", seed=0, chooseAutoencoder=1, epochs=8):
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",
@@ -84,7 +84,9 @@ def main(main_path="", seed=0, chooseAutoencoder=1):
         logger.info(f"Visualisation_Path: {vis_path}")
         parameter_logger.info(f"Visualisation_Path: {vis_path}")
 
-        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger, chooseAutoencoder=chooseAutoencoder)
+        Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger,
+                                      chooseAutoencoder=chooseAutoencoder,
+                                      epochs=epochs)
 
         handler1.close()
         handler2.close()

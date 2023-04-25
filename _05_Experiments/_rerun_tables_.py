@@ -37,6 +37,11 @@ def main():
             if os.path.exists(main_path):
                 Tables.main(experiment_path=main_path, random_seeds=True)
 
+        epoch_list = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+        Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V2", epoch_list=epoch_list)
+        Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V4", epoch_list=epoch_list)
+        Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V5", epoch_list=epoch_list)
+
 
 if __name__ == '__main__':
     main()

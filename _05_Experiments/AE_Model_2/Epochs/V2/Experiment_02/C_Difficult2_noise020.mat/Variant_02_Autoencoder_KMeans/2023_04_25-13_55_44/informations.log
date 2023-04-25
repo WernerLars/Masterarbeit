@@ -1,0 +1,56 @@
+Experiment_path: AE_Model_2/Epochs//V2/Experiment_02
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise020.mat']
+Variant_name: Variant_02_Autoencoder_KMeans
+Visualisation_Path: AE_Model_2/Epochs//V2/Experiment_02/C_Difficult2_noise020.mat/Variant_02_Autoencoder_KMeans/2023_04_25-13_55_44
+<_01_LoadDataset.ExternCode.spike_class.spike_dataclass object at 0x000001148C8BAB00>
+Sampling rate: 24000.0
+Raw: [-0.05920843 -0.02398302  0.01513494 ...  0.2971695   0.32984394
+  0.35872829]
+Times: [    337    1080    1305 ... 1438651 1438787 1439662]
+Cluster: [2 1 1 ... 2 1 3]
+Number of different clusters:  3
+Number of Spikes: 3493
+First aligned Spike Frame: [ 0.50880334  0.56984686  0.60721022  0.60769692  0.58122704  0.55003969
+  0.51479324  0.46436685  0.40848987  0.36206071  0.31750134  0.26828304
+  0.23270096  0.2305818   0.25904633  0.30599383  0.36680145  0.45670025
+  0.60261795  0.8012213   1.02149976  1.23478943  1.38977263  1.39868415
+  1.211664    0.88028336  0.50425138  0.15449729 -0.12937778 -0.32272009
+ -0.40685817 -0.38921932 -0.31829776 -0.24412685 -0.18860857 -0.1442941
+ -0.0976923  -0.0504865  -0.01384986  0.00955437  0.03047694  0.05600466
+  0.07308225  0.06101434  0.01148826 -0.0607151  -0.13636803]
+Cluster 0, Occurrences: 1151
+Cluster 1, Occurrences: 1195
+Cluster 2, Occurrences: 1147
+<torch.utils.data.dataloader.DataLoader object at 0x000001148C8A69B0>
+Epoch [1/2]: mean_loss=0.0005725244872832995
+Epoch [2/2]: mean_loss=0.0003013558592593989
+Number of Clusters: 3
+Number of Samples after Autoencoder testing: 3493
+First Spike after testing: [-5.991144   1.8548579]
+[1 0 0 ... 1 0 2]
+[1 2 2 ... 1 2 0]
+Cluster 0 Occurrences: 1151; KMEANS: 1126
+Cluster 1 Occurrences: 1195; KMEANS: 1177
+Cluster 2 Occurrences: 1147; KMEANS: 1190
+Centroids: [[-1.9464297, -2.8291826], [-4.406922, 2.4048593], [-3.0808418, -1.437751]]
+Centroids: [[-3.200404, -1.3546866], [-4.4508038, 2.4687529], [-1.8471315, -2.86725]]
+Contingency Matrix: 
+[[ 128    2 1021]
+ [  28 1162    5]
+ [ 970   13  164]]
+[[128, 2, 1021], [28, 1162, 5], [970, 13, 164]]
+[[128, 2, 1021], [28, 1162, 5], [970, 13, 164]]
+[0, 1, 2]
+[[128, -1, 1021], [-1, -1, -1], [970, -1, 164]]
+[[-1, -1, -1], [-1, -1, -1], [970, -1, -1]]
+[[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]]
+Match_Labels: {1: 1, 0: 2, 2: 0}
+New Contingency Matrix: 
+[[1021    2  128]
+ [   5 1162   28]
+ [ 164   13  970]]
+New Clustered Label Sequence: [2, 1, 0]
+Diagonal_Elements: [1021, 1162, 970], Sum: 3153
+All_Elements: [1021, 2, 128, 5, 1162, 28, 164, 13, 970], Sum: 3493
+Accuracy: 0.9026624677927283

@@ -9,8 +9,8 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", seed=0, pc="", optimising=True, templates=True, noisy=True, normalise=False,
-         random_seeds=True, chooseAutoencoder=2):
+def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=False, normalise=False,
+         random_seeds=False, chooseAutoencoder=1, epochs=8):
 
     datasets = {
         1:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.5, 0.9],
@@ -111,7 +111,8 @@ def main(main_path="", seed=0, pc="", optimising=True, templates=True, noisy=Tru
                                                 templateMatching=templates,
                                                 noisyBatch=noisy,
                                                 normalise=normalise,
-                                                chooseAutoencoder=chooseAutoencoder
+                                                chooseAutoencoder=chooseAutoencoder,
+                                                epochs=epochs
                                                 )
 
         handler1.close()

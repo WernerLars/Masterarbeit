@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/AE_Model_1/Grid_Search_PC/V4"
+        self.experiment_path = "../_05_Experiments/AE_Model_1/Epochs"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
@@ -15,6 +15,7 @@ class Tables(object):
         self.variant_names = []
         self.accuracys = []
         self.punishment_coefficients = []
+        self.epoch_list = None
         self.df = None
 
     def get_information_from_log(self, log_path):
@@ -95,7 +96,10 @@ class Tables(object):
                 accuracy values of variant dataset punishment coefficient combination
         """
 
-        plt.figure(figsize=(0.85 * len(self.punishment_coefficients), 7))
+        if self.epoch_list is None:
+            plt.figure(figsize=(0.85 * len(self.punishment_coefficients), 7))
+        else:
+            plt.figure(figsize=(0.85 * len(self.epoch_list), 7))
         ax = sns.heatmap(self.df, cmap="Spectral", vmin=0, vmax=100, annot=True, fmt=".1f", linewidths=0.5)
         for t in ax.texts:
             t.set_text(t.get_text() + " %")
@@ -110,15 +114,20 @@ class Tables(object):
         s = np.arange(len(self.dataset_names)) + 0.5
         plt.yticks(s, y_names)
 
-        s = np.arange(len(self.punishment_coefficients)) + 0.5
-        plt.xticks(s, self.punishment_coefficients, rotation=0)
+        if self.epoch_list is None:
+            s = np.arange(len(self.punishment_coefficients)) + 0.5
+            plt.xticks(s, self.punishment_coefficients, rotation=0)
+        else:
+            s = np.arange(len(self.epoch_list)) + 0.5
+            plt.xticks(s, self.epoch_list, rotation=0)
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
         plt.close()
 
 
-def main(experiment_path=""):
+def main(experiment_path="", epoch_list=None):
     tables = Tables()
+    tables.epoch_list = epoch_list
 
     # setting a custom experiment path
     if experiment_path is not "":
@@ -132,19 +141,25 @@ def main(experiment_path=""):
                 tables.get_information_from_log(log_path)
 
     # Creating dataframe for visualisation
-    tables.df = pd.DataFrame(tables.accuracys,
-                             index=tables.dataset_names,
-                             columns=tables.punishment_coefficients)
+    if epoch_list is None:
+        tables.df = pd.DataFrame(tables.accuracys,
+                                 index=tables.dataset_names,
+                                 columns=tables.punishment_coefficients)
+    else:
+        tables.df = pd.DataFrame(tables.accuracys,
+                                 index=tables.dataset_names,
+                                 columns=epoch_list)
 
     tables.print_accuracy_table()
 
     # Creating a new dataframe for printing a table of punishment coefficients
     # x-axis is variant, y-axis are datasets
-    best_pc = pd.DataFrame(tables.df.idxmax(axis=1),
-                           index=tables.dataset_names,
-                           columns=["best_pc"])
+    if epoch_list is None:
+        best_pc = pd.DataFrame(tables.df.idxmax(axis=1),
+                               index=tables.dataset_names,
+                               columns=["best_pc"])
 
-    best_pc.to_latex(f"{tables.experiment_path}/Best_Punishment_Coefficients.txt")
+        best_pc.to_latex(f"{tables.experiment_path}/Best_Punishment_Coefficients.txt")
 
 
 if __name__ == '__main__':
