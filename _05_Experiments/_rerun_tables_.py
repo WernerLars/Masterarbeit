@@ -13,14 +13,9 @@ def main():
         if os.path.exists(f"{autoencoder_path}/Base_Line"):
             Tables.main(experiment_path=f"{autoencoder_path}/Base_Line")
 
-        punishment_coefficients = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
-        for pc in punishment_coefficients:
-            main_path = f"{autoencoder_path}/Base_Line_W_PC/{pc}"
-            if os.path.exists(main_path):
-                Tables.main(experiment_path=main_path)
-
-        for i in range(3):
-            main_path = f"{autoencoder_path}/Grid_Search_PC/V{i + 3}"
+        list_of_variant_names = ["V3", "V4", "V5", "V5_1", "V5_2", "V5_3"]
+        for variant_name in list_of_variant_names:
+            main_path = f"{autoencoder_path}/Grid_Search_PC/{variant_name}"
             if os.path.exists(main_path):
                 Grid_Search_Table.main(experiment_path=main_path)
 

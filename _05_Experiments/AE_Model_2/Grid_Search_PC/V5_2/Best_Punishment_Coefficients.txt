@@ -1,0 +1,28 @@
+\begin{tabular}{lr}
+\toprule
+{} &  best\_pc \\
+\midrule
+C\_Burst\_Easy2\_noise015 &      1.0 \\
+C\_Difficult1\_noise005  &      0.6 \\
+C\_Difficult1\_noise010  &      0.6 \\
+C\_Difficult1\_noise015  &      1.2 \\
+C\_Difficult1\_noise020  &      1.0 \\
+C\_Difficult2\_noise005  &      0.9 \\
+C\_Difficult2\_noise010  &      0.7 \\
+C\_Difficult2\_noise015  &      0.7 \\
+C\_Difficult2\_noise020  &      1.5 \\
+C\_Drift\_Easy2\_noise015 &      0.7 \\
+C\_Easy1\_noise005       &      1.1 \\
+C\_Easy1\_noise010       &      0.8 \\
+C\_Easy1\_noise015       &      1.1 \\
+C\_Easy1\_noise020       &      1.0 \\
+C\_Easy1\_noise025       &      1.1 \\
+C\_Easy1\_noise030       &      1.5 \\
+C\_Easy1\_noise035       &      1.5 \\
+C\_Easy1\_noise040       &      1.4 \\
+C\_Easy2\_noise005       &      1.0 \\
+C\_Easy2\_noise010       &      0.5 \\
+C\_Easy2\_noise015       &      0.8 \\
+C\_Easy2\_noise020       &      1.2 \\
+\bottomrule
+\end{tabular}

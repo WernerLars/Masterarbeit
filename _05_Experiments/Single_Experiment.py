@@ -43,7 +43,11 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
         2: "Variant_02_Autoencoder_KMeans",
         3: "Variant_03_PCA_QLearning",
         4: "Variant_04_Offline_Autoencoder_QLearning",
-        5: "Variant_05_Online_Autoencoder_QLearning"
+        5: "Variant_05_Online_Autoencoder_QLearning",
+        6: "Variant_05_Online_Autoencoder_QLearning_opt",
+        7: "Variant_05_Online_Autoencoder_QLearning_opt_temp",
+        8: "Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy",
+
     }
 
     dataset_number = dataset
@@ -113,6 +117,33 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
                                                 optimising=False,
                                                 templateMatching=False,
                                                 noisyBatch=False,
+                                                normalise=False,
+                                                disable_tqdm=disable_tqdm,
+                                                chooseAutoencoder=chooseAutoencoder)
+    elif variant_name == "Variant_05_Online_Autoencoder_QLearning_opt":
+        Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
+                                                punishment_coefficient=punishment_coefficient,
+                                                optimising=True,
+                                                templateMatching=False,
+                                                noisyBatch=False,
+                                                normalise=False,
+                                                disable_tqdm=disable_tqdm,
+                                                chooseAutoencoder=chooseAutoencoder)
+    elif variant_name == "Variant_05_Online_Autoencoder_QLearning_opt_temp":
+        Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
+                                                punishment_coefficient=punishment_coefficient,
+                                                optimising=True,
+                                                templateMatching=True,
+                                                noisyBatch=False,
+                                                normalise=False,
+                                                disable_tqdm=disable_tqdm,
+                                                chooseAutoencoder=chooseAutoencoder)
+    elif variant_name == "Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy":
+        Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
+                                                punishment_coefficient=punishment_coefficient,
+                                                optimising=True,
+                                                templateMatching=True,
+                                                noisyBatch=True,
                                                 normalise=False,
                                                 disable_tqdm=disable_tqdm,
                                                 chooseAutoencoder=chooseAutoencoder)

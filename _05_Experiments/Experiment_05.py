@@ -37,6 +37,32 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
         22: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",       0.8, 1.1],
     }
 
+    # Convolutional Autoencoder Punishment Coefficients
+    ae_model_2_pcs = {
+        1:  [0.9, 1.2, 1.0, 0.7],
+        2:  [0.4, 0.4, 0.6, 0.5],
+        3:  [0.5, 0.5, 0.6, 0.6],
+        4:  [1.1, 0.7, 1.2, 0.8],
+        5:  [1.2, 1.0, 1.0, 1.0],
+        6:  [0.4, 0.8, 0.9, 0.9],
+        7:  [0.5, 0.6, 0.7, 0.6],
+        8:  [0.7, 0.8, 0.7, 0.8],
+        9:  [1.5, 1.0, 1.5, 1.1],
+        10: [1.1, 0.7, 0.7, 0.8],
+        11: [1.1, 1.0, 1.1, 1.0],
+        12: [1.0, 0.9, 0.8, 1.0],
+        13: [1.1, 1.0, 1.1, 0.9],
+        14: [1.1, 1.1, 1.0, 0.9],
+        15: [1.2, 1.3, 1.1, 1.0],
+        16: [1.4, 1.5, 1.5, 1.5],
+        17: [1.5, 1.5, 1.5, 1.5],
+        18: [1.5, 1.4, 1.4, 1.5],
+        19: [0.4, 0.5, 1.0, 0.8],
+        20: [0.7, 0.9, 0.5, 0.7],
+        21: [1.0, 0.9, 0.8, 1.0],
+        22: [1.1, 1.1, 1.2, 1.0],
+    }
+
     variant_name = "Variant_05_Online_Autoencoder_QLearning"
 
     if seed == 0 and not random_seeds:
@@ -70,8 +96,16 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
 
         if pc is not "":
             punishment_coefficient = pc
+        elif chooseAutoencoder == 1:
+            punishment_coefficient = datasets[dataset][1]
+        elif optimising and templates and noisy:
+            punishment_coefficient = ae_model_2_pcs[dataset][3]
+        elif optimising and templates:
+            punishment_coefficient = ae_model_2_pcs[dataset][2]
+        elif optimising:
+            punishment_coefficient = ae_model_2_pcs[dataset][1]
         else:
-            punishment_coefficient = datasets[dataset][chooseAutoencoder]
+            punishment_coefficient = ae_model_2_pcs[dataset][0]
 
         dataset_name = path[16:].split("/")
         variant_name = variant_name

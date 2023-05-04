@@ -21,13 +21,15 @@ def main():
     else:
         return
 
-    punishment_coefficients = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
-    number_of_variants = 3
     number_of_datasets = 22
+    punishment_coefficients = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
+
+    list_of_variant_names = ["V3", "V4", "V5", "V5_1", "V5_2", "V5_3"]
+    number_of_variants = len(list_of_variant_names)
     variant_paths = []
 
-    for i in range(number_of_variants):
-        variant_path = f"{main_path}/V{i + 3}/"
+    for variant_name in list_of_variant_names:
+        variant_path = f"{main_path}/{variant_name}/"
         variant_paths.append(variant_path)
         if os.path.exists(variant_path) is False:
             os.mkdir(variant_path)
@@ -37,10 +39,10 @@ def main():
             jobs = []
             for pc in punishment_coefficients:
                 p = Process(target=Single_Experiment.main,
-                            args=(variant_paths[v_index], d_index, v_index+3, pc, True, chooseAutoencoder))
+                            args=(variant_paths[v_index], d_index, v_index + 3, pc, True, chooseAutoencoder))
                 p.start()
                 jobs.append(p)
-                time.sleep(3)
+                time.sleep(5)
 
             for job in jobs:
                 job.join()

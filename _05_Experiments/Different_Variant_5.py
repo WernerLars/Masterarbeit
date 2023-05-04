@@ -6,7 +6,7 @@ from _04_Visualisation import Tables
 
 
 def main():
-    chooseAutoencoder = 1
+    chooseAutoencoder = 2
     autoencoder_path = f"AE_Model_{chooseAutoencoder}"
     if os.path.exists(autoencoder_path) is False:
         os.mkdir(autoencoder_path)

@@ -13,7 +13,7 @@ from torch import nn
 
 class Variant_05_Online_Autoencoder_QLearning(object):
     def __init__(self, path, vis, logger, parameter_logger, normalise=False, templateMatching=False, optimising=False,
-                 noisyBatch=False, updateFactor=1, noiseFactor=0.1,
+                 noisyBatch=False, updateFactor=1, noiseFactor=0.001,
                  chooseAutoencoder=1, epochs=8, batch_size=1,
                  maxAutoencoderTraining=700, maxTraining=1000,
                  number_of_features=2,
