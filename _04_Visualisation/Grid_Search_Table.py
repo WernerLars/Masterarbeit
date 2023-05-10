@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/AE_Model_1/Epochs"
+        self.experiment_path = "../_05_Experiments/AE_Model_2/Epochs_GS_PC/V5_20"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []

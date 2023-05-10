@@ -9,7 +9,7 @@ from sklearn.metrics.cluster import contingency_matrix
 
 
 class Visualisation(object):
-    def __init__(self, variant_name, dataset_name, exp_path=""):
+    def __init__(self, variant_name, dataset_name, exp_path="", pc=""):
         self.variant_name = variant_name
         self.dataset_name = dataset_name
         self.logger = None
@@ -20,7 +20,10 @@ class Visualisation(object):
             os.mkdir(f"{exp_path}{self.dataset_name[1]}")
         if os.path.exists(f"{exp_path}{self.dataset_name[1]}/{self.variant_name}") is False:
             os.mkdir(f"{exp_path}{self.dataset_name[1]}/{self.variant_name}")
-        self.path = f"{exp_path}{self.dataset_name[1]}/{self.variant_name}/{self.timestamp}"
+        if pc is not "":
+            self.path = f"{exp_path}{self.dataset_name[1]}/{self.variant_name}/{pc}"
+        else:
+            self.path = f"{exp_path}{self.dataset_name[1]}/{self.variant_name}/{self.timestamp}"
         os.mkdir(self.path)
 
     def get_visualisation_path(self):

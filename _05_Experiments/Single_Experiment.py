@@ -11,7 +11,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAutoencoder=1):
+def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAutoencoder=1, epoch=8):
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",
@@ -62,7 +62,7 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
     path = datasets[dataset_number]
     dataset_name = path[16:].split("/")
     variant_name = variants[variant_number]
-    vis = Visualisation(variant_name, dataset_name, exp_path=main_path)
+    vis = Visualisation(variant_name, dataset_name, exp_path=main_path, pc=f"{punishment_coefficient}")
     vis_path = vis.get_visualisation_path()
     exp_path = f"Experiment_0{variant_number}"
 
@@ -98,7 +98,8 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
     elif variant_name == "Variant_02_Autoencoder_KMeans":
         Variant_02_Autoencoder_KMeans(path, vis, logger, parameter_logger,
                                       disable_tqdm=disable_tqdm,
-                                      chooseAutoencoder=chooseAutoencoder)
+                                      chooseAutoencoder=chooseAutoencoder,
+                                      epochs=epochs)
     elif variant_name == "Variant_03_PCA_QLearning":
         Variant_03_PCA_QLearning(path, vis, logger, parameter_logger,
                                  punishment_coefficient=punishment_coefficient,
@@ -119,7 +120,8 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
                                                 noisyBatch=False,
                                                 normalise=False,
                                                 disable_tqdm=disable_tqdm,
-                                                chooseAutoencoder=chooseAutoencoder)
+                                                chooseAutoencoder=chooseAutoencoder,
+                                                epochs=epochs)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning_opt":
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                 punishment_coefficient=punishment_coefficient,
@@ -128,7 +130,8 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
                                                 noisyBatch=False,
                                                 normalise=False,
                                                 disable_tqdm=disable_tqdm,
-                                                chooseAutoencoder=chooseAutoencoder)
+                                                chooseAutoencoder=chooseAutoencoder,
+                                                epochs=epochs)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning_opt_temp":
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                 punishment_coefficient=punishment_coefficient,
@@ -137,7 +140,8 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
                                                 noisyBatch=False,
                                                 normalise=False,
                                                 disable_tqdm=disable_tqdm,
-                                                chooseAutoencoder=chooseAutoencoder)
+                                                chooseAutoencoder=chooseAutoencoder,
+                                                epochs=epochs)
     elif variant_name == "Variant_05_Online_Autoencoder_QLearning_opt_temp_noisy":
         Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
                                                 punishment_coefficient=punishment_coefficient,
@@ -146,7 +150,8 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
                                                 noisyBatch=True,
                                                 normalise=False,
                                                 disable_tqdm=disable_tqdm,
-                                                chooseAutoencoder=chooseAutoencoder)
+                                                chooseAutoencoder=chooseAutoencoder,
+                                                epochs=epochs)
 
 
 if __name__ == '__main__':
