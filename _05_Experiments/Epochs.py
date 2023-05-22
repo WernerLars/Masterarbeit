@@ -19,7 +19,7 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
-         return
+        return
 
     variant_paths = []
     jobs = []

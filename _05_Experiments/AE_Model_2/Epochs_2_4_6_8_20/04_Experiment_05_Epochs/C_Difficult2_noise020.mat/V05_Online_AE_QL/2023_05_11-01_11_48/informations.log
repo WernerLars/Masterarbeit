@@ -1,7 +1,7 @@
 Experiment_path: AE_Model_2/Epochs_2_4_6_8_20/04_Experiment_05_Epochs
 Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Difficult2_noise020.mat
 Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Difficult2_noise020.mat']
-Variant_name: V05_Online_AE_QL
+Variant_name: Variant_05_Epochs_4
 Visualisation_Path: AE_Model_2/Epochs_2_4_6_8_20/04_Experiment_05_Epochs/C_Difficult2_noise020.mat/V05_Online_AE_QL/2023_05_11-01_11_48
 Punishment_Coefficient: 1.0
 <_01_LoadDataset.ExternCode.spike_class.spike_dataclass object at 0x000001F4160E5780>

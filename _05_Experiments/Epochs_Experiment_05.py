@@ -67,7 +67,7 @@ def main(main_path="", seed=0, chooseAutoencoder=1, epochs=8):
     else:
         exp_path = f"{main_path}{epochs}_Experiment_05_Epochs"
 
-    variant_name = "V05_Online_AE_QL"
+    variant_name = f"Variant_05_Epochs_{epochs}"
 
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)

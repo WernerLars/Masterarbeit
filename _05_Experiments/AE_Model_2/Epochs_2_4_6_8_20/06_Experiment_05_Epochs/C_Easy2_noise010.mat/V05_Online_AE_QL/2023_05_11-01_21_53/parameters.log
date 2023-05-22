@@ -2,7 +2,7 @@ Seed: 0
 Experiment_path: AE_Model_2/Epochs_2_4_6_8_20/06_Experiment_05_Epochs
 Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise010.mat
 Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy2_noise010.mat']
-Variant_name: V05_Online_AE_QL
+Variant_name: Variant_05_Epochs_6
 Visualisation_Path: AE_Model_2/Epochs_2_4_6_8_20/06_Experiment_05_Epochs/C_Easy2_noise010.mat/V05_Online_AE_QL/2023_05_11-01_21_53
 Normalisation: False
 Template Matching: False

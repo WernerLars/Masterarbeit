@@ -10,7 +10,7 @@ import logging
 
 
 def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=False, normalise=False,
-         random_seeds=False, chooseAutoencoder=1, epochs=8):
+         random_seeds=False, chooseAutoencoder=1, epochs=8, maxAutoencoderTraining=700, maxTraining=1000):
 
     datasets = {
         1:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.5, 0.9],
@@ -109,7 +109,7 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
 
         dataset_name = path[16:].split("/")
         variant_name = variant_name
-        vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/", pc=f"{punishment_coefficient}")
+        vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/", name=pc)
         vis_path = vis.get_visualisation_path()
 
         formatter = logging.Formatter("%(message)s")
@@ -146,7 +146,9 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
                                                 noisyBatch=noisy,
                                                 normalise=normalise,
                                                 chooseAutoencoder=chooseAutoencoder,
-                                                epochs=epochs
+                                                epochs=epochs,
+                                                maxAutoencoderTraining=maxAutoencoderTraining,
+                                                maxTraining=maxTraining
                                                 )
 
         handler1.close()

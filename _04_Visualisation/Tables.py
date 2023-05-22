@@ -8,7 +8,7 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/AE_Model_2/Epochs_2_8_20"
+        self.experiment_path = "../_05_Experiments/AE_Model_2/Epochs_2_4_6_8_20"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []

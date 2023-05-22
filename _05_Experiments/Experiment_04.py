@@ -60,7 +60,7 @@ def main(main_path="", seed=0, pc="", normalise=False, chooseAutoencoder=1, epoc
             punishment_coefficient = datasets[dataset][chooseAutoencoder]
 
         dataset_name = path[16:].split("/")
-        vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/", pc=f"{punishment_coefficient}")
+        vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/", name=pc)
         vis_path = vis.get_visualisation_path()
 
         formatter = logging.Formatter("%(message)s")
