@@ -168,6 +168,8 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
         centroids_true = self.vis.get_cluster_centers(encoded_features_list, cluster_labels)
         centroids_qlearning = self.vis.get_cluster_centers(encoded_features_list, self.ql.clusters)
 
+        self.vis.compute_cluster_distances(encoded_features_list, cluster_labels, centroids_true)
+
         self.vis.visualising_features(encoded_features_X, encoded_features_Y)
 
         self.vis.visualising_clusters(encoded_features_X, encoded_features_Y, cluster_labels,

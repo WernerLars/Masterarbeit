@@ -1,0 +1,28 @@
+\begin{tabular}{llllllllll}
+\toprule
+{} & 1_PCA_KMeans & 2_PCA_KMeans & 3_PCA_KMeans & 4_PCA_KMeans & 5_PCA_KMeans & 6_PCA_KMeans & 7_PCA_KMeans & 8_PCA_KMeans & 9_PCA_KMeans \\
+\midrule
+C_Burst_Easy2_noise015 &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult1_noise005  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult1_noise010  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult1_noise015  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult1_noise020  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult2_noise005  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult2_noise010  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult2_noise015  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Difficult2_noise020  &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Drift_Easy2_noise015 &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise005       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise010       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise015       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise020       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise025       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise030       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise035       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy1_noise040       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy2_noise005       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy2_noise010       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy2_noise015       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+C_Easy2_noise020       &         None &         None &         None &         None &         None &         None &         None &         None &         None \\
+\bottomrule
+\end{tabular}

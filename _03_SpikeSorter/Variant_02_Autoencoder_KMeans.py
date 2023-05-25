@@ -140,6 +140,8 @@ class Variant_02_Autoencoder_KMeans(object):
         centroids_true = self.vis.get_cluster_centers(encoded_features_list, cluster_labels)
         centroids_kmeans = self.vis.get_cluster_centers(encoded_features_list, kmeans.labels_)
 
+        self.vis.compute_cluster_distances(encoded_features_list, cluster_labels, centroids_true)
+
         self.vis.visualising_features(encoded_features_X, encoded_features_Y)
         self.vis.visualising_clusters(encoded_features_X, encoded_features_Y,
                                       cluster_labels, centroids_true, "true")

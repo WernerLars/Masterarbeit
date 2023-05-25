@@ -5,6 +5,7 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import sort
+from numpy.linalg import norm
 from sklearn.metrics.cluster import contingency_matrix
 
 
@@ -68,8 +69,8 @@ class Visualisation(object):
         """
 
         centroids = []
-        unique_cluster = sort(np.unique(labels))
-        for cluster in unique_cluster:
+        unique_clusters = sort(np.unique(labels))
+        for cluster in unique_clusters:
             x_list = []
             y_list = []
             for index in range(0, len(labels)):
@@ -81,6 +82,51 @@ class Visualisation(object):
             centroids.append([x_mean, y_mean])
         self.logger.info(f"Centroids: {centroids}")
         return np.asarray(centroids)
+
+    def compute_cluster_distances(self, features_list, labels, centroids):
+        """
+            computes cluster distances between all centroids
+                formula: euclidean distance between the centroids - standard derivation of both clusters
+            determine minimal cluster distance of two centroids
+            :return: minimal cluster distance
+        """
+
+        unique_clusters = sort(np.unique(labels))
+
+        # computation of standard derivation for all clusters
+        #   euclidean distance between every x y combination to the centroid
+        #   standard derivation over all euclidean distance values
+
+        standard_derivations = []
+        for cluster in unique_clusters:
+            euclidean_distances = []
+            for index in range(0, len(labels)):
+                if cluster == labels[index]:
+                    x = features_list[index][0]
+                    y = features_list[index][1]
+                    feature_vector = np.array([x, y])
+                    centroid = np.array(centroids[cluster])
+                    euclidean_distance = np.sqrt(np.sum(np.square(feature_vector-centroid)))
+                    euclidean_distances.append(euclidean_distance)
+            std_derivation = np.std(euclidean_distances)
+            standard_derivations.append(std_derivation)
+
+        self.logger.info(f"Standard Derivations: {standard_derivations}")
+
+        # computation of cluster distances between all centroids
+        cluster_distances = []
+        for cluster_one in unique_clusters:
+            for cluster_two in unique_clusters:
+                if cluster_one != cluster_two:
+                    cluster_one_centroid = np.array(centroids[cluster_one])
+                    cluster_two_centroid = np.array(centroids[cluster_two])
+                    euclidean_distance = np.sqrt(np.sum(np.square(cluster_one_centroid-cluster_two_centroid)))
+                    cluster_distance = euclidean_distance - standard_derivations[cluster_one] - standard_derivations[cluster_two]
+                    cluster_distances.append(cluster_distance)
+
+        self.logger.info(f"Cluster Distances: {cluster_distances}")
+        minimal_distance = min(cluster_distances)
+        self.logger.info(f"Minimal Cluster Distance: {minimal_distance}")
 
     def visualising_features(self, x, y, filename=""):
         """
@@ -173,7 +219,7 @@ class Visualisation(object):
                 first the matched labels, then not matches clusters
         :return: new contingency matrix, new clustered labels (for printing cm)
         """
-        
+
         number_of_gtl = len(ground_truth_labels)
         number_of_cl = len(clustered_labels)
 
@@ -193,7 +239,7 @@ class Visualisation(object):
             for t in range(number_of_gtl - number_of_cl):
                 for i, row in enumerate(converted_cm):
                     converted_cm[i].append(0)
-                clustered_labels.append(number_of_cl+t)
+                clustered_labels.append(number_of_cl + t)
         self.logger.info(converted_cm)
         self.logger.info(clustered_labels)
 

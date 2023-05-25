@@ -32,10 +32,29 @@ def main():
             if os.path.exists(main_path):
                 Tables.main(experiment_path=main_path, random_seeds=True)
 
-        epoch_list = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
-        Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V2", epoch_list=epoch_list)
-        Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V4", epoch_list=epoch_list)
-        Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V5", epoch_list=epoch_list)
+        if os.path.exists(f"{autoencoder_path}/Epochs"):
+            epoch_list = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+            Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V2", epoch_list=epoch_list)
+            Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V4", epoch_list=epoch_list)
+            Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs/V5", epoch_list=epoch_list)
+
+        if os.path.exists(f"{autoencoder_path}/Epochs_GS_PC"):
+            Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs_GS_PC/V5_2")
+            Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs_GS_PC/V5_4")
+            Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs_GS_PC/V5_6")
+            Grid_Search_Table.main(experiment_path=f"{autoencoder_path}/Epochs_GS_PC/V5_20")
+
+        if os.path.exists(f"{autoencoder_path}/Epochs_2_4_6_8_20"):
+            Tables.main(experiment_path=f"{autoencoder_path}/Epochs_2_4_6_8_20")
+
+        list_of_variant_names = ["V5_010", "V5_050", "V5_100", "V5_200"]
+        if os.path.exists(f"{autoencoder_path}/Reduce_Training"):
+            Tables.main(experiment_path=f"{autoencoder_path}/Reduce_Training", random_seeds=False,
+                        minimal_distance_names=list_of_variant_names)
+
+        if os.path.exists(f"{autoencoder_path}/Reduce_Training_opt"):
+            Tables.main(experiment_path=f"{autoencoder_path}/Reduce_Training_opt", random_seeds=False,
+                        minimal_distance_names=list_of_variant_names)
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAutoencoder=1, epoch=8):
+def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAutoencoder=2, epochs=8):
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",
@@ -62,7 +62,7 @@ def main(main_path="", dataset=1, variant=1, pc=1, disable_tqdm=False, chooseAut
     path = datasets[dataset_number]
     dataset_name = path[16:].split("/")
     variant_name = variants[variant_number]
-    vis = Visualisation(variant_name, dataset_name, exp_path=main_path, pc=f"{punishment_coefficient}")
+    vis = Visualisation(variant_name, dataset_name, exp_path=main_path, name=f"{pc}")
     vis_path = vis.get_visualisation_path()
     exp_path = f"Experiment_0{variant_number}"
 

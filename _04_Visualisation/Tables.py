@@ -8,13 +8,14 @@ from matplotlib.ticker import PercentFormatter
 
 class Tables(object):
     def __init__(self):
-        self.experiment_path = "../_05_Experiments/AE_Model_2/Epochs_2_4_6_8_20"
+        self.experiment_path = "../_05_Experiments/AE_Model_2/Reduce_Training"
         self.filename = "informations.log"
         self.dataset_names = []
         self.experiment_names = []
         self.experiment_counter = 0
         self.variant_names = []
         self.accuracys = []
+        self.minimal_cluster_distances = []
         self.punishment_coefficients = {}
         self.df = None
 
@@ -32,6 +33,7 @@ class Tables(object):
 
             # Initialising Parameters for log File
             accuracy = 0
+            minimal_cluster_distance = None
             punishment_coefficient = None
 
             # Data index is used as index for accuracy list
@@ -54,6 +56,11 @@ class Tables(object):
                 elif line.startswith("Accuracy:"):
                     split = line.split(":")
                     accuracy = round(float(split[1]), 4)
+
+                # Extract Minimal Cluster Distance
+                elif line.startswith("Minimal Cluster Distance:"):
+                    split = line.split(":")
+                    minimal_cluster_distance = round(float(split[1]), 4)
 
                 # Extract Punishment Coefficient
                 elif line.startswith("Punishment_Coefficient:"):
@@ -81,6 +88,7 @@ class Tables(object):
                     if dataset_name not in self.dataset_names:
                         self.dataset_names.append(dataset_name)
                         self.accuracys.append([])
+                        self.minimal_cluster_distances.append([])
 
                     # data_index is used to find right list to include accuracy in accuracy list
                     data_index = self.dataset_names.index(dataset_name)
@@ -89,6 +97,7 @@ class Tables(object):
             #   adding found accuracy in percent to accuracy list
             #   adding found punishment coefficient to pc list (if not None is added)
             self.accuracys[data_index].append(round(accuracy * 100, 3))
+            self.minimal_cluster_distances[data_index].append(minimal_cluster_distance)
             self.punishment_coefficients[variant_name].append(punishment_coefficient)
 
     def print_accuracy_table(self, random_seeds=False, std=None):
@@ -120,18 +129,18 @@ class Tables(object):
         y_names = [x.replace('noise', '') for x in y_names]
         y_names = [x.replace('Burst', 'B') for x in y_names]
         y_names = [x.replace('Drift', 'D') for x in y_names]
-        s = np.arange(len(self.dataset_names)+1) + 0.5
+        s = np.arange(len(self.dataset_names) + 1) + 0.5
         plt.yticks(s, y_names)
 
         s = np.arange(len(self.variant_names))
         if random_seeds:
-            x_names = [str(x) for x in np.arange(len(self.variant_names)-1)]
+            x_names = [str(x) for x in np.arange(len(self.variant_names) - 1)]
             x_names.append("mean:std")
-            plt.xticks(s+0.5, x_names, rotation=0)
+            plt.xticks(s + 0.5, x_names, rotation=0)
             plt.title(f"Random Seeds von {self.variant_names[0][2:]}")
         else:
             s = np.arange(len(self.variant_names))
-            plt.xticks(s+0.5, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
+            plt.xticks(s + 0.5, [x.replace('_', '\n') for x in self.variant_names], rotation=0)
             plt.title(f"Mean Accuracy: {round(self.df.loc['mean'].mean(), 2)} %")
         plt.tight_layout()
         plt.savefig(f"{self.experiment_path}/AccuracyTable.png")
@@ -206,7 +215,7 @@ class Tables(object):
         plt.close()
 
 
-def main(experiment_path="", random_seeds=False):
+def main(experiment_path="", random_seeds=False, minimal_distance_names=None):
     tables = Tables()
 
     # setting a custom experiment path
@@ -220,10 +229,17 @@ def main(experiment_path="", random_seeds=False):
                 log_path = f"{root}\{file}"
                 tables.get_information_from_log(log_path)
 
-    # Creating dataframe for visualisation
+    if minimal_distance_names is not None:
+        tables.variant_names = minimal_distance_names
+
+    # Creating dataframes for visualisation
     tables.df = pd.DataFrame(tables.accuracys,
                              index=tables.dataset_names,
                              columns=tables.variant_names)
+    mcd = pd.DataFrame(tables.minimal_cluster_distances,
+                       index=tables.dataset_names,
+                       columns=tables.variant_names)
+    mcd.to_latex(f"{tables.experiment_path}/Minimal_Cluster_Distances.txt", escape=False)
 
     # Printing Graphs for the experiments
     tables.print_accuracy_graph()

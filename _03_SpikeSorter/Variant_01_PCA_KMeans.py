@@ -49,6 +49,8 @@ class Variant_01_PCA_KMeans(object):
         centroids_true = self.vis.get_cluster_centers(self.pca_transformed, self.y_labels)
         centroids_kmeans = self.vis.get_cluster_centers(self.pca_transformed, kmeans.labels_)
 
+        self.vis.compute_cluster_distances(self.pca_transformed, self.y_labels, centroids_true)
+
         self.vis.visualising_features(x, y)
         self.vis.visualising_clusters(x, y, self.y_labels, centroids_true, "true")
         self.vis.visualising_clusters(x, y, kmeans.labels_, centroids_kmeans, "kmeans")

@@ -22,7 +22,7 @@ def main():
     else:
         return
 
-    list_of_variant_names = ["V5_10", "V5_50", "V5_100", "V5_200"]
+    list_of_variant_names = ["V5_010", "V5_050", "V5_100", "V5_200"]
     number_of_variants = len(list_of_variant_names)
     variant_paths = []
     jobs = []
@@ -58,7 +58,7 @@ def main():
     for job in jobs:
         job.join()
 
-    Tables.main(experiment_path=main_path)
+    Tables.main(experiment_path=main_path, random_seeds=False, minimal_distance_names=list_of_variant_names)
 
 
 if __name__ == '__main__':
