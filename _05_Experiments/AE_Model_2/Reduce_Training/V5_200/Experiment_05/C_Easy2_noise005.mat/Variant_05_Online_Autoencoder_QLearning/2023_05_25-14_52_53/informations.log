@@ -1,0 +1,258 @@
+Experiment_path: AE_Model_2/Reduce_Training//V5_200/Experiment_05
+Dataset_Path: ../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise005.mat
+Dataset_name: ['03_SimDaten_Quiroga2020', 'C_Easy2_noise005.mat']
+Variant_name: Variant_05_Online_Autoencoder_QLearning
+Visualisation_Path: AE_Model_2/Reduce_Training//V5_200/Experiment_05/C_Easy2_noise005.mat/Variant_05_Online_Autoencoder_QLearning/2023_05_25-14_52_53
+Punishment_Coefficient: 0.4
+<_01_LoadDataset.ExternCode.spike_class.spike_dataclass object at 0x0000021A9ECC8B70>
+Sampling rate: 24000.0
+Raw: [ 0.11862069  0.1123084   0.10401825 ... -0.10219323 -0.10268373
+ -0.08956559]
+Times: [    346     799    1005 ... 1436867 1437273 1437800]
+Cluster: [3 3 3 ... 3 1 3]
+Number of different clusters:  3
+Number of Spikes: 3410
+First aligned Spike Frame: [ 2.05661766e-03  8.27536867e-03  1.66427268e-02  2.31246655e-02
+  2.28936935e-02  1.99169368e-02  2.25281834e-02  3.37605443e-02
+  4.94182133e-02  6.24484568e-02  8.42111946e-02  1.71357846e-01
+  3.88441746e-01  6.99052305e-01  9.59509287e-01  1.03608873e+00
+  9.29169963e-01  7.55567481e-01  6.10726415e-01  5.06818519e-01
+  4.23878029e-01  3.55610047e-01  3.01970228e-01  2.53702042e-01
+  1.98274486e-01  1.32802904e-01  6.40690121e-02  7.96454927e-04
+ -5.66201776e-02 -1.11669131e-01 -1.62581026e-01 -2.01746625e-01
+ -2.23071447e-01 -2.29516190e-01 -2.30160694e-01 -2.27148529e-01
+ -2.18080531e-01 -2.04276810e-01 -1.90750996e-01 -1.81098693e-01
+ -1.72421418e-01 -1.61640218e-01 -1.48460304e-01 -1.32332846e-01
+ -1.13338953e-01 -9.43725979e-02 -7.56249106e-02]
+Cluster 0, Occurrences: 1130
+Cluster 1, Occurrences: 1113
+Cluster 2, Occurrences: 1167
+Number of Clusters: 3
+Online_Training [1/200]: mean_loss=0.1302945651113987
+Online_Training [2/200]: mean_loss=0.11661154497414827
+Online_Training [3/200]: mean_loss=0.10817712172865868
+Online_Training [4/200]: mean_loss=0.11394281219691038
+Online_Training [5/200]: mean_loss=0.1747199445962906
+Online_Training [6/200]: mean_loss=0.13602986931800842
+Online_Training [7/200]: mean_loss=0.19164198823273182
+Online_Training [8/200]: mean_loss=0.07140064239501953
+Online_Training [9/200]: mean_loss=0.05920933512970805
+Online_Training [10/200]: mean_loss=0.10201946552842855
+Online_Training [11/200]: mean_loss=0.16155131347477436
+Online_Training [12/200]: mean_loss=0.0464591970667243
+Online_Training [13/200]: mean_loss=0.049673892557621
+Online_Training [14/200]: mean_loss=0.040401692502200603
+Online_Training [15/200]: mean_loss=0.07105755899101496
+Online_Training [16/200]: mean_loss=0.034292233642190695
+Online_Training [17/200]: mean_loss=0.1195855550467968
+Online_Training [18/200]: mean_loss=0.09597370959818363
+Online_Training [19/200]: mean_loss=0.12010752782225609
+Online_Training [20/200]: mean_loss=0.042760760989040136
+Online_Training [21/200]: mean_loss=0.0602657375857234
+Online_Training [22/200]: mean_loss=0.11568767856806517
+Online_Training [23/200]: mean_loss=0.07739075180143118
+Online_Training [24/200]: mean_loss=0.03616666002199054
+Online_Training [25/200]: mean_loss=0.091407535597682
+Online_Training [26/200]: mean_loss=0.07536665070801973
+Online_Training [27/200]: mean_loss=0.08155484218150377
+Online_Training [28/200]: mean_loss=0.06715013459324837
+Online_Training [29/200]: mean_loss=0.0537264971062541
+Online_Training [30/200]: mean_loss=0.049947360064834356
+Online_Training [31/200]: mean_loss=0.04527364578098059
+Online_Training [32/200]: mean_loss=0.044749968219548464
+Online_Training [33/200]: mean_loss=0.04690363397821784
+Online_Training [34/200]: mean_loss=0.057607999071478844
+Online_Training [35/200]: mean_loss=0.04032163368538022
+Online_Training [36/200]: mean_loss=0.10096899326890707
+Online_Training [37/200]: mean_loss=0.06761790066957474
+Online_Training [38/200]: mean_loss=0.07300644461065531
+Online_Training [39/200]: mean_loss=0.031519138952717185
+Online_Training [40/200]: mean_loss=0.0662488341331482
+Online_Training [41/200]: mean_loss=0.08254987932741642
+Online_Training [42/200]: mean_loss=0.10295645985752344
+Online_Training [43/200]: mean_loss=0.06749330973252654
+Online_Training [44/200]: mean_loss=0.03426506323739886
+Online_Training [45/200]: mean_loss=0.10235716495662928
+Online_Training [46/200]: mean_loss=0.04764942592009902
+Online_Training [47/200]: mean_loss=0.043650254141539335
+Online_Training [48/200]: mean_loss=0.029495149850845337
+Online_Training [49/200]: mean_loss=0.03151240339502692
+Online_Training [50/200]: mean_loss=0.10578354634344578
+Online_Training [51/200]: mean_loss=0.026232238858938217
+Online_Training [52/200]: mean_loss=0.09053781814873219
+Online_Training [53/200]: mean_loss=0.03226910438388586
+Online_Training [54/200]: mean_loss=0.022643054835498333
+Online_Training [55/200]: mean_loss=0.02297795983031392
+Online_Training [56/200]: mean_loss=0.02149688871577382
+Online_Training [57/200]: mean_loss=0.008400863443966955
+Online_Training [58/200]: mean_loss=0.03347484115511179
+Online_Training [59/200]: mean_loss=0.08747883513569832
+Online_Training [60/200]: mean_loss=0.07470660842955112
+Online_Training [61/200]: mean_loss=0.0750080132856965
+Online_Training [62/200]: mean_loss=0.019213409861549735
+Online_Training [63/200]: mean_loss=0.018685061717405915
+Online_Training [64/200]: mean_loss=0.05655041104182601
+Online_Training [65/200]: mean_loss=0.024626376572996378
+Online_Training [66/200]: mean_loss=0.013934482063632458
+Online_Training [67/200]: mean_loss=0.0067914926912635565
+Online_Training [68/200]: mean_loss=0.050494346767663956
+Online_Training [69/200]: mean_loss=0.006994707102421671
+Online_Training [70/200]: mean_loss=0.05435202410444617
+Online_Training [71/200]: mean_loss=0.031433665892109275
+Online_Training [72/200]: mean_loss=0.004432706220541149
+Online_Training [73/200]: mean_loss=0.021745205856859684
+Online_Training [74/200]: mean_loss=0.0017482811090303585
+Online_Training [75/200]: mean_loss=0.04765221755951643
+Online_Training [76/200]: mean_loss=0.02919363370165229
+Online_Training [77/200]: mean_loss=0.02781675779260695
+Online_Training [78/200]: mean_loss=0.031052171485498548
+Online_Training [79/200]: mean_loss=0.01162953453604132
+Online_Training [80/200]: mean_loss=0.0018818102835211903
+Online_Training [81/200]: mean_loss=0.019138338044285774
+Online_Training [82/200]: mean_loss=0.017962951445952058
+Online_Training [83/200]: mean_loss=0.0027720245998352766
+Online_Training [84/200]: mean_loss=0.003989006334450096
+Online_Training [85/200]: mean_loss=0.005518680205568671
+Online_Training [86/200]: mean_loss=0.02413841662928462
+Online_Training [87/200]: mean_loss=0.018079616827890277
+Online_Training [88/200]: mean_loss=0.025696946773678064
+Online_Training [89/200]: mean_loss=0.013518498046323657
+Online_Training [90/200]: mean_loss=0.011478941887617111
+Online_Training [91/200]: mean_loss=0.009250319155398756
+Online_Training [92/200]: mean_loss=0.019389173248782754
+Online_Training [93/200]: mean_loss=0.01362983777653426
+Online_Training [94/200]: mean_loss=0.02654444775544107
+Online_Training [95/200]: mean_loss=0.031670948257669806
+Online_Training [96/200]: mean_loss=0.01203661214094609
+Online_Training [97/200]: mean_loss=0.011686966405250132
+Online_Training [98/200]: mean_loss=0.016482485691085458
+Online_Training [99/200]: mean_loss=0.006688165478408337
+Online_Training [100/200]: mean_loss=0.009319905424490571
+Online_Training [101/200]: mean_loss=0.00404371676268056
+Online_Training [102/200]: mean_loss=0.004877351049799472
+Online_Training [103/200]: mean_loss=0.023092053248547018
+Online_Training [104/200]: mean_loss=0.14635443035513163
+Online_Training [105/200]: mean_loss=0.10306190606206656
+Online_Training [106/200]: mean_loss=0.03326622489839792
+Online_Training [107/200]: mean_loss=0.011185240000486374
+Online_Training [108/200]: mean_loss=0.01720892626326531
+Online_Training [109/200]: mean_loss=0.01957091875374317
+Online_Training [110/200]: mean_loss=0.011938782990910113
+Online_Training [111/200]: mean_loss=0.009169362834654748
+Online_Training [112/200]: mean_loss=0.01911284844391048
+Online_Training [113/200]: mean_loss=0.0066865706467069685
+Online_Training [114/200]: mean_loss=0.06278801616281271
+Online_Training [115/200]: mean_loss=0.017976237926632166
+Online_Training [116/200]: mean_loss=0.028790093725547194
+Online_Training [117/200]: mean_loss=0.02546409540809691
+Online_Training [118/200]: mean_loss=0.004848594660870731
+Online_Training [119/200]: mean_loss=0.010046873416285962
+Online_Training [120/200]: mean_loss=0.002923878753790632
+Online_Training [121/200]: mean_loss=0.02064653765410185
+Online_Training [122/200]: mean_loss=0.010568725992925465
+Online_Training [123/200]: mean_loss=0.01317017455585301
+Online_Training [124/200]: mean_loss=0.01194088440388441
+Online_Training [125/200]: mean_loss=0.010564111988060176
+Online_Training [126/200]: mean_loss=0.0029435261531034485
+Online_Training [127/200]: mean_loss=0.001790469090337865
+Online_Training [128/200]: mean_loss=0.0025378811405971646
+Online_Training [129/200]: mean_loss=0.013896822230890393
+Online_Training [130/200]: mean_loss=0.008179554075468332
+Online_Training [131/200]: mean_loss=0.007950221246574074
+Online_Training [132/200]: mean_loss=0.009490936761721969
+Online_Training [133/200]: mean_loss=0.09126582834869623
+Online_Training [134/200]: mean_loss=0.0021724196849390864
+Online_Training [135/200]: mean_loss=0.0355628909310326
+Online_Training [136/200]: mean_loss=0.003994687431259081
+Online_Training [137/200]: mean_loss=0.015915862866677344
+Online_Training [138/200]: mean_loss=0.013993742526508868
+Online_Training [139/200]: mean_loss=0.0038274145335890353
+Online_Training [140/200]: mean_loss=0.007662309100851417
+Online_Training [141/200]: mean_loss=0.0028868996596429497
+Online_Training [142/200]: mean_loss=0.004929165414068848
+Online_Training [143/200]: mean_loss=0.0021291765297064558
+Online_Training [144/200]: mean_loss=0.004451465036254376
+Online_Training [145/200]: mean_loss=0.0073326240526512265
+Online_Training [146/200]: mean_loss=0.012744616891723126
+Online_Training [147/200]: mean_loss=0.01826055790297687
+Online_Training [148/200]: mean_loss=0.008704904466867447
+Online_Training [149/200]: mean_loss=0.007454172999132425
+Online_Training [150/200]: mean_loss=0.0033644121140241623
+Online_Training [151/200]: mean_loss=0.0027961431769654155
+Online_Training [152/200]: mean_loss=0.0033966568880714476
+Online_Training [153/200]: mean_loss=0.014137141639366746
+Online_Training [154/200]: mean_loss=0.008977089426480234
+Online_Training [155/200]: mean_loss=0.016984675312414765
+Online_Training [156/200]: mean_loss=0.013516897801309824
+Online_Training [157/200]: mean_loss=0.005363438045606017
+Online_Training [158/200]: mean_loss=0.012901241891086102
+Online_Training [159/200]: mean_loss=0.00596096646040678
+Online_Training [160/200]: mean_loss=0.01353942055720836
+Online_Training [161/200]: mean_loss=0.007320514996536076
+Online_Training [162/200]: mean_loss=0.012556491186842322
+Online_Training [163/200]: mean_loss=0.002059167542029172
+Online_Training [164/200]: mean_loss=0.001507973858679179
+Online_Training [165/200]: mean_loss=0.00391687560477294
+Online_Training [166/200]: mean_loss=0.002353107323870063
+Online_Training [167/200]: mean_loss=0.00241630821255967
+Online_Training [168/200]: mean_loss=0.006855720072053373
+Online_Training [169/200]: mean_loss=0.004747002734802663
+Online_Training [170/200]: mean_loss=0.002314572731847875
+Online_Training [171/200]: mean_loss=0.002974705654196441
+Online_Training [172/200]: mean_loss=0.004760994925163686
+Online_Training [173/200]: mean_loss=0.0015135051507968456
+Online_Training [174/200]: mean_loss=0.003318867034977302
+Online_Training [175/200]: mean_loss=0.005675509164575487
+Online_Training [176/200]: mean_loss=0.01036934310104698
+Online_Training [177/200]: mean_loss=0.008989981259219348
+Online_Training [178/200]: mean_loss=0.00482788504450582
+Online_Training [179/200]: mean_loss=0.014068293385207653
+Online_Training [180/200]: mean_loss=0.005688344070222229
+Online_Training [181/200]: mean_loss=0.005041440716013312
+Online_Training [182/200]: mean_loss=0.015533885452896357
+Online_Training [183/200]: mean_loss=0.008248380501754582
+Online_Training [184/200]: mean_loss=0.006589818163774908
+Online_Training [185/200]: mean_loss=0.00485102049424313
+Online_Training [186/200]: mean_loss=0.009403077128808945
+Online_Training [187/200]: mean_loss=0.043891158420592546
+Online_Training [188/200]: mean_loss=0.08658631891012192
+Online_Training [189/200]: mean_loss=0.01575521065387875
+Online_Training [190/200]: mean_loss=0.03269300889223814
+Online_Training [191/200]: mean_loss=0.03334760735742748
+Online_Training [192/200]: mean_loss=0.025229478487744927
+Online_Training [193/200]: mean_loss=0.02092609624378383
+Online_Training [194/200]: mean_loss=0.012431814218871295
+Online_Training [195/200]: mean_loss=0.008074222889263183
+Online_Training [196/200]: mean_loss=0.007976767199579626
+Online_Training [197/200]: mean_loss=0.010643043671734631
+Online_Training [198/200]: mean_loss=0.00582797743845731
+Online_Training [199/200]: mean_loss=0.005820057762321085
+Online_Training [200/200]: mean_loss=0.004389380686916411
+Number of Samples after Autoencoder testing: 300
+First Spike after testing: [-1.0616245 -2.451362 ]
+[0, 2, 1, 0, 2, 0, 1, 1, 0, 2, 1, 0, 2, 0, 2, 1, 2, 1, 2, 2, 2, 0, 1, 0, 1, 0, 2, 1, 2, 0, 2, 0, 0, 1, 1, 0, 1, 2, 2, 0, 2, 0, 2, 1, 2, 0, 1, 2, 1, 0, 2, 2, 1, 2, 2, 0, 0, 1, 0, 1, 0, 2, 1, 1, 1, 0, 0, 1, 0, 1, 2, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 2, 1, 0, 1, 0, 0, 2, 2, 1, 2, 0, 0, 1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 0, 1, 2, 0, 1, 1, 0, 0, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 0, 1, 2, 2, 2, 1, 2, 0, 2, 1, 0, 1, 1, 1, 0, 2, 1, 1, 1, 0, 2, 1, 2, 1, 2, 2, 0, 2, 1, 2, 2, 1, 0, 2, 2, 0, 2, 0, 1, 2, 1, 2, 0, 0, 2, 0, 2, 1, 1, 1, 2, 0, 0, 0, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 2, 0, 2, 0, 0, 2, 2, 0, 1, 0, 0, 1, 1, 2, 0, 0, 0, 2, 1, 0, 0, 1, 1, 0, 0, 0, 2, 2, 1, 0, 0, 1, 1, 0, 2, 2, 1, 0, 1, 1, 2, 0, 2, 2, 1, 0, 0, 1, 2, 2, 0, 1, 2, 2, 2, 1, 1, 0, 1, 2, 2, 0, 2, 1, 2, 1, 1, 1, 0, 2, 0, 2, 1, 0, 1, 0, 0, 0, 2, 0, 1, 2, 1, 0, 0, 0, 2, 1, 2, 1, 0, 0, 2, 2, 2, 0, 1, 1, 2, 1, 2, 1, 2, 0, 2, 1, 2, 2, 1]
+[0, 1, 2, 0, 1, 0, 2, 2, 0, 1, 2, 0, 1, 0, 1, 2, 1, 2, 1, 1, 1, 0, 2, 0, 2, 0, 1, 2, 1, 0, 1, 0, 0, 2, 2, 3, 4, 1, 1, 0, 1, 5, 1, 2, 1, 0, 2, 1, 2, 0, 1, 1, 2, 1, 1, 0, 0, 2, 0, 2, 0, 1, 2, 2, 2, 0, 0, 2, 0, 2, 1, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 2, 2, 2, 1, 2, 0, 2, 0, 0, 1, 1, 2, 1, 0, 0, 2, 1, 2, 1, 1, 2, 6, 1, 1, 1, 0, 2, 1, 0, 2, 2, 0, 0, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 0, 2, 1, 1, 1, 0, 7, 0, 1, 2, 0, 2, 2, 2, 0, 1, 2, 2, 2, 0, 1, 2, 1, 2, 1, 1, 0, 1, 2, 1, 1, 2, 0, 1, 1, 0, 1, 0, 2, 1, 2, 1, 0, 3, 7, 0, 1, 2, 2, 2, 1, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 0, 1, 0, 1, 0, 0, 1, 1, 0, 2, 0, 0, 2, 4, 4, 0, 0, 0, 1, 2, 0, 0, 2, 2, 0, 0, 5, 1, 1, 2, 0, 0, 2, 2, 0, 1, 1, 2, 0, 2, 2, 1, 5, 7, 1, 2, 0, 0, 2, 1, 1, 0, 2, 1, 1, 1, 2, 2, 0, 2, 1, 1, 0, 1, 2, 1, 2, 2, 2, 0, 1, 0, 1, 2, 0, 2, 0, 0, 0, 1, 0, 2, 1, 2, 0, 0, 0, 1, 2, 1, 2, 0, 0, 1, 1, 1, 0, 2, 2, 1, 2, 8, 8, 1, 3, 7, 2, 1, 1, 2]
+Centroids: [[-1.0524491, -2.401637], [0.040349398, -1.1577331], [-1.0032761, 1.6180885]]
+Centroids: [[-1.0008544, -2.3267753], [-0.95551085, 1.5802453], [0.0896937, -1.1822287], [-2.3283389, -3.7860172], [-0.69932014, 0.35984138], [-1.16683, -3.330967], [-0.9250469, -1.4966763], [-2.141143, 3.1607573], [-1.5324038, 0.2360792]]
+Standard Derivations: [0.3510644, 0.33645332, 0.3875723]
+Cluster Distances: [0.96823156, 3.28139, 0.96823156, 2.2415, 3.28139, 2.2415]
+Minimal Cluster Distance: 0.9682315587997437
+Contingency Matrix: 
+[[88  0  0  3  0  3  0  0  0]
+ [ 1  0 96  0  2  0  1  0  1]
+ [ 0 99  0  0  1  0  0  4  1]]
+[[88, 0, 0, 3, 0, 3, 0, 0, 0], [1, 0, 96, 0, 2, 0, 1, 0, 1], [0, 99, 0, 0, 1, 0, 0, 4, 1]]
+[[88, 0, 0, 3, 0, 3, 0, 0, 0], [1, 0, 96, 0, 2, 0, 1, 0, 1], [0, 99, 0, 0, 1, 0, 0, 4, 1]]
+[0, 1, 2, 3, 4, 5, 6, 7, 8]
+[[88, -1, 0, 3, 0, 3, 0, 0, 0], [1, -1, 96, 0, 2, 0, 1, 0, 1], [-1, -1, -1, -1, -1, -1, -1, -1, -1]]
+[[88, -1, -1, 3, 0, 3, 0, 0, 0], [-1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1]]
+[[-1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1], [-1, -1, -1, -1, -1, -1, -1, -1, -1]]
+Match_Labels: {2: 1, 1: 2, 0: 0}
+New Contingency Matrix: 
+[[88  0  0  3  0  3  0  0  0]
+ [ 1 96  0  0  2  0  1  0  1]
+ [ 0  0 99  0  1  0  0  4  1]]
+New Clustered Label Sequence: [0, 2, 1, 3, 4, 5, 6, 7, 8]
+Diagonal_Elements: [88, 96, 99], Sum: 283
+All_Elements: [88, 0, 0, 3, 0, 3, 0, 0, 0, 1, 96, 0, 0, 2, 0, 1, 0, 1, 0, 0, 99, 0, 1, 0, 0, 4, 1], Sum: 300
+Accuracy: 0.9433333333333334

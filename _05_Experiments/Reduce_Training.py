@@ -7,7 +7,7 @@ from _04_Visualisation import Tables
 
 def main():
     chooseAutoencoder = 2
-    optimising = True
+    optimising = False
     autoencoder_path = f"AE_Model_{chooseAutoencoder}"
     if os.path.exists(autoencoder_path) is False:
         os.mkdir(autoencoder_path)
@@ -22,7 +22,7 @@ def main():
     else:
         return
 
-    list_of_variant_names = ["V5_010", "V5_050", "V5_100", "V5_200"]
+    list_of_variant_names = ["V5_010", "V5_050", "V5_100", "V5_200", "V5_700"]
     number_of_variants = len(list_of_variant_names)
     variant_paths = []
     jobs = []
@@ -49,11 +49,16 @@ def main():
                          args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 100, 400))
             p3.start()
             jobs.append(p3)
-        else:
+        elif i == 3:
             p4 = Process(target=Experiment_05.main,
                          args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 200, 500))
             p4.start()
             jobs.append(p4)
+        else:
+            p5 = Process(target=Experiment_05.main,
+                         args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 700, 1000))
+            p5.start()
+            jobs.append(p5)
 
     for job in jobs:
         job.join()

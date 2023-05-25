@@ -47,7 +47,7 @@ def main():
         if os.path.exists(f"{autoencoder_path}/Epochs_2_4_6_8_20"):
             Tables.main(experiment_path=f"{autoencoder_path}/Epochs_2_4_6_8_20")
 
-        list_of_variant_names = ["V5_010", "V5_050", "V5_100", "V5_200"]
+        list_of_variant_names = ["V5_010", "V5_050", "V5_100", "V5_200", "V5_700"]
         if os.path.exists(f"{autoencoder_path}/Reduce_Training"):
             Tables.main(experiment_path=f"{autoencoder_path}/Reduce_Training", random_seeds=False,
                         minimal_distance_names=list_of_variant_names)
