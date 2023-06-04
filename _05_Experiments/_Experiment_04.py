@@ -36,12 +36,16 @@ def main(main_path="", seed=0, pc="", normalise=False, chooseAutoencoder=2, epoc
         22: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",       0.6, 1.5],
     }
 
-    variant_name = "Variant_04_Offline_Autoencoder_QLearning"
+    variant_name = "V04_Off_AE_QL"
 
     if seed == 0:
         exp_path = f"{main_path}Experiment_04"
     else:
         exp_path = f"{main_path}Experiment_04_{seed}"
+
+    if normalise:
+        variant_name = f"{variant_name}_norm"
+        exp_path = f"{exp_path}_norm"
 
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)

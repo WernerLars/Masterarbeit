@@ -1,28 +1,28 @@
-\begin{tabular}{ll}
+\begin{tabular}{lrr}
 \toprule
-{} & 1_Offline_Autoencoder_QLearning \\
+{} &    1_QL &  2_QL_norm \\
 \midrule
-C_Burst_Easy2_noise015 &                            None \\
-C_Difficult1_noise005  &                            None \\
-C_Difficult1_noise010  &                            None \\
-C_Difficult1_noise015  &                            None \\
-C_Difficult1_noise020  &                            None \\
-C_Difficult2_noise005  &                            None \\
-C_Difficult2_noise010  &                            None \\
-C_Difficult2_noise015  &                            None \\
-C_Difficult2_noise020  &                            None \\
-C_Drift_Easy2_noise015 &                            None \\
-C_Easy1_noise005       &                            None \\
-C_Easy1_noise010       &                            None \\
-C_Easy1_noise015       &                            None \\
-C_Easy1_noise020       &                            None \\
-C_Easy1_noise025       &                            None \\
-C_Easy1_noise030       &                            None \\
-C_Easy1_noise035       &                            None \\
-C_Easy1_noise040       &                            None \\
-C_Easy2_noise005       &                            None \\
-C_Easy2_noise010       &                            None \\
-C_Easy2_noise015       &                            None \\
-C_Easy2_noise020       &                            None \\
+C_Burst_Easy2_noise015 &  0.4811 &     0.4861 \\
+C_Difficult1_noise005  &  0.2564 &     0.2563 \\
+C_Difficult1_noise010  &  0.3446 &     0.3446 \\
+C_Difficult1_noise015  &  0.0398 &     0.0404 \\
+C_Difficult1_noise020  & -0.2457 &    -0.2444 \\
+C_Difficult2_noise005  &  0.4878 &     0.4903 \\
+C_Difficult2_noise010  &  0.7596 &     0.7590 \\
+C_Difficult2_noise015  &  0.3195 &     0.3168 \\
+C_Difficult2_noise020  &  0.2284 &     0.2300 \\
+C_Drift_Easy2_noise015 &  0.3670 &     0.3670 \\
+C_Easy1_noise005       &  2.1225 &     2.1217 \\
+C_Easy1_noise010       &  2.2774 &     2.2803 \\
+C_Easy1_noise015       &  2.7394 &     2.7405 \\
+C_Easy1_noise020       &  2.1431 &     2.1369 \\
+C_Easy1_noise025       &  1.7304 &     1.7307 \\
+C_Easy1_noise030       &  2.3310 &     2.3303 \\
+C_Easy1_noise035       &  1.9108 &     1.8950 \\
+C_Easy1_noise040       &  0.5664 &     0.5746 \\
+C_Easy2_noise005       &  0.7208 &     0.7208 \\
+C_Easy2_noise010       &  0.5530 &     0.5556 \\
+C_Easy2_noise015       &  0.4636 &     0.4601 \\
+C_Easy2_noise020       &  0.3655 &     0.3613 \\
 \bottomrule
 \end{tabular}

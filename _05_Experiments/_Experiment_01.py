@@ -36,7 +36,7 @@ def main(main_path="", seed=0):
         22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",
     }
 
-    variant_name = "Variant_01_PCA_KMeans"
+    variant_name = "V01_PCA_KMeans"
 
     if seed == 0:
         exp_path = f"{main_path}Experiment_01"

@@ -37,7 +37,7 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
         22: ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",       0.8, 1.1],
     }
 
-    # Convolutional Autoencoder Punishment Coefficients
+    # Convolutional Autoencoder Punishment Coefficients for Different Variant 5 (normal,optimising,temp,noisy)
     ae_model_2_pcs = {
         1:  [0.9, 1.2, 1.0, 0.7],
         2:  [0.4, 0.4, 0.6, 0.5],
@@ -63,7 +63,7 @@ def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=F
         22: [1.1, 1.1, 1.2, 1.0],
     }
 
-    variant_name = "Variant_05_Online_Autoencoder_QLearning"
+    variant_name = "V05_On_AE_QL"
 
     if seed == 0 and not random_seeds:
         exp_path = f"{main_path}Experiment_05"

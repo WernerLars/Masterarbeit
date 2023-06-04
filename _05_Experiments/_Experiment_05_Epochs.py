@@ -36,7 +36,7 @@ def main(main_path="", seed=0, chooseAutoencoder=2, epochs=8):
         22: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Easy2_noise020.mat",
     }
 
-    # Convolutional Autoencoder Punishment Coefficients for Epochs: 2, 4, 6, 8, 20
+    # Convolutional Autoencoder Grid Search Punishment Coefficients for Variant 5 (normal) on Epochs (2, 4, 6, 8, 20)
     ae_model_2_pcs = {
         1:  [1.2, 1.5, 1.4, 0.9, 0.5],
         2:  [0.2, 0.6, 0.4, 0.4, 0.5],
@@ -67,7 +67,7 @@ def main(main_path="", seed=0, chooseAutoencoder=2, epochs=8):
     else:
         exp_path = f"{main_path}{epochs}_Experiment_05_Epochs"
 
-    variant_name = f"Variant_05_Epochs_{epochs}"
+    variant_name = f"V05_Epochs_{epochs}"
 
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)
