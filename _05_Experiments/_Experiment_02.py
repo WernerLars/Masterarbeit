@@ -9,7 +9,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", seed=0, chooseAutoencoder=1, epochs=8):
+def main(main_path="", seed=0, chooseAutoencoder=2, epochs=8):
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",

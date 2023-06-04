@@ -1,6 +1,6 @@
 import os
 
-import Experiment_05
+import _Experiment_05
 from multiprocessing import Process
 from _04_Visualisation import Tables
 
@@ -20,6 +20,7 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
+        print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
     list_of_variant_names = ["V5_010", "V5_050", "V5_100", "V5_200", "V5_700"]
@@ -35,28 +36,33 @@ def main():
 
     for i in range(0, number_of_variants):
         if i == 0:
-            p1 = Process(target=Experiment_05.main,
-                         args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 10, 310))
+            p1 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[i], 0, "", optimising, False, False, False, False,
+                               chooseAutoencoder, 8, 10, 310))
             p1.start()
             jobs.append(p1)
         elif i == 1:
-            p2 = Process(target=Experiment_05.main,
-                         args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 50, 350))
+            p2 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[i], 0, "", optimising, False, False, False, False,
+                               chooseAutoencoder, 8, 50, 350))
             p2.start()
             jobs.append(p2)
         elif i == 2:
-            p3 = Process(target=Experiment_05.main,
-                         args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 100, 400))
+            p3 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[i], 0, "", optimising, False, False, False, False,
+                               chooseAutoencoder, 8, 100, 400))
             p3.start()
             jobs.append(p3)
         elif i == 3:
-            p4 = Process(target=Experiment_05.main,
-                         args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 200, 500))
+            p4 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[i], 0, "", optimising, False, False, False, False,
+                               chooseAutoencoder, 8, 200, 500))
             p4.start()
             jobs.append(p4)
         else:
-            p5 = Process(target=Experiment_05.main,
-                         args=(variant_paths[i], 0, "", optimising, False, False, False, False, chooseAutoencoder, 8, 700, 1000))
+            p5 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[i], 0, "", optimising, False, False, False, False,
+                               chooseAutoencoder, 8, 700, 1000))
             p5.start()
             jobs.append(p5)
 

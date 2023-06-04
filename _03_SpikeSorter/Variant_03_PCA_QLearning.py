@@ -70,8 +70,7 @@ class Variant_03_PCA_QLearning(object):
         self.vis.compute_cluster_distances(self.pca_transformed, self.y_labels[:self.q_learning_size], centroids_true)
 
         self.vis.visualising_features(x, y)
-        self.vis.visualising_clusters(x, y, self.y_labels[:self.q_learning_size]
-                                      , centroids_true, "true")
+        self.vis.visualising_clusters(x, y, self.y_labels[:self.q_learning_size], centroids_true, "true")
         self.vis.visualising_clusters(x, y, self.ql.clusters, centroids_qlearning, "qlearning")
 
         self.vis.print_metrics(self.y_labels[:self.q_learning_size], self.ql.clusters)

@@ -3,7 +3,7 @@ import os
 from multiprocessing import Process
 
 from _04_Visualisation import Tables
-from _05_Experiments import Epochs_Experiment_05
+import _Experiment_05_Epochs
 
 
 def main():
@@ -17,13 +17,14 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
+        print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
     jobs = []
     epoch_list = [2, 4, 6, 8, 20]
 
     for epochs in epoch_list:
-        p = Process(target=Epochs_Experiment_05.main, args=(main_path, 0, chooseAutoencoder, epochs))
+        p = Process(target=_Experiment_05_Epochs.main, args=(main_path, 0, chooseAutoencoder, epochs))
         p.start()
         jobs.append(p)
 

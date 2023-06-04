@@ -5,7 +5,6 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import sort
-from numpy.linalg import norm
 from sklearn.metrics.cluster import contingency_matrix
 
 

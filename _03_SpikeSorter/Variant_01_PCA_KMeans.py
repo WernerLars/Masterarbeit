@@ -1,4 +1,3 @@
-import numpy as np
 from _01_LoadDataset.LoadingDataset import LoadDataset
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans

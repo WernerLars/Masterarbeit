@@ -1,15 +1,15 @@
 import os
 
-import Experiment_02
-import Experiment_04
-import Experiment_05
+import _Experiment_02
+import _Experiment_04
+import _Experiment_05
 from multiprocessing import Process
 
 from _04_Visualisation import Grid_Search_Table
 
 
 def main():
-    chooseAutoencoder = 1
+    chooseAutoencoder = 2
     autoencoder_path = f"AE_Model_{chooseAutoencoder}"
     if os.path.exists(autoencoder_path) is False:
         os.mkdir(autoencoder_path)
@@ -19,6 +19,7 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
+        print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
     variant_paths = []
@@ -34,15 +35,15 @@ def main():
             os.mkdir(variant_path)
 
     for epochs in epoch_list:
-        p2 = Process(target=Experiment_02.main, args=(variant_paths[0], 0, chooseAutoencoder, epochs))
+        p2 = Process(target=_Experiment_02.main, args=(variant_paths[0], 0, chooseAutoencoder, epochs))
         p2.start()
         jobs.append(p2)
 
-        p4 = Process(target=Experiment_04.main, args=(variant_paths[1], 0, "", False, chooseAutoencoder, epochs))
+        p4 = Process(target=_Experiment_04.main, args=(variant_paths[1], 0, "", False, chooseAutoencoder, epochs))
         p4.start()
         jobs.append(p4)
 
-        p5 = Process(target=Experiment_05.main, args=(variant_paths[2], 0, "", False, False, False, False, False,
+        p5 = Process(target=_Experiment_05.main, args=(variant_paths[2], 0, "", False, False, False, False, False,
                                                       chooseAutoencoder, epochs))
         p5.start()
         jobs.append(p5)

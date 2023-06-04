@@ -1,6 +1,6 @@
 import os
 
-import Experiment_05
+import _Experiment_05
 from multiprocessing import Process
 from _04_Visualisation import Tables
 
@@ -16,6 +16,7 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
+        print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
     number_of_seeds = 10
@@ -31,15 +32,15 @@ def main():
 
     for i in range(number_of_seeds):
 
-        p1 = Process(target=Experiment_05.main,
+        p1 = Process(target=_Experiment_05.main,
                      args=(variant_paths[0], i, "", True, False, False, False, True, chooseAutoencoder))
         p1.start()
         jobs.append(p1)
-        p2 = Process(target=Experiment_05.main,
+        p2 = Process(target=_Experiment_05.main,
                      args=(variant_paths[1], i, "", True, True, False, False, True, chooseAutoencoder))
         p2.start()
         jobs.append(p2)
-        p3 = Process(target=Experiment_05.main,
+        p3 = Process(target=_Experiment_05.main,
                      args=(variant_paths[2], i, "", True, True, True, False, True, chooseAutoencoder))
         p3.start()
         jobs.append(p3)

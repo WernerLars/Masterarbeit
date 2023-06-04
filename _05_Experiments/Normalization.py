@@ -1,12 +1,12 @@
 import os
 
-import Experiment_04
+import _Experiment_04
 from multiprocessing import Process
 from _04_Visualisation import Tables
 
 
 def main():
-    chooseAutoencoder = 1
+    chooseAutoencoder = 2
     autoencoder_path = f"AE_Model_{chooseAutoencoder}"
     if os.path.exists(autoencoder_path) is False:
         os.mkdir(autoencoder_path)
@@ -16,9 +16,10 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
+        print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
-    p = Process(target=Experiment_04.main, args=(main_path, 0, "", True, chooseAutoencoder))
+    p = Process(target=_Experiment_04.main, args=(main_path, 0, "", True, chooseAutoencoder))
     p.start()
     p.join()
 

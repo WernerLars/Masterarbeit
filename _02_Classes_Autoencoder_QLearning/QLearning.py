@@ -186,7 +186,7 @@ class Q_Learning(object):
 
     def compute_episode_number(self):
         """
-            computes new epsiode number for q-learning with formula
+            computes new episode number for q-learning with formula
             :return: new episode number
         """
 

@@ -3,7 +3,7 @@ import time
 
 from tqdm import tqdm
 
-import Single_Experiment
+import _Single_Experiment
 from multiprocessing import Process
 from _04_Visualisation import Grid_Search_Table
 
@@ -19,6 +19,7 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
+        print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
     number_of_datasets = 22
@@ -38,7 +39,7 @@ def main():
         for v_index in tqdm(range(0, len(list_of_variant_names)), position=1, desc="Variants"):
             jobs = []
             for pc in punishment_coefficients:
-                p = Process(target=Single_Experiment.main,
+                p = Process(target=_Single_Experiment.main,
                             args=(variant_paths[v_index], d_index, 5, pc, True, chooseAutoencoder, epochs[v_index]))
                 p.start()
                 jobs.append(p)

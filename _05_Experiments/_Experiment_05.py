@@ -10,7 +10,7 @@ import logging
 
 
 def main(main_path="", seed=0, pc="", optimising=False, templates=False, noisy=False, normalise=False,
-         random_seeds=False, chooseAutoencoder=1, epochs=8, maxAutoencoderTraining=700, maxTraining=1000):
+         random_seeds=False, chooseAutoencoder=2, epochs=8, maxAutoencoderTraining=700, maxTraining=1000):
 
     datasets = {
         1:  ["../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat", 0.5, 0.9],

@@ -1,6 +1,6 @@
 import os
 
-import Experiment_05
+import _Experiment_05
 from multiprocessing import Process
 from _04_Visualisation import Tables
 
@@ -16,18 +16,19 @@ def main():
     if os.path.exists(main_path) is False:
         os.mkdir(main_path)
     else:
+        print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
-    p1 = Process(target=Experiment_05.main,
+    p1 = Process(target=_Experiment_05.main,
                  args=(main_path, 0, "", False, False, False, False, False, chooseAutoencoder))
     p1.start()
-    p2 = Process(target=Experiment_05.main,
+    p2 = Process(target=_Experiment_05.main,
                  args=(main_path, 0, "", True, False, False, False, False, chooseAutoencoder))
     p2.start()
-    p3 = Process(target=Experiment_05.main,
+    p3 = Process(target=_Experiment_05.main,
                  args=(main_path, 0, "", True, True, False, False, False, chooseAutoencoder))
     p3.start()
-    p4 = Process(target=Experiment_05.main,
+    p4 = Process(target=_Experiment_05.main,
                  args=(main_path, 0, "", True, True, True, False, False, chooseAutoencoder))
     p4.start()
 

@@ -22,7 +22,7 @@ class Variant_02_Autoencoder_KMeans(object):
         self.parameter_logger.info(f"Epochs: {self.epochs}")
         self.batch_size = batch_size
         self.parameter_logger.info(f"Batch Size: {self.batch_size}")
-        self.disable_tqdm=disable_tqdm
+        self.disable_tqdm = disable_tqdm
 
         self.dataset = LoadDataset(self.path, self.logger)
         self.data, self.y_labels = self.dataset.load_data()
@@ -56,9 +56,9 @@ class Variant_02_Autoencoder_KMeans(object):
         self.logger.info(dataloader)
 
         for t in range(self.epochs):
-            self.train(dataloader, t+1)
+            self.train(dataloader, t + 1)
             self.logger.info(f"Epoch [{t + 1}/{self.epochs}]: mean_loss={self.loss_values[t]}")
-            self.vis.print_loss_curve(self.epoch_loss, t+1)
+            self.vis.print_loss_curve(self.epoch_loss, t + 1)
 
         self.vis.print_loss_curve(self.loss_values)
         self.clustering(dataloader, self.y_labels)
