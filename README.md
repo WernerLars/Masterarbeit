@@ -8,6 +8,7 @@ K-Means for comparing the results:
 - Variant 03: PCA + Dyna-Q-Learning
 - Variant 04: Offline Autoencoder + Dyna-Q-Learning
 - Variant 05: Online Autoencoder + Dyna-Q-Learning
+  + Different Variant 5: optimising, templates, noisy batches
 
 ## Installation Details
 

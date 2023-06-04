@@ -1,3 +1,5 @@
+# _03_SpikeSorter
+
 Here the four Spike Sorter Variants are stored, namely:
 1. PCA + KMeans
 2. Autoencoder + KMeans
