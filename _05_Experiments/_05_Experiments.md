@@ -80,7 +80,7 @@ ___
     - all mean templates except the cluster with new incoming spike are used as batch (new spike replaces template in batch)
   - noisy batches: adding noise to mean templates in batch
     - noise is added as a noise Factor ranging from -noiseFactor to +noiseFactor in uniform distribution 
-    - default values for noise Factor is 1
+    - default values for noise Factor is 0.001
 
 - Grid_Search_PC also searches for individual punishment coefficients for the different variant 5 
   - are manually added to Experiment_05 as ae_model_2 dictionary object

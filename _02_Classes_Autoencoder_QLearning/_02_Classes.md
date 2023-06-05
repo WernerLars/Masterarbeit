@@ -19,6 +19,10 @@ Implementation of Autoencoder Models, Dyna-Q-Learning and Templates.
 
 ### QLearning
 - performs Dyna-Q-Learning as a clustering method
+- alpha, epsilon and gamma are given hyperparameters from literature
+  - alpha: learning rate in update formula
+  - gamma: defines importance of optimal value
+  - epsilon: probability for exploring or exploiting
 - Q-Table and Model are dictionaries
   - Q-Table states are new_cluster,c1,c2.. and actions are 0,1,2.. (action 0 refers to new_cluster)
   - keys of the dictionaries are the states
@@ -43,7 +47,8 @@ Implementation of Autoencoder Models, Dyna-Q-Learning and Templates.
     - high pc leads to creating only one or two clusters
   - otherwise the action is used to extract randomFeatures from dictionary and compute reward
 
-For more details on how dyna-q-learning works in general like update formula or planning, look into the algorithms in master thesis or read Sutton and Bartos book (Reinforcement Learning: An Introduction).
+For more details on how dyna-q-learning works in general like update formula or planning, look into the algorithms in master thesis or read Sutton and Bartos book (Reinforcement Learning: An Introduction). 
+For details about using dyna-q-learning as clustering method look into the work from Moghaddasi (Unsupervised automatic online spike sorting using reward-based online clustering).
 
 ### Templates
 - list for saving mean waveforms of clusters
