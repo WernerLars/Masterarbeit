@@ -4,7 +4,7 @@ import _Experiment_02
 import _Experiment_04
 import _Experiment_05
 from multiprocessing import Process
-
+from tqdm import tqdm
 from _04_Visualisation import Grid_Search_Table
 
 
@@ -34,22 +34,24 @@ def main():
         if os.path.exists(variant_path) is False:
             os.mkdir(variant_path)
 
-    for epochs in epoch_list:
-        p2 = Process(target=_Experiment_02.main, args=(variant_paths[0], 0, chooseAutoencoder, epochs))
-        p2.start()
-        jobs.append(p2)
+    with tqdm(epoch_list, total=len(epoch_list), desc="Epochs", position=0, leave=False) as epoch_loop:
+        for epochs in epoch_loop:
+            p2 = Process(target=_Experiment_02.main, args=(variant_paths[0], 0, chooseAutoencoder, epochs, 1, True))
+            p2.start()
+            jobs.append(p2)
 
-        p4 = Process(target=_Experiment_04.main, args=(variant_paths[1], 0, "", False, chooseAutoencoder, epochs))
-        p4.start()
-        jobs.append(p4)
+            p4 = Process(target=_Experiment_04.main, args=(variant_paths[1], 0, "", False,
+                                                           chooseAutoencoder, epochs, 2, True))
+            p4.start()
+            jobs.append(p4)
 
-        p5 = Process(target=_Experiment_05.main, args=(variant_paths[2], 0, "", False, False, False, False, False,
-                                                       chooseAutoencoder, epochs))
-        p5.start()
-        jobs.append(p5)
+            p5 = Process(target=_Experiment_05.main, args=(variant_paths[2], 0, "", False, False, False, False, False,
+                                                           chooseAutoencoder, epochs, 700, 1000, 3, True))
+            p5.start()
+            jobs.append(p5)
 
-        for job in jobs:
-            job.join()
+            for job in jobs:
+                job.join()
 
     for i in range(3):
         Grid_Search_Table.main(experiment_path=variant_paths[i], epoch_list=epoch_list)

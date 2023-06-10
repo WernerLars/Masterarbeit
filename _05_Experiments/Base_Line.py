@@ -23,16 +23,17 @@ def main():
         print(f"{main_path} already exists. Move, rename or remove it to run this experiment.")
         return
 
-    p1 = Process(target=_Experiment_01.main, args=(main_path,))
+    p1 = Process(target=_Experiment_01.main, args=(main_path, 0, 0))
     p1.start()
-    p2 = Process(target=_Experiment_02.main, args=(main_path, 0, chooseAutoencoder))
+    p2 = Process(target=_Experiment_02.main, args=(main_path, 0, chooseAutoencoder, 8, 1, True))
     p2.start()
-    p3 = Process(target=_Experiment_03.main, args=(main_path,))
+    p3 = Process(target=_Experiment_03.main, args=(main_path, 0, "", 2, True))
     p3.start()
-    p4 = Process(target=_Experiment_04.main, args=(main_path, 0, "", False, chooseAutoencoder))
+    p4 = Process(target=_Experiment_04.main, args=(main_path, 0, "", False, chooseAutoencoder, 8, 3, True))
     p4.start()
     p5 = Process(target=_Experiment_05.main,
-                 args=(main_path, 0, "", False, False, False, False, False, chooseAutoencoder))
+                 args=(main_path, 0, "", False, False, False, False, False, chooseAutoencoder,
+                       8, 700, 1000, 4, True))
     p5.start()
 
     p1.join()

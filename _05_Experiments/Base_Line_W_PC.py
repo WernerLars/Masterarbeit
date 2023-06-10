@@ -7,6 +7,7 @@ import _Experiment_04
 import _Experiment_05
 from multiprocessing import Process
 from _04_Visualisation import Tables
+from tqdm import tqdm
 
 
 def main():
@@ -27,31 +28,34 @@ def main():
     variant_paths = []
     jobs = []
 
-    for pc in punishment_coefficients:
-        variant_path = f"{main_path}/{pc}/"
-        variant_paths.append(variant_path)
-        if os.path.exists(variant_path) is False:
-            os.mkdir(variant_path)
+    with tqdm(punishment_coefficients, total=len(punishment_coefficients), desc="PCs",
+              position=0, leave=False) as pc_loop:
+        for pc in pc_loop:
+            variant_path = f"{main_path}/{pc}/"
+            variant_paths.append(variant_path)
+            if os.path.exists(variant_path) is False:
+                os.mkdir(variant_path)
 
-        p1 = Process(target=_Experiment_01.main, args=(variant_path,))
-        p1.start()
-        jobs.append(p1)
-        p2 = Process(target=_Experiment_02.main, args=(variant_path, 0, chooseAutoencoder))
-        p2.start()
-        jobs.append(p2)
-        p3 = Process(target=_Experiment_03.main, args=(variant_path, 0, pc))
-        p3.start()
-        jobs.append(p3)
-        p4 = Process(target=_Experiment_04.main, args=(variant_path, 0, pc, False, chooseAutoencoder))
-        p4.start()
-        jobs.append(p4)
-        p5 = Process(target=_Experiment_05.main,
-                     args=(variant_path, 0, pc, False, False, False, False, False, chooseAutoencoder))
-        p5.start()
-        jobs.append(p5)
+            p1 = Process(target=_Experiment_01.main, args=(variant_path, 0, 1))
+            p1.start()
+            jobs.append(p1)
+            p2 = Process(target=_Experiment_02.main, args=(variant_path, 0, chooseAutoencoder, 8, 2, True))
+            p2.start()
+            jobs.append(p2)
+            p3 = Process(target=_Experiment_03.main, args=(variant_path, 0, pc, 3, True))
+            p3.start()
+            jobs.append(p3)
+            p4 = Process(target=_Experiment_04.main, args=(variant_path, 0, pc, False, chooseAutoencoder, 8, 4, True))
+            p4.start()
+            jobs.append(p4)
+            p5 = Process(target=_Experiment_05.main,
+                         args=(variant_path, 0, pc, False, False, False, False, False, chooseAutoencoder,
+                               8, 700, 1000, 5, True))
+            p5.start()
+            jobs.append(p5)
 
-        for job in jobs:
-            job.join()
+            for job in jobs:
+                job.join()
 
     for variant_path in variant_paths:
         Tables.main(experiment_path=variant_path)

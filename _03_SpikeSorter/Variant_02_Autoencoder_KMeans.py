@@ -66,25 +66,27 @@ class Variant_02_Autoencoder_KMeans(object):
     def train(self, train_dataloader, epoch_number):
         self.autoencoder.train()
         self.epoch_loss = []
-        training_loop = tqdm(enumerate(train_dataloader), total=len(train_dataloader), disable=self.disable_tqdm)
-        for batch, (X, y) in training_loop:
 
-            # Compute reconstruction error
-            reconstructed_spike, encoded_features = self.autoencoder(X)
-            loss = self.loss_function(reconstructed_spike, X)
+        with tqdm(enumerate(train_dataloader), total=len(train_dataloader),
+                  disable=self.disable_tqdm, leave=False, position=1) as training_loop:
+            for batch, (X, y) in training_loop:
 
-            # Backpropagation
-            self.optimizer.zero_grad()
-            loss.backward()
-            self.optimizer.step()
+                # Compute reconstruction error
+                reconstructed_spike, encoded_features = self.autoencoder(X)
+                loss = self.loss_function(reconstructed_spike, X)
 
-            # Loss Computation
-            if batch % 100 == 0:
-                loss = loss.item()
-                training_loop.set_description(f"Epoch [{epoch_number}/{self.epochs}]")
-                training_loop.set_postfix(loss=loss)
-                self.epoch_loss.append(loss)
-        self.loss_values.append(sum(self.epoch_loss) / len(train_dataloader))
+                # Backpropagation
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+
+                # Loss Computation
+                if batch % 100 == 0:
+                    loss = loss.item()
+                    training_loop.set_description(f"Epoch [{epoch_number}/{self.epochs}]")
+                    training_loop.set_postfix(loss=loss)
+                    self.epoch_loss.append(loss)
+            self.loss_values.append(sum(self.epoch_loss) / len(train_dataloader))
 
     def clustering(self, dataloader, y_test):
         encoded_features_list = []

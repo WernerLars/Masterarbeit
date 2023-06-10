@@ -8,9 +8,7 @@ In this folder the experiments for this project are executed and the results are
 
 Important details:
 - check if chooseAutoencoder is set correctly before executing an experiment
-  tqdm only works correctly, if Experiment01-Experiment05 are called separately (no multiprocessing)
-  - for most of the experiments multiprocessing is used, so tqdm is disabled
-  - otherwise process bars of tqdm will overlap
+-  tqdm only works correctly, if you change run configuration (look into README.md)
 - only run one experiment at once because of multiprocessing and hardware limits especially if Grid Search experiments are executed. 
 - Removing low punishment coefficients like 0.1 and 0.2 will greatly improve computation times in Grid Search experiments.
 - _Experiment_05 stores punishment coefficients for Different_Variant_5 (normal,optimising,temp,noisy) only for convolutional autoencoder

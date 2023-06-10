@@ -101,34 +101,32 @@ class Variant_05_Online_Autoencoder_QLearning(object):
             self.y_labels[self.maxAutoencoderTraining:self.maxTraining])
         q_learning_dataloader = DataLoader(q_learning_data, batch_size=self.batch_size)
 
-        training_loop = tqdm(enumerate(training_dataloader), total=self.maxAutoencoderTraining,
-                             disable=self.disable_tqdm)
-        for t, (X, y) in training_loop:
-            self.epoch_loss = []
-            training_loop.set_description(f"Autoencoder_Training")
-            for _ in range(self.epochs):
-                self.train(X, self.autoencoder)
-            self.loss_values.append(sum(self.epoch_loss) / self.epochs)
-            training_loop.set_postfix(loss=self.loss_values[t])
-            self.logger.info(
-                f"Online_Training [{t + 1}/{self.maxAutoencoderTraining}]: mean_loss={self.loss_values[t]}")
-
-        q_learning_loop = tqdm(enumerate(q_learning_dataloader),
-                               total=self.maxTraining-self.maxAutoencoderTraining, disable=self.disable_tqdm)
-        for t, (X, y) in q_learning_loop:
-
-            self.epoch_loss = []
-            if t % self.updateFactor == 0 and self.optimising:
-                self.autoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
-
-            q_learning_loop.set_description(f"Q_Learning")
-            self.train_autoencoder_with_q_learning(X, y)
-
-            if self.optimising:
+        with tqdm(enumerate(training_dataloader), total=self.maxAutoencoderTraining,
+                  disable=self.disable_tqdm, desc="AE_Training", leave=False, position=1) as training_loop:
+            for t, (X, y) in training_loop:
+                self.epoch_loss = []
+                for _ in range(self.epochs):
+                    self.train(X, self.autoencoder)
                 self.loss_values.append(sum(self.epoch_loss) / self.epochs)
                 training_loop.set_postfix(loss=self.loss_values[t])
-                self.logger.info(f"Q_Learning [{t + 1}/{self.maxTraining - self.maxAutoencoderTraining}]: "
-                                 f"mean_loss={self.loss_values[t]}")
+                self.logger.info(
+                    f"Online_Training [{t + 1}/{self.maxAutoencoderTraining}]: mean_loss={self.loss_values[t]}")
+
+        with tqdm(enumerate(q_learning_dataloader), total=self.maxTraining - self.maxAutoencoderTraining,
+                  disable=self.disable_tqdm, desc="Q_Learning", leave=False, position=1) as q_learning_loop:
+            for t, (X, y) in q_learning_loop:
+
+                self.epoch_loss = []
+                if t % self.updateFactor == 0 and self.optimising:
+                    self.autoencoder.load_state_dict(torch.load(f"{self.vis.path}/model.pt"))
+
+                self.train_autoencoder_with_q_learning(X, y)
+
+                if self.optimising:
+                    self.loss_values.append(sum(self.epoch_loss) / self.epochs)
+                    training_loop.set_postfix(loss=self.loss_values[t])
+                    self.logger.info(f"Q_Learning [{t + 1}/{self.maxTraining - self.maxAutoencoderTraining}]: "
+                                     f"mean_loss={self.loss_values[t]}")
 
         self.vis.print_loss_curve(self.loss_values)
 

@@ -35,15 +35,15 @@ def main():
         if os.path.exists(variant_path) is False:
             os.mkdir(variant_path)
 
-    for d_index in tqdm(range(1, number_of_datasets + 1), position=0, desc="Datasets"):
-        for v_index in tqdm(range(0, number_of_variants), position=1, desc="Variants"):
+    for d_index in tqdm(range(1, number_of_datasets + 1), desc="Datasets", position=0, leave=False):
+        for v_index in tqdm(range(0, number_of_variants), desc="Variants", position=1, leave=False):
             jobs = []
             for pc in punishment_coefficients:
                 p = Process(target=_Single_Experiment.main,
                             args=(variant_paths[v_index], d_index, v_index + 3, pc, True, chooseAutoencoder))
                 p.start()
                 jobs.append(p)
-                time.sleep(10)
+                time.sleep(30)
 
             for job in jobs:
                 job.join()

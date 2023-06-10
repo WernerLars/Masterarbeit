@@ -38,31 +38,31 @@ def main():
         if i == 0:
             p1 = Process(target=_Experiment_05.main,
                          args=(variant_paths[i], 0, "", optimising, False, False, False, False,
-                               chooseAutoencoder, 8, 10, 310))
+                               chooseAutoencoder, 8, 10, 310, 0, True))
             p1.start()
             jobs.append(p1)
         elif i == 1:
             p2 = Process(target=_Experiment_05.main,
                          args=(variant_paths[i], 0, "", optimising, False, False, False, False,
-                               chooseAutoencoder, 8, 50, 350))
+                               chooseAutoencoder, 8, 50, 350, 1, True))
             p2.start()
             jobs.append(p2)
         elif i == 2:
             p3 = Process(target=_Experiment_05.main,
                          args=(variant_paths[i], 0, "", optimising, False, False, False, False,
-                               chooseAutoencoder, 8, 100, 400))
+                               chooseAutoencoder, 8, 100, 400, 2, True))
             p3.start()
             jobs.append(p3)
         elif i == 3:
             p4 = Process(target=_Experiment_05.main,
                          args=(variant_paths[i], 0, "", optimising, False, False, False, False,
-                               chooseAutoencoder, 8, 200, 500))
+                               chooseAutoencoder, 8, 200, 500, 3, True))
             p4.start()
             jobs.append(p4)
         else:
             p5 = Process(target=_Experiment_05.main,
                          args=(variant_paths[i], 0, "", optimising, False, False, False, False,
-                               chooseAutoencoder, 8, 700, 1000))
+                               chooseAutoencoder, 8, 700, 1000, 4, True))
             p5.start()
             jobs.append(p5)
 

@@ -17,8 +17,19 @@ to use these versions to reduce compatibility problems.
 
 For installation of necessary packages a requirements.txt file is provided.
 
-In Experiments are long path created, so it is recommended to disable path limit 
+In Experiments long paths are created, so it is recommended to disable path limit 
 (in Windows it can be done in installation from python or in registry).
+
+If you use PyCharm tqdm libray will make problems to display. To use tqdm feature, you need to change run template.
+- Go to "Run" and then "Edit Configurations"
+- "Edit Configurations templates" (left bottom)
+- "Python" template
+- under "Execution" checkmark "Emulate terminal in output console"
+
+With that for all run configurations this will be default and tqdm progress bars are correctly printed.
+Make sure output console is big/high enough to show all progress bars (too small if it shows ..more hidden..)
+Sometimes tqdm prints on different lines if console is minimized or long experiments are carried out (artifacts).
+After completion the progress bar will disappear (no error).
 
 ## Project Structure
 

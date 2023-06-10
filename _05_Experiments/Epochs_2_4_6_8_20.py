@@ -22,11 +22,13 @@ def main():
 
     jobs = []
     epoch_list = [2, 4, 6, 8, 20]
+    position = 0
 
     for epochs in epoch_list:
-        p = Process(target=_Experiment_05_Epochs.main, args=(main_path, 0, chooseAutoencoder, epochs))
+        p = Process(target=_Experiment_05_Epochs.main, args=(main_path, 0, chooseAutoencoder, epochs, position, True))
         p.start()
         jobs.append(p)
+        position += 1
 
     for job in jobs:
         job.join()

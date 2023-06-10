@@ -20,16 +20,20 @@ def main():
         return
 
     p1 = Process(target=_Experiment_05.main,
-                 args=(main_path, 0, "", False, False, False, False, False, chooseAutoencoder))
+                 args=(main_path, 0, "", False, False, False, False, False, chooseAutoencoder,
+                       8, 700, 1000, 0, True))
     p1.start()
     p2 = Process(target=_Experiment_05.main,
-                 args=(main_path, 0, "", True, False, False, False, False, chooseAutoencoder))
+                 args=(main_path, 0, "", True, False, False, False, False, chooseAutoencoder,
+                       8, 700, 1000, 1, True))
     p2.start()
     p3 = Process(target=_Experiment_05.main,
-                 args=(main_path, 0, "", True, True, False, False, False, chooseAutoencoder))
+                 args=(main_path, 0, "", True, True, False, False, False, chooseAutoencoder,
+                       8, 700, 1000, 2, True))
     p3.start()
     p4 = Process(target=_Experiment_05.main,
-                 args=(main_path, 0, "", True, True, True, False, False, chooseAutoencoder))
+                 args=(main_path, 0, "", True, True, True, False, False, chooseAutoencoder,
+                       8, 700, 1000, 3, True))
     p4.start()
 
     p1.join()

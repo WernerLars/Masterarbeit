@@ -3,6 +3,7 @@ import os
 import _Experiment_05
 from multiprocessing import Process
 from _04_Visualisation import Tables
+from tqdm import tqdm
 
 
 def main():
@@ -30,23 +31,27 @@ def main():
         if os.path.exists(variant_path) is False:
             os.mkdir(variant_path)
 
-    for i in range(number_of_seeds):
+    with tqdm(range(number_of_seeds), desc="Random Seeds", position=0, leave=False) as rs_loop:
+        for i in rs_loop:
+            jobs = []
+            p1 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[0], i, "", True, False, False, False, True, chooseAutoencoder,
+                               8, 700, 1000, 1, True))
+            p1.start()
+            jobs.append(p1)
+            p2 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[1], i, "", True, True, False, False, True, chooseAutoencoder,
+                               8, 700, 1000, 2, True))
+            p2.start()
+            jobs.append(p2)
+            p3 = Process(target=_Experiment_05.main,
+                         args=(variant_paths[2], i, "", True, True, True, False, True, chooseAutoencoder,
+                               8, 700, 1000, 3, True))
+            p3.start()
+            jobs.append(p3)
 
-        p1 = Process(target=_Experiment_05.main,
-                     args=(variant_paths[0], i, "", True, False, False, False, True, chooseAutoencoder))
-        p1.start()
-        jobs.append(p1)
-        p2 = Process(target=_Experiment_05.main,
-                     args=(variant_paths[1], i, "", True, True, False, False, True, chooseAutoencoder))
-        p2.start()
-        jobs.append(p2)
-        p3 = Process(target=_Experiment_05.main,
-                     args=(variant_paths[2], i, "", True, True, True, False, True, chooseAutoencoder))
-        p3.start()
-        jobs.append(p3)
-
-    for job in jobs:
-        job.join()
+            for job in jobs:
+                job.join()
 
     for i in range(number_of_variants):
         Tables.main(experiment_path=variant_paths[i], random_seeds=True)

@@ -1,6 +1,6 @@
 import os
 import random
-
+from tqdm import tqdm
 import numpy as np
 import torch
 
@@ -9,7 +9,7 @@ from _04_Visualisation.Visualisation import Visualisation
 import logging
 
 
-def main(main_path="", seed=0, chooseAutoencoder=2, epochs=8):
+def main(main_path="", seed=0, chooseAutoencoder=2, epochs=8, position=0, disable_tqdm=False):
 
     datasets = {
         1: "../_00_Datasets/03_SimDaten_Quiroga2020/C_Burst_Easy2_noise015.mat",
@@ -72,67 +72,70 @@ def main(main_path="", seed=0, chooseAutoencoder=2, epochs=8):
     if os.path.exists(exp_path) is False:
         os.mkdir(exp_path)
 
-    for dataset in datasets:
+    with tqdm(datasets, total=len(datasets), desc=variant_name,
+              position=position, leave=False) as dataset_loop:
+        for dataset in dataset_loop:
 
-        torch.manual_seed(seed)
-        np.random.seed(seed)
-        random.seed(seed)
+            torch.manual_seed(seed)
+            np.random.seed(seed)
+            random.seed(seed)
 
-        path = datasets[dataset]
+            path = datasets[dataset]
 
-        if epochs == 2:
-            punishment_coefficient = ae_model_2_pcs[dataset][0]
-        elif epochs == 4:
-            punishment_coefficient = ae_model_2_pcs[dataset][1]
-        elif epochs == 6:
-            punishment_coefficient = ae_model_2_pcs[dataset][2]
-        elif epochs == 8:
-            punishment_coefficient = ae_model_2_pcs[dataset][3]
-        else:
-            punishment_coefficient = ae_model_2_pcs[dataset][4]
+            if epochs == 2:
+                punishment_coefficient = ae_model_2_pcs[dataset][0]
+            elif epochs == 4:
+                punishment_coefficient = ae_model_2_pcs[dataset][1]
+            elif epochs == 6:
+                punishment_coefficient = ae_model_2_pcs[dataset][2]
+            elif epochs == 8:
+                punishment_coefficient = ae_model_2_pcs[dataset][3]
+            else:
+                punishment_coefficient = ae_model_2_pcs[dataset][4]
 
-        dataset_name = path[16:].split("/")
-        variant_name = variant_name
-        vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/")
-        vis_path = vis.get_visualisation_path()
+            dataset_name = path[16:].split("/")
+            variant_name = variant_name
+            vis = Visualisation(variant_name, dataset_name, exp_path=f"{exp_path}/")
+            vis_path = vis.get_visualisation_path()
 
-        formatter = logging.Formatter("%(message)s")
-        handler1 = logging.FileHandler(filename=f"{vis_path}/informations.log", mode="w")
-        handler1.setFormatter(formatter)
-        logger = logging.getLogger("Information Logger")
-        logger.setLevel(logging.INFO)
-        logger.addHandler(handler1)
+            formatter = logging.Formatter("%(message)s")
+            handler1 = logging.FileHandler(filename=f"{vis_path}/informations.log", mode="w")
+            handler1.setFormatter(formatter)
+            logger = logging.getLogger("Information Logger")
+            logger.setLevel(logging.INFO)
+            logger.addHandler(handler1)
 
-        vis.set_logger(logger)
+            vis.set_logger(logger)
 
-        handler2 = logging.FileHandler(filename=f"{vis_path}/parameters.log", mode="w")
-        handler2.setFormatter(formatter)
-        parameter_logger = logging.getLogger("Parameter Logger")
-        parameter_logger.setLevel(logging.INFO)
-        parameter_logger.addHandler(handler2)
+            handler2 = logging.FileHandler(filename=f"{vis_path}/parameters.log", mode="w")
+            handler2.setFormatter(formatter)
+            parameter_logger = logging.getLogger("Parameter Logger")
+            parameter_logger.setLevel(logging.INFO)
+            parameter_logger.addHandler(handler2)
 
-        parameter_logger.info(f"Seed: {seed}")
-        logger.info(f"Experiment_path: {exp_path}")
-        parameter_logger.info(f"Experiment_path: {exp_path}")
-        logger.info(f"Dataset_Path: {path}")
-        parameter_logger.info(f"Dataset_Path: {path}")
-        logger.info(f"Dataset_name: {dataset_name}")
-        parameter_logger.info(f"Dataset_name: {dataset_name}")
-        logger.info(f"Variant_name: {variant_name}")
-        parameter_logger.info(f"Variant_name: {variant_name}")
-        logger.info(f"Visualisation_Path: {vis_path}")
-        parameter_logger.info(f"Visualisation_Path: {vis_path}")
+            parameter_logger.info(f"Seed: {seed}")
+            logger.info(f"Experiment_path: {exp_path}")
+            parameter_logger.info(f"Experiment_path: {exp_path}")
+            logger.info(f"Dataset_Path: {path}")
+            parameter_logger.info(f"Dataset_Path: {path}")
+            logger.info(f"Dataset_name: {dataset_name}")
+            parameter_logger.info(f"Dataset_name: {dataset_name}")
+            logger.info(f"Variant_name: {variant_name}")
+            parameter_logger.info(f"Variant_name: {variant_name}")
+            logger.info(f"Visualisation_Path: {vis_path}")
+            parameter_logger.info(f"Visualisation_Path: {vis_path}")
 
-        Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
-                                                punishment_coefficient=punishment_coefficient,
-                                                chooseAutoencoder=chooseAutoencoder,
-                                                epochs=epochs
-                                                )
+            Variant_05_Online_Autoencoder_QLearning(path, vis, logger, parameter_logger,
+                                                    punishment_coefficient=punishment_coefficient,
+                                                    chooseAutoencoder=chooseAutoencoder,
+                                                    epochs=epochs,
+                                                    disable_tqdm=disable_tqdm
+                                                    )
 
-        handler1.close()
-        handler2.close()
-        logger.removeHandler(handler1)
-        parameter_logger.removeHandler(handler2)
+            handler1.close()
+            handler2.close()
+            logger.removeHandler(handler1)
+            parameter_logger.removeHandler(handler2)
 
 
 if __name__ == '__main__':

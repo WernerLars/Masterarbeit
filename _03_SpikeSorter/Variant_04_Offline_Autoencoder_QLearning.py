@@ -93,25 +93,26 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
     def train(self, dataloader, epoch_number):
         self.autoencoder.train()
         self.epoch_loss = []
-        training_loop = tqdm(enumerate(dataloader), total=len(dataloader), disable=self.disable_tqdm)
-        for batch, (X, y) in training_loop:
+        with tqdm(enumerate(dataloader), total=len(dataloader),
+                  disable=self.disable_tqdm, desc="AE_Training", leave=False, position=1) as training_loop:
+            for batch, (X, y) in training_loop:
 
-            # Compute reconstruction error
-            reconstructed_spike, encoded_features = self.autoencoder(X)
-            loss = self.loss_function(reconstructed_spike, X)
+                # Compute reconstruction error
+                reconstructed_spike, encoded_features = self.autoencoder(X)
+                loss = self.loss_function(reconstructed_spike, X)
 
-            # Backpropagation
-            self.optimizer.zero_grad()
-            loss.backward()
-            self.optimizer.step()
+                # Backpropagation
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
 
-            # Loss Computation
-            if batch % 100 == 0:
-                loss = loss.item()
-                training_loop.set_description(f"Epoch [{epoch_number}/{self.epochs}]")
-                training_loop.set_postfix(loss=loss)
-                self.epoch_loss.append(loss)
-        self.loss_values.append(sum(self.epoch_loss) / len(dataloader))
+                # Loss Computation
+                if batch % 100 == 0:
+                    loss = loss.item()
+                    training_loop.set_description(f"Epoch [{epoch_number}/{self.epochs}]")
+                    training_loop.set_postfix(loss=loss)
+                    self.epoch_loss.append(loss)
+            self.loss_values.append(sum(self.epoch_loss) / len(dataloader))
 
     def test(self, dataloader, y_test):
         self.ql.reset_spikes_clusters()
@@ -130,32 +131,32 @@ class Variant_04_Offline_Autoencoder_QLearning(object):
 
         firstTwoSpikes = 0
 
-        q_learning_loop = tqdm(enumerate(dataloader), total=len(dataloader), disable=self.disable_tqdm)
-        q_learning_loop.set_description(f"Q_Learning")
-        for batch, (X, y) in q_learning_loop:
-            reconstructed_spike, encoded_features = self.autoencoder(X)
+        with tqdm(enumerate(dataloader), total=len(dataloader),
+                  disable=self.disable_tqdm, desc="Q_Learning", leave=False, position=1) as q_learning_loop:
+            for batch, (X, y) in q_learning_loop:
+                reconstructed_spike, encoded_features = self.autoencoder(X)
 
-            with torch.no_grad():
-                # If Normalisation then first two Spikes are added to FeatureSet to make normalisation work
-                if firstTwoSpikes < 2 and self.normalise:
-                    self.ql.add_to_feature_set(encoded_features.numpy()[0])
-                    firstTwoSpikes += 1
-                else:
-                    self.ql.dyna_q_algorithm(encoded_features.numpy()[0])
+                with torch.no_grad():
+                    # If Normalisation then first two Spikes are added to FeatureSet to make normalisation work
+                    if firstTwoSpikes < 2 and self.normalise:
+                        self.ql.add_to_feature_set(encoded_features.numpy()[0])
+                        firstTwoSpikes += 1
+                    else:
+                        self.ql.dyna_q_algorithm(encoded_features.numpy()[0])
 
-                    encoded_features_list.append(encoded_features.numpy()[0])
-                    encoded_features_X.append(encoded_features.numpy()[0][0])
-                    encoded_features_Y.append(encoded_features.numpy()[0][1])
-                    cluster = y.numpy()[0]
-                    cluster_labels.append(cluster)
+                        encoded_features_list.append(encoded_features.numpy()[0])
+                        encoded_features_X.append(encoded_features.numpy()[0][0])
+                        encoded_features_Y.append(encoded_features.numpy()[0][1])
+                        cluster = y.numpy()[0]
+                        cluster_labels.append(cluster)
 
-                    # Visualisation of Real Spike to Reconstructed Spike on Ground Truth Data
-                    if visualise[cluster]:
-                        self.vis.visualising_reconstructed_spike(X.numpy().flatten(),
-                                                                 reconstructed_spike.numpy().flatten(),
-                                                                 len(X.numpy().flatten()),
-                                                                 str(cluster))
-                        visualise[cluster] = False
+                        # Visualisation of Real Spike to Reconstructed Spike on Ground Truth Data
+                        if visualise[cluster]:
+                            self.vis.visualising_reconstructed_spike(X.numpy().flatten(),
+                                                                     reconstructed_spike.numpy().flatten(),
+                                                                     len(X.numpy().flatten()),
+                                                                     str(cluster))
+                            visualise[cluster] = False
 
         self.logger.info(f"Number of Samples after Autoencoder testing: {len(encoded_features_list)}")
         self.logger.info(f"First Spike after testing: {encoded_features_list[0]}")

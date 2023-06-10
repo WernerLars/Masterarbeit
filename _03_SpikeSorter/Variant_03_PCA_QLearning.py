@@ -50,13 +50,12 @@ class Variant_03_PCA_QLearning(object):
         if self.q_learning_size is None:
             self.q_learning_size = len(self.pca_transformed)
 
-        q_learning_loop = tqdm(enumerate(self.pca_transformed[:self.q_learning_size]), total=self.q_learning_size,
-                               disable=self.disable_tqdm)
-        q_learning_loop.set_description(f"Q_Learning")
-        for s, features in q_learning_loop:
-            self.ql.dyna_q_algorithm(features)
-            x.append(features[0])
-            y.append(features[1])
+        with tqdm(enumerate(self.pca_transformed[:self.q_learning_size]), total=self.q_learning_size,
+                  disable=self.disable_tqdm, desc="Q_Learning", leave=False, position=1) as q_learning_loop:
+            for s, features in q_learning_loop:
+                self.ql.dyna_q_algorithm(features)
+                x.append(features[0])
+                y.append(features[1])
 
         self.logger.info(self.ql.clusters)
         self.logger.info(self.ql.randomFeatures)
