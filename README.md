@@ -45,5 +45,5 @@ Every Folder in this project has a Markdown File explaining in detail what the f
 
 ## License
 
-This project has a MIT License. Details of permission and usage can be seen in LICENSE.txt File.
+This project has a MIT-License. Details of permission and usage can be seen in LICENSE.txt File.
 
